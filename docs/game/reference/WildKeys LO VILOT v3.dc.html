@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet"><script src="./image-slot.js"></script><style>*{box-sizing:border-box}body{margin:0;background:#fafaf9;background-image:radial-gradient(circle at 2px 2px,rgba(0,0,0,.02) 1px,transparent 0);background-size:24px 24px;font-family:'Inter',ui-sans-serif,system-ui,sans-serif;color:#292524;-webkit-tap-highlight-color:transparent;overscroll-behavior-y:contain}a{color:#278a5e;text-decoration:none}a:hover{color:#1d5740}button{font-family:inherit;cursor:pointer}input{font-family:inherit}@keyframes wkping{75%,100%{transform:scale(2);opacity:0}}@keyframes wkrise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}@keyframes wkpop{0%{opacity:0;transform:scale(.92)}60%{transform:scale(1.02)}100%{opacity:1;transform:none}}@keyframes wkshake{0%,100%{transform:translateX(0)}20%{transform:translateX(-7px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(3px)}}@keyframes wkfall{to{transform:translate3d(var(--dx),108vh,0) rotate(var(--rot));opacity:.9}}@keyframes wksplashBg{0%{opacity:1}96%{opacity:1}100%{opacity:0}}@keyframes wksplashSway{0%,100%{transform:translateX(0)}50%{transform:translateX(6px)}}@keyframes wksplashLogo{0%{opacity:0;transform:scale(.7)}30%{opacity:1;transform:scale(1.04)}45%{transform:scale(1)}100%{opacity:1;transform:scale(1)}}@keyframes wksplashX{0%,30%{opacity:0;transform:translateY(8px)}50%{opacity:1;transform:none}100%{opacity:1}}@keyframes wksplashVilot{0%,40%{opacity:0;transform:translateY(10px)}60%{opacity:1;transform:none}100%{opacity:1}}@keyframes wksplashBar{0%{width:0}100%{width:100%}}@keyframes wksplashSub{0%,55%{opacity:0}75%{opacity:1}100%{opacity:1}}@keyframes wktutPulse{0%,100%{box-shadow:0 0 0 0 rgba(39,138,94,.4)}50%{box-shadow:0 0 0 12px rgba(39,138,94,0)}}@keyframes wktutFade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}</style></helmet>
+
+<!-- ═══ SPLASH ═══ -->
+<sc-if value="{{ isSplash }}" hint-placeholder-val="{{ true }}">
+<div style="position:absolute;inset:0;z-index:100;overflow:hidden;border-radius:inherit;animation:wksplashBg 8.4s ease-in-out forwards">
+  <!-- Rich illustrated background: dusk sky over a hop field -->
+  <div style="position:absolute;inset:0;background:linear-gradient(180deg,#0d2f27 0%,#134539 22%,#1a5c42 42%,#237050 60%,#2c8259 78%,#3a9564 100%)"></div>
+  <!-- Sun glow -->
+  <div style="position:absolute;width:260px;height:260px;border-radius:999px;left:50%;top:14%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(251,191,36,.35) 0%,rgba(251,191,36,.08) 55%,transparent 75%);animation:wksplashLogo 5s ease-out both"></div>
+  <!-- Distant hop bine rows (parallax silhouette) -->
+  <svg style="position:absolute;left:0;right:0;bottom:0;width:100%;height:46%" viewBox="0 0 400 200" preserveAspectRatio="none" fill="none">
+    <path d="M0 200 L0 130 C40 110 60 150 90 120 C120 90 140 140 170 115 C200 90 220 145 250 118 C280 92 300 138 330 112 C355 90 375 130 400 120 L400 200 Z" fill="#0b241d" opacity=".55"></path>
+    <path d="M0 200 L0 160 C50 140 80 175 130 150 C180 125 210 168 260 148 C300 132 340 165 400 150 L400 200 Z" fill="#0d2b22" opacity=".75"></path>
+  </svg>
+  <!-- Hop bine strings with cones, swaying -->
+  <svg style="position:absolute;inset:0;width:100%;height:100%;opacity:.5" viewBox="0 0 400 800" fill="none">
+    <g stroke="#173d30" stroke-width="2.4" stroke-linecap="round" style="animation:wksplashSway 7s ease-in-out infinite">
+      <path d="M40 0 C20 120 70 200 45 320 C25 420 65 500 40 620"></path>
+      <path d="M360 0 C380 110 335 210 358 330 C378 430 342 510 362 630"></path>
+    </g>
+    <g fill="#2f7a4f">
+      <ellipse cx="34" cy="150" rx="10" ry="16"></ellipse>
+      <ellipse cx="58" cy="230" rx="9" ry="15"></ellipse>
+      <ellipse cx="30" cy="330" rx="11" ry="17"></ellipse>
+      <ellipse cx="52" cy="430" rx="9" ry="15"></ellipse>
+      <ellipse cx="366" cy="160" rx="10" ry="16"></ellipse>
+      <ellipse cx="344" cy="250" rx="9" ry="15"></ellipse>
+      <ellipse cx="370" cy="350" rx="11" ry="17"></ellipse>
+      <ellipse cx="348" cy="450" rx="9" ry="15"></ellipse>
+    </g>
+  </svg>
+  <!-- Soft bokeh accents -->
+  <div style="position:absolute;width:200px;height:200px;border-radius:999px;background:radial-gradient(circle,rgba(148,224,179,.16) 0%,transparent 70%);bottom:10%;left:-50px;animation:wksplashVilot 5s ease-out both"></div>
+  <div style="position:absolute;width:180px;height:180px;border-radius:999px;background:radial-gradient(circle,rgba(255,255,255,.08) 0%,transparent 70%);top:32%;right:-40px;animation:wksplashX 5s ease-out both"></div>
+  <!-- Grain texture -->
+  <div style="position:absolute;inset:0;opacity:.05;background-image:radial-gradient(circle,#fff 1px,transparent 1px);background-size:5px 5px"></div>
+  <!-- Content -->
+  <div style="position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;gap:0;padding:40px 24px">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:18px">
+      <div style="display:flex;align-items:center;gap:14px;animation:wksplashLogo 3.4s ease-out both">
+        <div style="width:72px;height:72px;border-radius:999px;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,0,0,.25);padding:14px">
+          <span style="color:#194836;width:100%;height:100%;display:flex;align-items:center;justify-content:center"><x-import component-from-global-scope="wk-logo" from="./wk-logo.js" height="29" hint-size="44px,29px"></x-import></span>
+        </div>
+        <span style="font-size:20px;font-weight:300;color:rgba(255,255,255,.6)">×</span>
+        <div style="width:72px;height:72px;border-radius:999px;background:rgba(255,255,255,.95);display:flex;align-items:center;justify-content:center;box-shadow:0 8px 30px rgba(0,0,0,.25);padding:8px">
+          <img src="./assets/lovilot-logo.webp" alt="LO VILOT" style="width:100%;height:100%;object-fit:contain">
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px">
+        <span style="font-family:'Merriweather',serif;font-size:30px;font-weight:700;color:#fff;text-shadow:0 2px 12px rgba(0,0,0,.25);animation:wksplashLogo 3.4s ease-out both">WildKeys</span>
+        <div style="display:flex;align-items:center;gap:12px;animation:wksplashX 3.4s ease-out both">
+          <span style="width:26px;height:1px;background:rgba(255,255,255,.35)"></span>
+          <span style="font-size:13px;font-weight:400;color:rgba(255,255,255,.75)">×</span>
+          <span style="width:26px;height:1px;background:rgba(255,255,255,.35)"></span>
+        </div>
+        <span style="font-family:'Merriweather',serif;font-size:22px;font-weight:700;color:#fbbf24;text-shadow:0 2px 12px rgba(245,158,11,.35);animation:wksplashVilot 3.4s ease-out both">LO VILOT</span>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:6px;animation:wksplashSub 3.4s ease-out both">
+        <span style="font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.65)">{{ t.splashSub }}</span>
+        <span style="margin-top:4px;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(8px);border-radius:999px;padding:7px 14px">
+          <span style="width:6px;height:6px;border-radius:999px;background:#5cc791;box-shadow:0 0 8px rgba(92,199,145,.6);animation:wkping 1.2s ease-in-out infinite"></span>
+          <span style="font-size:10.5px;font-weight:600;color:rgba(255,255,255,.75);letter-spacing:.04em">{{ t.splashLoading }}</span>
+        </span>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:56px;left:50%;transform:translateX(-50%);width:130px;animation:wksplashSub 3.4s ease-out both">
+      <div style="width:100%;height:3px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden">
+        <div style="height:100%;border-radius:999px;background:linear-gradient(90deg,#5cc791,#fbbf24);animation:wksplashBar 8s cubic-bezier(.4,0,.2,1) forwards"></div>
+      </div>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+
+
+<div data-wk-root="" style="min-height:100svh;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;padding:0 16px calc(28px + env(safe-area-inset-bottom))">
+<div style="width:100%;max-width:430px;display:flex;flex-direction:column;flex:1">
+
+<header style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:calc(14px + env(safe-area-inset-top)) 2px 16px">
+  <div style="display:flex;align-items:center;gap:8px;min-width:0">
+    <span style="color:#278a5e;display:inline-flex"><x-import component-from-global-scope="wk-logo" from="./wk-logo.js" height="28" hint-size="43px,28px"></x-import></span>
+    <span style="display:flex;flex-direction:column;min-width:0">
+      <span style="font-family:'Merriweather',serif;font-size:14px;font-weight:700;line-height:1;color:#194836">WildKeys</span>
+      <span style="font-size:7.5px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#5cc791;margin-top:3px">{{ headerSub }}</span>
+    </span>
+  </div>
+  <div style="display:flex;align-items:center;gap:7px">
+    <sc-if value="{{ showClock }}" hint-placeholder-val="{{ false }}">
+      <span style="display:inline-flex;align-items:center;gap:6px;border:1px solid #c3efd2;background:#f2fcf5;border-radius:999px;padding:6px 11px">
+        <span style="position:relative;display:flex;height:7px;width:7px"><span style="position:absolute;display:inline-flex;height:100%;width:100%;border-radius:999px;background:#5cc791;opacity:.75;animation:wkping 1.4s cubic-bezier(0,0,.2,1) infinite"></span><span style="position:relative;display:inline-flex;height:7px;width:7px;border-radius:999px;background:#36ab76"></span></span>
+        <span ref="{{ clockRef }}" style="font-family:ui-monospace,Menlo,monospace;font-size:13px;font-weight:700;color:#1d5740">{{ clock }}</span>
+      </span>
+    </sc-if>
+    <sc-if value="{{ showLangs }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;gap:3px;border:1px solid #e7e5e4;background:#fff;border-radius:999px;padding:3px">
+        <button onClick="{{ setCa }}" style="{{ pillCa }}">CA</button>
+        <button onClick="{{ setEs }}" style="{{ pillEs }}">ES</button>
+        <button onClick="{{ setEn }}" style="{{ pillEn }}">EN</button>
+      </div>
+    </sc-if>
+  </div>
+</header>
+
+<!-- ═══ WELCOME CARD ═══ -->
+<sc-if value="{{ isWelcome }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:90;background:rgba(25,35,30,.55);display:flex;align-items:center;justify-content:center;padding:24px;animation:wkpop .4s ease-out both">
+  <div style="width:100%;max-width:380px;max-height:100%;overflow-y:auto;background:#fff;border-radius:24px;padding:24px 22px;box-shadow:0 20px 60px rgba(0,0,0,.25);display:flex;flex-direction:column;gap:13px;align-items:center;text-align:center">
+    <div style="width:56px;height:56px;border-radius:999px;background:linear-gradient(135deg,#e1f8e8,#c3efd2);display:flex;align-items:center;justify-content:center">
+      <span style="color:#278a5e;display:inline-flex"><x-import component-from-global-scope="wk-logo" from="./wk-logo.js" height="28" hint-size="42px,28px"></x-import></span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <h2 style="margin:0;font-family:'Merriweather',serif;font-size:22px;line-height:1.22;font-weight:700;color:#194836;text-wrap:pretty">{{ t.welcomeTitle }}</h2>
+      <p style="margin:0;font-size:14px;line-height:1.6;color:#57534e;text-wrap:pretty">{{ t.welcomeBody }}</p>
+    </div>
+    <div style="width:100%;border:1px solid #fde68a;background:#fffbeb;border-radius:14px;padding:12px 14px;display:flex;gap:10px;align-items:flex-start;text-align:left">
+      <span style="flex:none;font-size:18px;margin-top:1px">🍺</span>
+      <p style="margin:0;font-size:12.5px;line-height:1.5;color:#78350f;text-wrap:pretty">{{ t.welcomeVilot }}</p>
+    </div>
+    <button onClick="{{ dismissWelcome }}" style="width:100%;min-height:54px;border:none;border-radius:14px;background:#278a5e;color:#fff;font-size:16px;font-weight:800;box-shadow:0 6px 18px rgba(39,138,94,.28)" style-hover="background:#216e4e" style-active="transform:scale(.985)">{{ t.welcomeBtn }}</button>
+  </div>
+</div>
+</sc-if>
+
+<!-- ═══ HOME: LO VILOT × WILDKEYS ═══ -->
+<sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+<section style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:20px;animation:wkrise .5s ease-out both">
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+      <span style="font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#278a5e;background:#e1f8e8;border:1px solid #c3efd2;border-radius:999px;padding:6px 11px">{{ t.collab }}</span>
+    </div>
+    <h1 style="margin:0;font-family:'Merriweather',serif;font-size:28px;line-height:1.18;font-weight:700;color:#194836;text-wrap:pretty">{{ t.homeTitle }}</h1>
+    <p style="margin:0;font-size:15px;line-height:1.55;color:#57534e;text-wrap:pretty">{{ t.homeSub }}</p>
+  </div>
+
+  <div style="border:1px solid #d4a017;background:linear-gradient(135deg,#fffbeb,#fef3c7);border-radius:18px;padding:17px;display:flex;flex-direction:column;gap:10px">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span style="flex:none;width:44px;height:44px;border-radius:12px;background:#fff;padding:5px;display:flex;align-items:center;justify-content:center;overflow:hidden"><img src="./assets/lovilot-logo.webp" alt="LO VILOT" style="width:100%;height:100%;object-fit:contain"></span>
+      <div style="min-width:0;display:flex;flex-direction:column;gap:2px">
+        <span style="font-family:'Merriweather',serif;font-size:17px;font-weight:700;color:#78350f">LO VILOT</span>
+        <span style="font-size:11px;font-weight:600;color:#92400e">{{ t.vilotSub }}</span>
+      </div>
+    </div>
+    <p style="margin:0;font-size:13.5px;line-height:1.55;color:#78350f;text-wrap:pretty">{{ t.vilotDesc }}</p>
+  </div>
+
+  <div style="border:1px solid #c3efd2;background:#fff;border-radius:18px;overflow:hidden">
+    <div style="height:180px;background:#f5f5f4"><image-slot id="wk-vista-hero" shape="rect" placeholder="{{ t.vistaPhotoPh }}"></image-slot></div>
+    <div style="padding:14px 16px;display:flex;flex-direction:column;gap:3px">
+      <span style="font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#36ab76">{{ t.yourTarget }}</span>
+      <span style="font-family:'Merriweather',serif;font-size:21px;font-weight:700;color:#194836">Vista</span>
+      <span style="font-family:'Merriweather',serif;font-style:italic;font-size:13px;color:#78716c">{{ t.hopVariety }}</span>
+    </div>
+  </div>
+
+  <div style="border:1px solid #e7e5e4;background:#fff;border-radius:16px;padding:14px 16px;display:flex;flex-direction:column;gap:4px">
+    <span style="font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#a8a29e">{{ t.keyLabel }}</span>
+    <span style="font-family:'Merriweather',serif;font-size:15px;line-height:1.3;font-weight:700;color:#194836;text-wrap:pretty">{{ t.hopKeyName }}</span>
+    <span style="font-size:11.5px;line-height:1.45;color:#78716c">{{ t.hopKeySpecies }}</span>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:10px">
+    <sc-if value="{{ canCompete }}" hint-placeholder-val="{{ true }}">
+      <button onClick="{{ requestScored }}" style="width:100%;min-height:60px;border:none;border-radius:16px;background:#278a5e;color:#fff;font-size:17px;font-weight:800;box-shadow:0 6px 18px rgba(39,138,94,.28);display:flex;align-items:center;justify-content:center;gap:10px" style-hover="background:#216e4e" style-active="transform:scale(.985)">
+        <span>{{ t.startLabel }}</span>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </button>
+    </sc-if>
+    <sc-if value="{{ used }}" hint-placeholder-val="{{ false }}">
+      <div style="border:1px solid #e7e5e4;background:#fff;border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px">
+        <span style="flex:none;width:36px;height:36px;border-radius:999px;background:#e1f8e8;color:#216e4e;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900">{{ nickInitial }}</span>
+        <div style="min-width:0;display:flex;flex-direction:column;gap:2px">
+          <span style="font-size:14px;font-weight:800;color:#194836;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ nick }}</span>
+          <span style="font-size:11px;line-height:1.4;color:#78716c">{{ usedNote }}</span>
+        </div>
+      </div>
+    </sc-if>
+    <sc-if value="{{ canResume }}" hint-placeholder-val="{{ false }}">
+      <button onClick="{{ resumeRun }}" style="width:100%;min-height:56px;border:none;border-radius:16px;background:#278a5e;color:#fff;font-size:16px;font-weight:800;box-shadow:0 6px 18px rgba(39,138,94,.28)" style-hover="background:#216e4e" style-active="transform:scale(.985)">{{ t.resumeRun }}</button>
+    </sc-if>
+    <div style="display:flex;gap:9px">
+      <button onClick="{{ startFree }}" style="flex:1;min-height:48px;border:1px solid #c3efd2;background:#fff;border-radius:14px;color:#216e4e;font-size:13.5px;font-weight:700" style-hover="background:#f2fcf5">{{ t.freeLabel }}</button>
+      <button onClick="{{ goBoard }}" style="flex:1;min-height:48px;border:1px solid #e7e5e4;background:#fff;border-radius:14px;color:#57534e;font-size:13.5px;font-weight:700" style-hover="background:#f5f5f4">{{ t.boardLabel }}</button>
+    </div>
+  </div>
+
+  <p style="margin:0;font-size:10px;line-height:1.6;color:#c8c4c0;text-align:center">{{ t.homeFoot }}</p>
+</section>
+</sc-if>
+
+<!-- ═══ PLAY ═══ -->
+<sc-if value="{{ isPlay }}" hint-placeholder-val="{{ false }}">
+<section style="flex:1;display:flex;flex-direction:column;gap:14px">
+
+  <div style="border:2px solid #c3efd2;background:#fff;border-radius:17px;overflow:hidden;box-shadow:0 6px 18px rgba(39,138,94,.10)">
+    <button onClick="{{ openZoom }}" style="display:block;width:100%;border:none;padding:0;background:#f5f5f4;position:relative;height:160px">
+      <image-slot id="{{ targetSlot }}" shape="rect" placeholder="{{ targetPhotoPh }}"></image-slot>
+      <span style="position:absolute;right:9px;bottom:9px;display:inline-flex;align-items:center;gap:6px;background:rgba(25,72,54,.86);color:#fff;border-radius:999px;padding:6px 11px;font-size:11px;font-weight:800;pointer-events:none">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><line x1="20" y1="20" x2="16" y2="16"></line><line x1="11" y1="8" x2="11" y2="14"></line><line x1="8" y1="11" x2="14" y2="11"></line></svg>
+        <span>{{ t.zoomLabel }}</span>
+      </span>
+    </button>
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 13px;border-top:1px solid #e1f8e8">
+      <div style="min-width:0;display:flex;flex-direction:column;gap:1px">
+        <span style="font-size:8px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#36ab76">{{ t.yourTarget }}</span>
+        <span style="font-family:'Merriweather',serif;font-size:16px;font-weight:700;line-height:1.2;color:#194836">{{ targetName }} <span style="font-style:italic;font-weight:400;font-size:12px;color:#78716c">{{ targetSci }}</span></span>
+      </div>
+      <span style="margin-left:auto;flex:none;text-align:right;display:flex;flex-direction:column;gap:2px">
+        <span style="font-size:8px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#a8a29e">{{ t.stepWord }}</span>
+        <span style="font-family:ui-monospace,Menlo,monospace;font-size:16px;font-weight:700;color:#216e4e">{{ stepNo }}</span>
+      </span>
+    </div>
+  </div>
+
+  <div style="height:5px;border-radius:999px;background:#e7e5e4;overflow:hidden">
+    <div style="{{ barStyle }}"></div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:7px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+      <span style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#a8a29e">{{ suspectsLabel }}</span>
+      <span style="font-size:12px;font-weight:700;color:#216e4e">{{ remainLabel }}</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat({{ speciesCols }},minmax(0,1fr));gap:5px">
+      <sc-for list="{{ species }}" as="sp" hint-placeholder-count="6">
+        <span style="{{ sp.tone }}">{{ sp.name }}</span>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex;flex-direction:column;gap:10px;animation:wkrise .3s ease-out both">
+    <span style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#a8a29e">{{ nodeTitle }}</span>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <sc-for list="{{ options }}" as="o" hint-placeholder-count="2">
+        <button onClick="{{ o.onPick }}" style="width:100%;text-align:left;border:2px solid #e7e5e4;background:#fff;border-radius:15px;padding:13px 14px;display:flex;align-items:flex-start;gap:11px;transition:border-color .18s,transform .18s,box-shadow .18s" style-hover="border-color:#5cc791;box-shadow:0 8px 20px rgba(39,138,94,.14)" style-active="border-color:#278a5e;transform:scale(.99)">
+          <span style="flex:none;margin-top:1px;min-width:28px;height:23px;border-radius:7px;background:#e1f8e8;color:#216e4e;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;padding:0 5px">{{ o.tag }}</span>
+          <span style="font-family:'Merriweather',serif;font-size:14px;line-height:1.5;font-weight:400;color:#292524;text-wrap:pretty">{{ o.text }}</span>
+        </button>
+      </sc-for>
+    </div>
+  </div>
+
+  <sc-if value="{{ hasTrail }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;flex-direction:column;gap:7px;margin-top:2px">
+    <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+      <span style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#a8a29e">{{ t.trailTitle }}</span>
+      <button onClick="{{ stepBack }}" style="border:none;background:transparent;padding:0;font-size:12px;font-weight:700;color:#278a5e">{{ t.backStep }}</button>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:5px">
+      <sc-for list="{{ trail }}" as="s" hint-placeholder-count="0">
+        <span style="border:1px solid #c3efd2;background:#f2fcf5;border-radius:999px;padding:4px 9px;font-family:ui-monospace,Menlo,monospace;font-size:11px;font-weight:700;color:#1d5740">{{ s.tag }}</span>
+      </sc-for>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ hasFails }}" hint-placeholder-val="{{ false }}">
+    <p style="margin:0;font-size:11px;line-height:1.5;color:#a8a29e">{{ failsLabel }}</p>
+  </sc-if>
+</section>
+</sc-if>
+
+<!-- ═══ FAIL ═══ -->
+<sc-if value="{{ isFail }}" hint-placeholder-val="{{ false }}">
+<section style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px;animation:wkshake .5s ease-out both">
+  <div style="border:2px solid #fca5a5;background:#fef2f2;border-radius:20px;padding:22px;display:flex;flex-direction:column;gap:12px;text-align:center;align-items:center">
+    <span style="width:54px;height:54px;border-radius:999px;background:#fee2e2;color:#dc2626;display:flex;align-items:center;justify-content:center">
+      <svg width="27" height="27" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="15" y1="9" x2="9" y2="15"></line><line x1="9" y1="9" x2="15" y2="15"></line></svg>
+    </span>
+    <h2 style="margin:0;font-family:'Merriweather',serif;font-size:25px;line-height:1.2;font-weight:700;color:#991b1b">{{ t.failTitle }}</h2>
+    <p style="margin:0;font-size:14.5px;line-height:1.55;color:#7f1d1d;text-wrap:pretty">{{ t.failBody }}</p>
+    <div style="width:100%;border:1px solid #fecaca;background:#fff;border-radius:14px;padding:13px;display:flex;flex-direction:column;gap:3px">
+      <span style="font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#dc2626">{{ t.youGot }}</span>
+      <span style="font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:#292524">{{ wrongName }}</span>
+      <span style="font-family:'Merriweather',serif;font-style:italic;font-size:13px;color:#78716c">{{ wrongSci }}</span>
+    </div>
+  </div>
+  <div style="border:1px solid #e7e5e4;background:#fff;border-radius:15px;padding:13px 15px;display:flex;flex-direction:column;gap:4px">
+    <span style="font-size:9px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:#a8a29e">{{ t.backToStep }}</span>
+    <span style="font-size:13.5px;line-height:1.5;color:#57534e;text-wrap:pretty">{{ resumeLabel }}</span>
+  </div>
+  <button onClick="{{ retry }}" style="width:100%;min-height:58px;border:none;border-radius:16px;background:#278a5e;color:#fff;font-size:17px;font-weight:800;box-shadow:0 6px 18px rgba(39,138,94,.28)" style-hover="background:#216e4e" style-active="transform:scale(.985)">{{ t.retryLabel }}</button>
+</section>
+</sc-if>
+
+<!-- ═══ WIN (both challenges) ═══ -->
+<sc-if value="{{ isWin }}" hint-placeholder-val="{{ false }}">
+<section style="flex:1;display:flex;flex-direction:column;gap:17px;padding-top:4px;animation:wkpop .5s ease-out both">
+  <div style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:8px">
+    <span style="width:58px;height:58px;border-radius:999px;background:#e1f8e8;color:#278a5e;display:flex;align-items:center;justify-content:center">
+      <svg width="29" height="29" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+    </span>
+    <h1 style="margin:0;font-family:'Merriweather',serif;font-size:27px;line-height:1.18;font-weight:700;color:#194836;text-wrap:pretty">{{ winTitle }}</h1>
+    <p style="margin:0;font-size:14.5px;line-height:1.55;color:#57534e;text-wrap:pretty">{{ winBody }}</p>
+  </div>
+
+  <div style="border:1px solid #c3efd2;background:#fff;border-radius:18px;overflow:hidden">
+    <div style="height:160px;background:#f5f5f4"><image-slot id="{{ targetSlot }}" shape="rect" placeholder="{{ targetPhotoPh }}"></image-slot></div>
+    <div style="padding:16px;display:flex;flex-direction:column;gap:13px">
+      <div style="display:flex;flex-direction:column;gap:2px">
+        <span style="font-family:'Merriweather',serif;font-size:20px;font-weight:700;color:#194836">{{ targetName }}</span>
+        <span style="font-family:'Merriweather',serif;font-style:italic;font-size:13px;color:#78716c">{{ targetSci }}</span>
+      </div>
+      <p style="margin:0;font-family:'Merriweather',serif;font-size:14.5px;line-height:1.65;color:#44403c;text-wrap:pretty">{{ winFact }}</p>
+      <div style="display:flex;gap:7px">
+        <div style="flex:1;border:1px solid #e7e5e4;border-radius:11px;padding:10px;display:flex;flex-direction:column;gap:3px">
+          <span style="font-size:8px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#a8a29e">{{ t.timeLabel }}</span>
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:18px;font-weight:700;color:#216e4e">{{ clock }}</span>
+        </div>
+        <div style="flex:1;border:1px solid #e7e5e4;border-radius:11px;padding:10px;display:flex;flex-direction:column;gap:3px">
+          <span style="font-size:8px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#a8a29e">{{ t.stepsLabel }}</span>
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:18px;font-weight:700;color:#216e4e">{{ stepsDone }}</span>
+        </div>
+        <div style="flex:1;border:1px solid #e7e5e4;border-radius:11px;padding:10px;display:flex;flex-direction:column;gap:3px">
+          <span style="font-size:8px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#a8a29e">{{ t.failsLabelShort }}</span>
+          <span style="font-family:ui-monospace,Menlo,monospace;font-size:18px;font-weight:700;color:#216e4e">{{ fails }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <sc-if value="{{ savedRun }}" hint-placeholder-val="{{ false }}">
+  <div style="border:1px solid #c3efd2;background:#f2fcf5;border-radius:16px;padding:14px 15px;display:flex;align-items:center;gap:11px">
+    <span style="flex:none;width:36px;height:36px;border-radius:999px;background:#278a5e;color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:900">{{ nickInitial }}</span>
+    <div style="min-width:0;display:flex;flex-direction:column;gap:2px">
+      <span style="font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#36ab76">{{ t.savedTitle }}</span>
+      <span style="font-size:14px;font-weight:800;color:#194836;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ nick }}</span>
+    </div>
+    <button onClick="{{ goBoard }}" style="margin-left:auto;flex:none;border:1px solid #c3efd2;background:#fff;border-radius:11px;color:#216e4e;padding:9px 13px;font-size:12.5px;font-weight:800" style-hover="background:#e1f8e8">{{ t.seeBoard }}</button>
+  </div>
+  </sc-if>
+
+  <div style="display:flex;flex-direction:column;gap:8px">
+    <span style="font-size:10px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#a8a29e">{{ t.pathTitle }}</span>
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <sc-for list="{{ winPath }}" as="p" hint-placeholder-count="3">
+        <div style="border:1px solid #e7e5e4;background:#fff;border-radius:11px;padding:10px 12px;display:flex;align-items:flex-start;gap:10px">
+          <span style="flex:none;min-width:28px;border-radius:7px;padding:3px 5px;text-align:center;font-family:ui-monospace,Menlo,monospace;font-size:10.5px;font-weight:900;color:#fff;background:#278a5e">{{ p.tag }}</span>
+          <span style="font-family:'Merriweather',serif;font-size:13px;line-height:1.45;color:#44403c;text-wrap:pretty">{{ p.text }}</span>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <!-- Transition: offer carnivore challenge after hop win -->
+  <sc-if value="{{ showCarnTransition }}" hint-placeholder-val="{{ false }}">
+  <div style="border:2px solid #194836;background:linear-gradient(135deg,#194836,#1d5740);border-radius:20px;padding:20px;display:flex;flex-direction:column;gap:13px">
+    <span style="font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#94e0b3">{{ t.bonusKicker }}</span>
+    <h3 style="margin:0;font-family:'Merriweather',serif;font-size:20px;line-height:1.26;font-weight:700;color:#fff;text-wrap:pretty">{{ t.bonusTitle }}</h3>
+    <p style="margin:0;font-size:13.5px;line-height:1.55;color:#c3efd2;text-wrap:pretty">{{ t.bonusSub }}</p>
+    <div style="border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.08);border-radius:14px;overflow:hidden">
+      <div style="height:120px;background:rgba(0,0,0,.2)"><image-slot id="wk-marta-hero" shape="rect" placeholder="{{ t.martaPhotoPh }}"></image-slot></div>
+      <div style="padding:11px 13px;display:flex;flex-direction:column;gap:1px">
+        <span style="font-family:'Merriweather',serif;font-size:16px;font-weight:700;color:#fff">Marta</span>
+        <span style="font-family:'Merriweather',serif;font-style:italic;font-size:12px;color:#94e0b3">Martes martes</span>
+      </div>
+    </div>
+    <button onClick="{{ startCarn }}" style="width:100%;min-height:56px;border:none;border-radius:14px;background:#fff;color:#194836;font-size:16px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px" style-hover="background:#e1f8e8" style-active="transform:scale(.985)">
+      <span>{{ t.bonusCta }}</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </button>
+  </div>
+  </sc-if>
+
+  <div style="border:1px solid #1d5740;background:#194836;border-radius:18px;padding:18px;display:flex;flex-direction:column;gap:10px">
+    <span style="color:#94e0b3;display:inline-flex"><x-import component-from-global-scope="wk-logo" from="./wk-logo.js" height="30" hint-size="45px,30px"></x-import></span>
+    <h3 style="margin:0;font-family:'Merriweather',serif;font-size:18px;line-height:1.3;font-weight:700;color:#fff;text-wrap:pretty">{{ t.wkTitle }}</h3>
+    <p style="margin:0;font-size:13.5px;line-height:1.6;color:#c3efd2;text-wrap:pretty">{{ t.wkBody }}</p>
+    <a href="https://wildkeys.io" target="_blank" rel="noopener" style="margin-top:2px;align-self:stretch;text-align:center;background:#fff;color:#194836;border-radius:12px;padding:14px 18px;font-size:14.5px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:8px" style-hover="background:#e1f8e8">
+      <span>{{ t.wkCta }}</span>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </a>
+  </div>
+
+  <div style="display:flex;gap:9px">
+    <button onClick="{{ goBoard }}" style="flex:1;min-height:52px;border:1px solid #c3efd2;background:#fff;border-radius:14px;color:#216e4e;font-size:13.5px;font-weight:700" style-hover="background:#f2fcf5">{{ t.boardLabel }}</button>
+    <button onClick="{{ startFreeAgain }}" style="flex:1;min-height:52px;border:1px solid #e7e5e4;background:#fff;border-radius:14px;color:#57534e;font-size:13.5px;font-weight:700" style-hover="background:#f5f5f4">{{ t.againLabel }}</button>
+  </div>
+</section>
+</sc-if>
+
+<!-- ═══ BOARD ═══ -->
+<sc-if value="{{ isBoard }}" hint-placeholder-val="{{ false }}">
+<section style="flex:1;display:flex;flex-direction:column;gap:15px;animation:wkrise .45s ease-out both">
+  <div style="display:flex;flex-direction:column;gap:6px">
+    <span style="font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:#36ab76">{{ boardKicker }}</span>
+    <h2 style="margin:0;font-family:'Merriweather',serif;font-size:24px;line-height:1.2;font-weight:700;color:#194836">{{ t.boardTitle }}</h2>
+    <p style="margin:0;font-size:13px;line-height:1.55;color:#78716c">{{ t.boardBody }}</p>
+  </div>
+
+  <sc-if value="{{ hasBoardTabs }}" hint-placeholder-val="{{ false }}">
+  <div style="display:flex;gap:4px;border:1px solid #e7e5e4;background:#fff;border-radius:999px;padding:3px">
+    <button onClick="{{ showHopBoard }}" style="{{ hopTabStyle }}">{{ t.hopTab }}</button>
+    <button onClick="{{ showCarnBoard }}" style="{{ carnTabStyle }}">{{ t.carnTab }}</button>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ boardEmpty }}" hint-placeholder-val="{{ false }}">
+    <div style="border:1px dashed #c3efd2;background:#f2fcf5;border-radius:16px;padding:24px;text-align:center;font-size:13px;line-height:1.55;color:#5cc791">{{ t.boardEmpty }}</div>
+  </sc-if>
+
+  <div style="display:flex;flex-direction:column;gap:6px">
+    <sc-for list="{{ board }}" as="r" hint-placeholder-count="0">
+      <div style="{{ r.row }}">
+        <span style="{{ r.rankStyle }}">{{ r.rank }}</span>
+        <span style="flex:1;min-width:0;font-size:14.5px;font-weight:700;color:#292524;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ r.name }}</span>
+        <span style="{{ r.tagStyle }}">{{ r.tagText }}</span>
+        <span style="flex:none;font-size:10px;font-weight:600;color:#a8a29e">{{ r.fails }}</span>
+        <span style="flex:none;font-family:ui-monospace,Menlo,monospace;font-size:14.5px;font-weight:700;color:#216e4e">{{ r.time }}</span>
+      </div>
+    </sc-for>
+  </div>
+
+  <button onClick="{{ goHome }}" style="width:100%;min-height:52px;border:1px solid #c3efd2;background:#fff;border-radius:14px;color:#216e4e;font-size:14.5px;font-weight:700" style-hover="background:#f2fcf5">{{ t.backLabel }}</button>
+</section>
+</sc-if>
+
+<p style="margin:22px 0 0;font-size:10px;line-height:1.6;color:#c8c4c0;text-align:center">{{ t.source }}</p>
+
+<!-- ═══ ZOOM OVERLAY ═══ -->
+<sc-if value="{{ isZoom }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeZoom }}" style="position:absolute;inset:0;z-index:60;background:rgba(25,35,30,.94);display:flex;flex-direction:column;justify-content:center;gap:13px;padding:22px 16px calc(22px + env(safe-area-inset-bottom));animation:wkpop .25s ease-out both">
+  <div style="width:100%;max-width:430px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px">
+    <div style="display:flex;flex-direction:column;gap:1px;min-width:0">
+      <span style="font-family:'Merriweather',serif;font-size:18px;font-weight:700;color:#fff">{{ targetName }}</span>
+      <span style="font-family:'Merriweather',serif;font-style:italic;font-size:12px;color:#94e0b3">{{ targetSci }}</span>
+    </div>
+    <button onClick="{{ closeZoom }}" style="flex:none;border:none;background:rgba(255,255,255,.14);color:#fff;border-radius:999px;width:40px;height:40px;display:flex;align-items:center;justify-content:center">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+  </div>
+  <div style="width:100%;max-width:430px;margin:0 auto;height:min(64vh,500px);border-radius:18px;overflow:hidden;background:#1c1917">
+    <image-slot id="{{ targetSlot }}" shape="rect" placeholder="{{ targetPhotoPh }}"></image-slot>
+  </div>
+  <p style="margin:0 auto;max-width:430px;font-size:12px;line-height:1.5;color:#a8b8b0;text-align:center">{{ t.zoomHint }}</p>
+</div>
+</sc-if>
+
+<!-- ═══ REGISTRATION MODAL ═══ -->
+<sc-if value="{{ isReg }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;z-index:70;background:rgba(25,35,30,.62);display:flex;align-items:flex-end;justify-content:center;padding:16px calc(16px + env(safe-area-inset-left)) calc(16px + env(safe-area-inset-bottom))">
+  <div style="width:100%;max-width:430px;background:#fff;border-radius:22px;padding:22px;display:flex;flex-direction:column;gap:13px;box-shadow:0 -10px 40px rgba(0,0,0,.22);animation:wkrise .3s ease-out both">
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <span style="font-size:9px;font-weight:800;letter-spacing:.18em;text-transform:uppercase;color:#36ab76">{{ t.regKicker }}</span>
+      <h2 style="margin:0;font-family:'Merriweather',serif;font-size:22px;line-height:1.22;font-weight:700;color:#194836;text-wrap:pretty">{{ t.regTitle }}</h2>
+      <p style="margin:0;font-size:13.5px;line-height:1.55;color:#57534e;text-wrap:pretty">{{ t.regBody }}</p>
+    </div>
+    <input value="{{ nickValue }}" onChange="{{ onNick }}" placeholder="{{ t.nickPh }}" maxlength="14" autocomplete="off" style="{{ nickStyle }}">
+    <sc-if value="{{ hasRegErr }}" hint-placeholder-val="{{ false }}">
+      <p style="margin:0;font-size:12px;line-height:1.45;font-weight:600;color:#dc2626">{{ regErr }}</p>
+    </sc-if>
+    <div style="border:1px solid #fde68a;background:#fffbeb;border-radius:13px;padding:11px 12px;display:flex;gap:9px;align-items:flex-start">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#d97706" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:1px"><path d="M12 9v4"></path><path d="M12 17h.01"></path><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"></path></svg>
+      <p style="margin:0;font-size:12px;line-height:1.5;color:#92400e;text-wrap:pretty">{{ t.regWarn }}</p>
+    </div>
+    <div style="display:flex;gap:9px">
+      <button onClick="{{ cancelReg }}" style="flex:none;min-height:54px;border:1px solid #e7e5e4;background:#fff;border-radius:14px;color:#57534e;padding:0 17px;font-size:14px;font-weight:700" style-hover="background:#f5f5f4">{{ t.cancelLabel }}</button>
+      <button onClick="{{ confirmReg }}" style="flex:1;min-height:54px;border:none;border-radius:14px;background:#278a5e;color:#fff;font-size:15.5px;font-weight:800" style-hover="background:#216e4e" style-active="transform:scale(.985)">{{ t.regGo }}</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultLang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ca&quot;,&quot;es&quot;,&quot;en&quot;],&quot;default&quot;:&quot;ca&quot;,&quot;tsType&quot;:&quot;'ca'|'es'|'en'&quot;,&quot;section&quot;:&quot;Evento&quot;},&quot;demoBoard&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Evento&quot;}}">
+class Component extends DCLogic {
+
+  /* ═══════════════ HOP KEY: LO VILOT ═══════════════ */
+  HOP_SP = {
+    chinook:{ sci:'Humulus lupulus var. Chinook', n:{ ca:'Chinook', es:'Chinook', en:'Chinook' } },
+    cascade:{ sci:'Humulus lupulus var. Cascade', n:{ ca:'Cascade', es:'Cascade', en:'Cascade' } },
+    cashmere:{ sci:'Humulus lupulus var. Cashmere', n:{ ca:'Cashmere', es:'Cashmere', en:'Cashmere' } },
+    comet:{ sci:'Humulus lupulus var. Comet', n:{ ca:'Comet', es:'Comet', en:'Comet' } },
+    vista:{ sci:'Humulus lupulus var. Vista', n:{ ca:'Vista', es:'Vista', en:'Vista' } },
+    raku:{ sci:'Humulus lupulus var. Raku', n:{ ca:'Raku', es:'Raku', en:'Raku' } },
+  };
+  HOP_K = {
+    h1:{ title:{ ca:'Forma de la flor', es:'Forma de la flor', en:'Flower shape' }, o:[
+      { tag:'1a', to:{ n:'h2' }, x:{
+        ca:'Flors més aviat rodones o amb forma de prisma.',
+        es:'Flores más bien redondas o con forma de prisma.',
+        en:'Flowers rather round or prism-shaped.' } },
+      { tag:'1b', to:{ n:'h4' }, x:{
+        ca:'Flors clarament allargades.',
+        es:'Flores claramente alargadas.',
+        en:'Flowers clearly elongated.' } },
+    ] },
+    h2:{ title:{ ca:'Forma detallada', es:'Forma detallada', en:'Detailed shape' }, o:[
+      { tag:'2a', to:{ sp:'chinook' }, x:{
+        ca:'Flors amb forma de prisma, prim a la punta i s\u2019eixampla cap a la base.',
+        es:'Flores con forma de prisma, estrechas en la punta y que se ensanchan hacia la base.',
+        en:'Flowers prism-shaped, narrow at the tip and widening towards the base.' } },
+      { tag:'2b', to:{ n:'h3' }, x:{
+        ca:'Flors amb forma arrodonida.',
+        es:'Flores de forma redondeada.',
+        en:'Flowers rounded in shape.' } },
+    ] },
+    h3:{ title:{ ca:'Detalls de la flor arrodonida', es:'Detalles de la flor redondeada', en:'Round flower details' }, o:[
+      { tag:'3a', to:{ sp:'cascade' }, x:{
+        ca:'[Descripció pendent — Cascade]',
+        es:'[Descripción pendiente — Cascade]',
+        en:'[Description pending — Cascade]' } },
+      { tag:'3b', to:{ sp:'cashmere' }, x:{
+        ca:'[Descripció pendent — Cashmere]',
+        es:'[Descripción pendiente — Cashmere]',
+        en:'[Description pending — Cashmere]' } },
+    ] },
+    h4:{ title:{ ca:'Època de collita', es:'Época de cosecha', en:'Harvest time' }, o:[
+      { tag:'4a', to:{ n:'h5' }, x:{
+        ca:'Es cull fins a finals de setembre.',
+        es:'Se cosecha hasta finales de septiembre.',
+        en:'Harvested until the end of September.' } },
+      { tag:'4b', to:{ sp:'comet' }, x:{
+        ca:'Es cull màxim fins la primera quinzena de setembre.',
+        es:'Se cosecha como máximo hasta la primera quincena de septiembre.',
+        en:'Harvested at most until the first half of September.' } },
+    ] },
+    h5:{ title:{ ca:'Bràctees en el moment de la collita', es:'Brácteas en el momento de la cosecha', en:'Bracts at harvest time' }, o:[
+      { tag:'5a', to:{ sp:'vista' }, x:{
+        ca:'Flor amb bràctees majoritàriament obertes en el moment de la collita.',
+        es:'Flor con brácteas mayoritariamente abiertas en el momento de la cosecha.',
+        en:'Flower with bracts mostly open at harvest time.' } },
+      { tag:'5b', to:{ sp:'raku' }, x:{
+        ca:'Flor amb bràctees majoritàriament compactes/tancades en el moment de la collita.',
+        es:'Flor con brácteas mayoritariamente compactas/cerradas en el momento de la cosecha.',
+        en:'Flower with bracts mostly compact/closed at harvest time.' } },
+    ] },
+  };
+  HOP_PATH = ['h1','h4','h5'];
+  HOP_ORDER = ['chinook','cascade','cashmere','comet','vista','raku'];
+  HOP_TARGET = 'vista';
+
+  /* ═══════════════ CARNIVORE KEY ═══════════════ */
+  CARN_SP = {
+    ursus:{ sci:'Ursus arctos', n:{ es:'Oso pardo', en:'Brown bear', ca:'Ós bru' } },
+    lutra:{ sci:'Lutra lutra', n:{ es:'Nutria', en:'Otter', ca:'Llúdriga' } },
+    lynx:{ sci:'Lynx pardinus', n:{ es:'Lince ibérico', en:'Iberian lynx', ca:'Linx ibèric' } },
+    procyon:{ sci:'Procyon lotor', n:{ es:'Mapache', en:'Raccoon', ca:'Rentador' } },
+    genetta:{ sci:'Genetta genetta', n:{ es:'Gineta', en:'Common genet', ca:'Geneta' } },
+    felis:{ sci:'Felis silvestris', n:{ es:'Gato montés', en:'Wildcat', ca:'Gat salvatge' } },
+    canis:{ sci:'Canis lupus signatus', n:{ es:'Lobo ibérico', en:'Iberian wolf', ca:'Llop ibèric' } },
+    vulpes:{ sci:'Vulpes vulpes', n:{ es:'Zorro', en:'Red fox', ca:'Guineu' } },
+    meles:{ sci:'Meles meles', n:{ es:'Tejón', en:'Badger', ca:'Teixó' } },
+    nivalis:{ sci:'Mustela nivalis', n:{ es:'Comadreja', en:'Least weasel', ca:'Mostela' } },
+    herpestes:{ sci:'Herpestes ichneumon', n:{ es:'Meloncillo', en:'Egyptian mongoose', ca:'Mangosta' } },
+    foina:{ sci:'Martes foina', n:{ es:'Garduña', en:'Beech marten', ca:'Fagina' } },
+    martes:{ sci:'Martes martes', n:{ es:'Marta', en:'Pine marten', ca:'Marta' } },
+    lutreola:{ sci:'Mustela lutreola', n:{ es:'Visón europeo', en:'European mink', ca:'Visó europeu' } },
+    vison:{ sci:'Neogale vison', n:{ es:'Visón americano', en:'American mink', ca:'Visó americà' } },
+    putorius:{ sci:'Mustela putorius', n:{ es:'Turón', en:'European polecat', ca:'Turó' } },
+  };
+  CARN_K = {
+    c1:{ title:{ es:'Tamaño y cola', en:'Size and tail', ca:'Mida i cua' }, o:[
+      { tag:'1a', to:{ sp:'ursus' }, x:{ es:'Tamaño masivo (>80 kg), cola vestigial, camina apoyando toda la planta del pie (plantígrado).', en:'Massive size (>80 kg), vestigial tail, walks on the whole sole of the foot (plantigrade).', ca:'Mida massiva (>80 kg), cua vestigial, camina recolzant tota la planta del peu (plantígrad).' } },
+      { tag:'1b', to:{ n:'c2' }, x:{ es:'Tamaño pequeño a grande (<80 kg), cola claramente visible (excepto en Lynx pardinus).', en:'Small to large size (<80 kg), tail clearly visible (except in Lynx pardinus).', ca:'Mida petita a gran (<80 kg), cua clarament visible (excepte en Lynx pardinus).' } },
+    ] },
+    c2:{ title:{ es:'Adaptación al medio', en:'Habitat adaptation', ca:'Adaptació al medi' }, o:[
+      { tag:'2a', to:{ sp:'lutra' }, x:{ es:'Adaptación semiacuática: patas cortas y robustas con membranas interdigitales (palmeadas); cola gruesa y musculosa muy ancha en la base que se va estrechando hacia la punta; pelaje aterciopelado muy denso, al mojarse tiene un aspecto brillante, aceitoso.', en:'Semi-aquatic adaptation: short, sturdy legs with webbed toes; thick, muscular tail, very broad at the base and tapering to the tip; very dense velvety fur that looks glossy and oily when wet.', ca:'Adaptació semiaquàtica: potes curtes i robustes amb membranes interdigitals (palmades); cua gruixuda i musculosa molt ampla a la base que s\u2019estreny cap a la punta; pelatge vellutat molt dens, en mullar-se té un aspecte brillant, oliós.' } },
+      { tag:'2b', to:{ n:'c3' }, x:{ es:'Vida principalmente terrestre: patas sin membranas interdigitales completas.', en:'Mainly terrestrial life: feet without complete webbing.', ca:'Vida principalment terrestre: potes sense membranes interdigitals completes.' } },
+    ] },
+    c3:{ title:{ es:'Orejas y cola', en:'Ears and tail', ca:'Orelles i cua' }, o:[
+      { tag:'3a', to:{ sp:'lynx' }, x:{ es:'Orejas con pinceles de pelo negro en las puntas; cola muy corta (<25% del cuerpo) con punta negra.', en:'Ears with black hair tufts at the tips; very short tail (<25% of the body) with a black tip.', ca:'Orelles amb pinzells de pèl negre a les puntes; cua molt curta (<25% del cos) amb punta negra.' } },
+      { tag:'3b', to:{ n:'c4' }, x:{ es:'Orejas sin pinceles largos; cola proporcional o larga.', en:'Ears without long tufts; tail proportionate or long.', ca:'Orelles sense pinzells llargs; cua proporcional o llarga.' } },
+    ] },
+    c4:{ title:{ es:'Patrón de la cola', en:'Tail pattern', ca:'Patró de la cua' }, o:[
+      { tag:'4a', to:{ n:'c5' }, x:{ es:'Cola con patrón de anillos cerrados o bandas oscuras transversales.', en:'Tail with closed rings or dark transverse bands.', ca:'Cua amb patró d\u2019anells tancats o bandes fosques transversals.' } },
+      { tag:'4b', to:{ n:'c8' }, x:{ es:'Cola de color uniforme, o con punta de distinto color, pero sin anillos ni bandas.', en:'Tail of uniform colour, or with a differently coloured tip, but without rings or bands.', ca:'Cua de color uniforme, o amb punta de color diferent, però sense anells ni bandes.' } },
+    ] },
+    c5:{ title:{ es:'Cara y cuerpo', en:'Face and body', ca:'Cara i cos' }, o:[
+      { tag:'5a', to:{ sp:'procyon' }, x:{ es:'Rostro con máscara facial (antifaz) negro muy marcado; cola con 5-7 anillos negros completos que rodean toda la circunferencia.', en:'Face with a strongly marked black mask; tail with 5-7 complete black rings encircling it.', ca:'Rostre amb màscara facial negra molt marcada; cua amb 5-7 anells negres complets que envolten tota la circumferència.' } },
+      { tag:'5b', to:{ sp:'genetta' }, x:{ es:'Rostro sin máscara bien definida; cuerpo esbelto con moteado longitudinal, cola muy larga con anillos negros definidos sobre fondo claro.', en:'Face without a well-defined mask; slender body with longitudinal spotting, very long tail with defined black rings on a pale ground.', ca:'Rostre sense màscara ben definida; cos esvelt amb clapejat longitudinal, cua molt llarga amb anells negres definits sobre fons clar.' } },
+      { tag:'5c', to:{ sp:'felis' }, x:{ es:'Rostro sin máscara facial; aspecto de gato, el pelaje presenta rayas no puntos. Cola ancha, redondeada, sin banda dorsal, con anillos y punta terminal negra sólida.', en:'Face without a mask; cat-like, coat striped rather than spotted. Tail broad and rounded, no dorsal band, with rings and a solid black tip.', ca:'Rostre sense màscara facial; aspecte de gat, el pelatge presenta ratlles no punts. Cua ampla, arrodonida, sense banda dorsal, amb anells i punta terminal negra sòlida.' } },
+    ] },
+    c8:{ title:{ es:'Patas y complexión', en:'Legs and build', ca:'Potes i complexió' }, o:[
+      { tag:'8a', to:{ n:'c9' }, x:{ es:'Patas largas (alzada al hombro >35 cm), camina apoyando solo los dedos (digitígrado), esbelto y ágil, hocico alargado.', en:'Long legs (shoulder height >35 cm), walks on the toes only (digitigrade), slender and agile, elongated muzzle.', ca:'Potes llargues (alçada a l\u2019espatlla >35 cm), camina recolzant només els dits (digitígrad), esvelt i àgil, morro allargat.' } },
+      { tag:'8b', to:{ n:'c13' }, x:{ es:'Patas cortas en relación al cuerpo (alzada al hombro <35 cm), cuerpo cilíndrico o macizo, apoyo más plano.', en:'Legs short relative to the body (shoulder height <35 cm), cylindrical or stocky body, flatter footfall.', ca:'Potes curtes en relació al cos (alçada a l\u2019espatlla <35 cm), cos cilíndric o massís, suport més pla.' } },
+    ] },
+    c9:{ title:{ es:'Complexión', en:'Build', ca:'Complexió' }, o:[
+      { tag:'9a', to:{ sp:'canis' }, x:{ es:'Complexión robusta, marcas negras en la parte anterior de las patas delanteras, cola con punta negra.', en:'Robust build, black markings on the front of the forelegs, tail with a black tip.', ca:'Complexió robusta, marques negres a la part anterior de les potes davanteres, cua amb punta negra.' } },
+      { tag:'9b', to:{ sp:'vulpes' }, x:{ es:'Complexión grácil, orejas grandes con el dorso negro, cola muy poblada frecuentemente con punta blanca.', en:'Slender build, large ears with black backs, very bushy tail often with a white tip.', ca:'Complexió gràcil, orelles grans amb el dors negre, cua molt poblada sovint amb punta blanca.' } },
+    ] },
+    c13:{ title:{ es:'Cuerpo y cara', en:'Body and face', ca:'Cos i cara' }, o:[
+      { tag:'13a', to:{ sp:'meles' }, x:{ es:'Cuerpo muy robusto y macizo, cabeza blanca con máscara facial formando dos franjas negras anchas horizontales que cubren los ojos y se extienden hasta la nuca.', en:'Very robust, stocky body, white head with a facial mask of two broad horizontal black bands over the eyes extending to the nape.', ca:'Cos molt robust i massís, cap blanc amb màscara facial formant dues franges negres amples horitzontals que cobreixen els ulls i s\u2019estenen fins al clatell.' } },
+      { tag:'13b', to:{ n:'c14' }, x:{ es:'Cuerpo más estilizado, cilíndrico o pequeño; sin franjas negras anchas en la cara.', en:'More slender, cylindrical or small body; without broad black bands on the face.', ca:'Cos més estilitzat, cilíndric o petit; sense franges negres amples a la cara.' } },
+    ] },
+    c14:{ title:{ es:'Tamaño y vientre', en:'Size and belly', ca:'Mida i ventre' }, o:[
+      { tag:'14a', to:{ sp:'nivalis' }, x:{ es:'Tamaño muy pequeño (longitud <25 cm), pelaje dorsal pardo y ventral blanco puro con la línea de separación entre estas muy recta y marcada.', en:'Very small (length <25 cm), brown dorsal fur and pure white belly with a very straight, sharp dividing line.', ca:'Mida molt petita (longitud <25 cm), pelatge dorsal bru i ventral blanc pur amb la línia de separació molt recta i marcada.' } },
+      { tag:'14b', to:{ n:'c15' }, x:{ es:'Tamaño mediano, pelaje ventral no blanco puro o con manchas específicas.', en:'Medium size, belly fur not pure white or with specific patches.', ca:'Mida mitjana, pelatge ventral no blanc pur o amb taques específiques.' } },
+    ] },
+    c15:{ title:{ es:'Pelaje y mancha pectoral', en:'Coat and chest patch', ca:'Pelatge i taca pectoral' }, o:[
+      { tag:'15a', to:{ sp:'herpestes' }, x:{ es:'Pelaje pardo-grisáceo uniforme, cola muy larga y ancha en la base (aspecto de mangosta), sin mancha pectoral.', en:'Uniform greyish-brown coat, very long tail broad at the base (mongoose-like), no chest patch.', ca:'Pelatge bru-grisós uniforme, cua molt llarga i ampla a la base (aspecte de mangosta), sense taca pectoral.' } },
+      { tag:'15b', to:{ n:'c16' }, x:{ es:'Presencia de mancha pectoral (babero) blanca o amarillenta bien definida.', en:'A well-defined white or yellowish chest patch (bib) is present.', ca:'Presència de taca pectoral (pitrera) blanca o groguenca ben definida.' } },
+      { tag:'15c', to:{ n:'c17' }, x:{ es:'Sin mancha pectoral definida; pelaje oscuro uniforme o con diseño facial.', en:'No defined chest patch; uniformly dark coat or with a facial pattern.', ca:'Sense taca pectoral definida; pelatge fosc uniforme o amb disseny facial.' } },
+    ] },
+    c16:{ title:{ es:'Color de la mancha pectoral', en:'Colour of the chest patch', ca:'Color de la taca pectoral' }, o:[
+      { tag:'16a', to:{ sp:'foina' }, x:{ es:'Mancha pectoral (babero) blanca o blanco-crema, generalmente bien definida y con tendencia a prolongarse y bifurcarse hacia la cara interna de las patas delanteras, formando dos prolongaciones visibles.', en:'Chest patch white or cream-white, usually well defined and tending to extend and fork towards the inner side of the forelegs, forming two visible extensions.', ca:'Taca pectoral blanca o blanc-crema, generalment ben definida i amb tendència a prolongar-se i bifurcar-se cap a la cara interna de les potes davanteres, formant dues prolongacions visibles.' } },
+      { tag:'16b', to:{ sp:'martes' }, x:{ es:'Mancha pectoral amarillenta, crema-amarilla o anaranjada, habitualmente más compacta y sin una bifurcación tan marcada hacia las patas delanteras; puede presentar contornos irregulares o aparecer parcialmente fragmentada en manchas.', en:'Chest patch yellowish, cream-yellow or orange, usually more compact and without such a marked fork towards the forelegs; may have irregular outlines or appear partly broken into patches.', ca:'Taca pectoral groguenca, crema-groga o ataronjada, habitualment més compacta i sense una bifurcació tan marcada cap a les potes davanteres; pot presentar contorns irregulars o aparèixer parcialment fragmentada en taques.' } },
+    ] },
+    c17:{ title:{ es:'Labios y cara', en:'Lips and face', ca:'Llavis i cara' }, o:[
+      { tag:'17a', to:{ sp:'lutreola' }, x:{ es:'Mancha blanca presente en el labio superior e inferior.', en:'White patch present on both upper and lower lip.', ca:'Taca blanca present al llavi superior i inferior.' } },
+      { tag:'17b', to:{ sp:'vison' }, x:{ es:'Mancha blanca presente solo en el labio inferior (barbilla) o ausente.', en:'White patch only on the lower lip (chin) or absent.', ca:'Taca blanca present només al llavi inferior (barbeta) o absent.' } },
+      { tag:'17c', to:{ sp:'putorius' }, x:{ es:'Rostro con diseño de antifaz oscuro, cuerpo con flancos más claros que el lomo. La forma doméstica es el hurón (Mustela furo).', en:'Face with a dark mask pattern, flanks paler than the back. The domestic form is the ferret (Mustela furo).', ca:'Rostre amb disseny d\u2019antifaç fosc, cos amb flancs més clars que el llom. La forma domèstica és el fura (Mustela furo).' } },
+    ] },
+  };
+  CARN_PATH = ['c1','c2','c3','c4','c8','c13','c14','c15','c16'];
+  CARN_ORDER = ['ursus','lutra','lynx','procyon','genetta','felis','canis','vulpes','meles','nivalis','herpestes','foina','martes','lutreola','vison','putorius'];
+  CARN_TARGET = 'martes';
+
+  /* ═══════════════ i18n ═══════════════ */
+  T = {
+    ca:{
+      collab:'WildKeys × LO VILOT',
+      homeTitle:'Identifica el llúpol Vista tan ràpid com puguis',
+      homeSub:'Tens davant 6 varietats de llúpol que es cultiven a LO VILOT. Recorre la clau dicotòmica i arriba fins a Vista sense equivocar-te.',
+      vilotSub:'Cerveseria artesana · Lleida', vilotDesc:'Cultiven les seves pròpies varietats de llúpol per elaborar cerveses amb caràcter local.',
+      vistaPhotoPh:'Foto del llúpol Vista', hopVariety:'Varietat de llúpol de LO VILOT',
+      yourTarget:'El teu objectiu', keyLabel:'La clau que faràs servir',
+      hopKeyName:'Clau dicotòmica de les varietats de llúpol de LO VILOT',
+      hopKeySpecies:'6 varietats · llúpol cultivat a LO VILOT',
+      startLabel:'Començar el repte', freeLabel:'Mode lliure', boardLabel:'Classificació', againLabel:'Jugar un altre cop',
+      homeFoot:'Funciona sense connexió. Un intent puntuable per mòbil.',
+      stepWord:'Pas', trailTitle:'El teu recorregut', backStep:'Desfer pas',
+      suspects:'Varietats en joc', outFmt:'En queden {n} de 6',
+      zoomLabel:'Ampliar', zoomHint:'Toca fora de la foto per tornar a la clau.',
+      regKicker:'Abans de començar', regTitle:'Tria el teu nom de jugador',
+      regBody:'Amb aquest nom apareixeràs a la classificació de l\u2019esdeveniment.',
+      nickPh:'Ex. Equip Linx', regGo:'Registrar-me i començar', cancelLabel:'Ara no',
+      regWarn:'El cronòmetre arrenca en registrar-te i l\u2019intent queda reservat per a aquest mòbil. Només n\u2019hi ha un.',
+      errShort:'Escriu com a mínim 2 caràcters.', errTaken:'Aquest nom ja és a la classificació. Prova\u2019n un altre.',
+      resumeRun:'Continuar el meu intent', savedTitle:'Desat com a', seeBoard:'Veure marcador',
+      usedDoneFmt:'Ja has competit: {t}. Ara pots practicar en mode lliure.',
+      usedPending:'Tens un intent en marxa. El cronòmetre continua corrent.',
+      failTitle:'Oooh, has fallat!', failBody:'Segueix intentant-ho. Aquesta branca de la clau porta a una altra varietat.',
+      youGot:'Has arribat a', backToStep:'Tornes al pas', retryLabel:'Seguir intentant-ho',
+      resumeFmt:'Reprens la clau al pas {n}, on et vas desviar.',
+      failsFmt:'Errors fins ara: {n}', failsLabelShort:'Errors', failsOneShort:'1 error',
+      timeLabel:'Temps', stepsLabel:'Passos', pathTitle:'El camí correcte',
+      bonusKicker:'Repte extra', bonusTitle:'T\u2019atreveixes a identificar el carnívor més difícil de Catalunya?',
+      bonusSub:'La marta (Martes martes) s\u2019amaga en una clau de 16 espècies de carnívors terrestres d\u2019Espanya. El cronòmetre torna a zero.',
+      bonusCta:'Acceptar el repte', martaPhotoPh:'Foto de la marta',
+      wkTitle:'Acabes de fer servir una clau dicotòmica.', wkBody:'A cada pas tries entre dues o tres descripcions i avances fins a una única espècie. Això és exactament el que fa WildKeys, amb claus reals de fauna i flora.',
+      wkCta:'Conèixer WildKeys',
+      boardTitle:'Classificació', boardBody:'Temps desats en aquest mòbil, del més ràpid al més lent.',
+      boardEmpty:'Encara no hi ha temps desats. Sigues el primer.',
+      backLabel:'Tornar a l\u2019inici',
+      hopTab:'Llúpol', carnTab:'Carnívors',
+      demoTag:'demo', youTag:'tu',
+      failsShortFmt:'{n} errors',
+      hopBoardKicker:'Marcador · Llúpol', carnBoardKicker:'Marcador · Carnívors',
+      hopWinTitle:'Felicitats, has identificat Vista!', hopWinBody:'Has recorregut la clau de llúpol de LO VILOT correctament.',
+      carnWinTitle:'Felicitats, has identificat la marta!', carnWinBody:'Has recorregut la clau de carnívors fins a Martes martes. Impressionant.',
+      vistaFact:'Vista és una varietat de llúpol cultivada a LO VILOT. Es caracteritza per les bràctees obertes al moment de la collita i es cull fins a finals de setembre.',
+      martaFact:'Passa gran part de la vida als arbres: pot saltar de branca en branca perseguint esquirols. Es distingeix de la fagina per la pitrera groguenca i compacta.',
+      carnSuspects:'Espècies en joc', carnOutFmt:'En queden {n} de 16',
+      source:'Claus dicotòmiques: Llúpol de LO VILOT i Carnívors terrestres d\u2019Espanya (Esther Martínez Pujol, 2026, WildKeys).',
+      splashSub:'Repte de la clau dicotòmica', splashLoading:'Carregant…',
+      welcomeTitle:'Benvingut/da al repte!', welcomeBody:'Tens davant teu 6 varietats de llúpol. Usa la clau dicotòmica per identificar la varietat Vista el més ràpid possible. Només tens un intent cronometrat!',
+      welcomeVilot:'Especial col·laboració amb LO VILOT, cerveseria artesana de Lleida que cultiva el seu propi llúpol.',
+      welcomeBtn:'Entesos, anem-hi!', resetCacheLabel:'Reiniciar prova',
+    },
+    es:{
+      collab:'WildKeys × LO VILOT',
+      homeTitle:'Identifica el lúpulo Vista lo más rápido que puedas',
+      homeSub:'Tienes delante 6 variedades de lúpulo que se cultivan en LO VILOT. Recorre la clave dicotómica y llega hasta Vista sin equivocarte.',
+      vilotSub:'Cervecería artesana · Lleida', vilotDesc:'Cultivan sus propias variedades de lúpulo para elaborar cervezas con carácter local.',
+      vistaPhotoPh:'Foto del lúpulo Vista', hopVariety:'Variedad de lúpulo de LO VILOT',
+      yourTarget:'Tu objetivo', keyLabel:'Clave que vas a usar',
+      hopKeyName:'Clave dicotómica de las variedades de lúpulo de LO VILOT',
+      hopKeySpecies:'6 variedades · lúpulo cultivado en LO VILOT',
+      startLabel:'Empezar el reto', freeLabel:'Modo libre', boardLabel:'Clasificación', againLabel:'Jugar otra vez',
+      homeFoot:'Funciona sin conexión. Un intento puntuable por móvil.',
+      stepWord:'Paso', trailTitle:'Tu recorrido', backStep:'Deshacer paso',
+      suspects:'Variedades en juego', outFmt:'Quedan {n} de 6',
+      zoomLabel:'Ampliar', zoomHint:'Toca fuera de la foto para volver a la clave.',
+      regKicker:'Antes de empezar', regTitle:'Elige tu nombre de jugador',
+      regBody:'Con este nombre aparecerás en la clasificación del evento.',
+      nickPh:'Ej. Equipo Lince', regGo:'Registrarme y empezar', cancelLabel:'Ahora no',
+      regWarn:'El cronómetro arranca al registrarte y el intento queda reservado para este móvil. Solo hay uno.',
+      errShort:'Escribe al menos 2 caracteres.', errTaken:'Ese nombre ya está en la clasificación. Prueba otro.',
+      resumeRun:'Continuar mi intento', savedTitle:'Guardado como', seeBoard:'Ver marcador',
+      usedDoneFmt:'Ya has competido: {t}. Ahora puedes practicar en modo libre.',
+      usedPending:'Tienes un intento en marcha. El cronómetro sigue corriendo.',
+      failTitle:'Oooh, has fallado!', failBody:'Sigue intentándolo. Esta rama de la clave lleva a otra variedad.',
+      youGot:'Has llegado a', backToStep:'Vuelves al paso', retryLabel:'Seguir intentándolo',
+      resumeFmt:'Retomas la clave en el paso {n}, donde te desviaste.',
+      failsFmt:'Fallos hasta ahora: {n}', failsLabelShort:'Fallos', failsOneShort:'1 fallo',
+      timeLabel:'Tiempo', stepsLabel:'Pasos', pathTitle:'El camino correcto',
+      bonusKicker:'Reto extra', bonusTitle:'¿Te atreves a identificar el carnívoro más difícil de Cataluña?',
+      bonusSub:'La marta (Martes martes) se esconde en una clave de 16 especies de carnívoros terrestres de España. El cronómetro vuelve a cero.',
+      bonusCta:'Aceptar el reto', martaPhotoPh:'Foto de la marta',
+      wkTitle:'Acabas de usar una clave dicotómica.', wkBody:'En cada paso eliges entre dos o tres descripciones y avanzas hasta una única especie. Eso es exactamente lo que hace WildKeys, con claves reales de fauna y flora.',
+      wkCta:'Conocer WildKeys',
+      boardTitle:'Clasificación', boardBody:'Tiempos guardados en este móvil, del más rápido al más lento.',
+      boardEmpty:'Todavía no hay tiempos guardados. Sé el primero.',
+      backLabel:'Volver al inicio',
+      hopTab:'Lúpulo', carnTab:'Carnívoros',
+      demoTag:'demo', youTag:'tú',
+      failsShortFmt:'{n} fallos',
+      hopBoardKicker:'Marcador · Lúpulo', carnBoardKicker:'Marcador · Carnívoros',
+      hopWinTitle:'¡Felicidades, has identificado Vista!', hopWinBody:'Has recorrido la clave de lúpulo de LO VILOT correctamente.',
+      carnWinTitle:'¡Felicidades, has identificado la marta!', carnWinBody:'Has recorrido la clave de carnívoros hasta Martes martes. Impresionante.',
+      vistaFact:'Vista es una variedad de lúpulo cultivada en LO VILOT. Se caracteriza por las brácteas abiertas en el momento de la cosecha y se cosecha hasta finales de septiembre.',
+      martaFact:'Pasa gran parte de su vida en los árboles: puede saltar de rama en rama persiguiendo ardillas. Se distingue de la garduña por su babero amarillento y compacto.',
+      carnSuspects:'Especies en juego', carnOutFmt:'Quedan {n} de 16',
+      source:'Claves dicotómicas: Lúpulo de LO VILOT y Carnívoros terrestres de España (Esther Martínez Pujol, 2026, WildKeys).',
+      splashSub:'Reto de la clave dicotómica', splashLoading:'Cargando…',
+      welcomeTitle:'¡Bienvenido/a al reto!', welcomeBody:'Tienes delante 6 variedades de lúpulo. Usa la clave dicotómica para identificar la variedad Vista lo más rápido posible. ¡Solo tienes un intento cronometrado!',
+      welcomeVilot:'Especial colaboración con LO VILOT, cervecería artesana de Lleida que cultiva su propio lúpulo.',
+      welcomeBtn:'¡Entendido, vamos!', resetCacheLabel:'Reiniciar prueba',
+    },
+    en:{
+      collab:'WildKeys × LO VILOT',
+      homeTitle:'Identify Vista hops as fast as you can',
+      homeSub:'You have 6 hop varieties grown at LO VILOT in front of you. Work through the dichotomous key and reach Vista without a wrong turn.',
+      vilotSub:'Craft brewery · Lleida', vilotDesc:'They grow their own hop varieties to brew beers with local character.',
+      vistaPhotoPh:'Vista hops photo', hopVariety:'LO VILOT hop variety',
+      yourTarget:'Your target', keyLabel:'The key you will use',
+      hopKeyName:'Dichotomous key to LO VILOT hop varieties',
+      hopKeySpecies:'6 varieties · hops grown at LO VILOT',
+      startLabel:'Start the challenge', freeLabel:'Free play', boardLabel:'Leaderboard', againLabel:'Play again',
+      homeFoot:'Works offline. One scored attempt per phone.',
+      stepWord:'Step', trailTitle:'Your route', backStep:'Undo step',
+      suspects:'Varieties still in play', outFmt:'{n} of 6 left',
+      zoomLabel:'Zoom in', zoomHint:'Tap outside the photo to go back to the key.',
+      regKicker:'Before you start', regTitle:'Choose your player name',
+      regBody:'This is the name that will appear on the event leaderboard.',
+      nickPh:'e.g. Team Lynx', regGo:'Register and start', cancelLabel:'Not now',
+      regWarn:'The clock starts when you register and the attempt is reserved for this phone. There is only one.',
+      errShort:'Type at least 2 characters.', errTaken:'That name is already on the leaderboard. Try another.',
+      resumeRun:'Continue my attempt', savedTitle:'Saved as', seeBoard:'See board',
+      usedDoneFmt:'You already competed: {t}. You can now practise in free mode.',
+      usedPending:'You have an attempt under way. The clock is still running.',
+      failTitle:'Oooh, wrong turn!', failBody:'Keep trying. This branch of the key leads to another variety.',
+      youGot:'You reached', backToStep:'Back to step', retryLabel:'Keep trying',
+      resumeFmt:'You resume the key at step {n}, where you went off track.',
+      failsFmt:'Wrong turns so far: {n}', failsLabelShort:'Misses', failsOneShort:'1 miss',
+      timeLabel:'Time', stepsLabel:'Steps', pathTitle:'The correct route',
+      bonusKicker:'Bonus challenge', bonusTitle:'Dare to identify the hardest carnivore in Catalonia?',
+      bonusSub:'The pine marten (Martes martes) hides in a key of 16 terrestrial carnivore species of Spain. The clock resets to zero.',
+      bonusCta:'Accept the challenge', martaPhotoPh:'Pine marten photo',
+      wkTitle:'You just used a dichotomous key.', wkBody:'At each step you choose between two or three descriptions and narrow down to a single species. That is exactly what WildKeys does, with real keys for wildlife and plants.',
+      wkCta:'Discover WildKeys',
+      boardTitle:'Leaderboard', boardBody:'Times saved on this phone, fastest first.',
+      boardEmpty:'No times saved yet. Be the first.',
+      backLabel:'Back to start',
+      hopTab:'Hops', carnTab:'Carnivores',
+      demoTag:'demo', youTag:'you',
+      failsShortFmt:'{n} misses',
+      hopBoardKicker:'Board · Hops', carnBoardKicker:'Board · Carnivores',
+      hopWinTitle:'Congratulations, you identified Vista!', hopWinBody:'You followed the LO VILOT hop key correctly.',
+      carnWinTitle:'Congratulations, you identified the pine marten!', carnWinBody:'You followed the carnivore key all the way to Martes martes. Impressive.',
+      vistaFact:'Vista is a hop variety grown at LO VILOT. It is characterised by open bracts at harvest time and is harvested until the end of September.',
+      martaFact:'It spends much of its life in the trees, leaping branch to branch after squirrels. It is told from the beech marten by its compact yellowish bib.',
+      carnSuspects:'Species still in play', carnOutFmt:'{n} of 16 left',
+      source:'Dichotomous keys: LO VILOT Hops and Wild Terrestrial Carnivores of Spain (Esther Martínez Pujol, 2026, WildKeys).',
+      splashSub:'Dichotomous key challenge', splashLoading:'Loading…',
+      welcomeTitle:'Welcome to the challenge!', welcomeBody:'You have 6 hop varieties in front of you. Use the dichotomous key to identify the Vista variety as fast as you can. You only get one timed attempt!',
+      welcomeVilot:'A special collaboration with LO VILOT, a craft brewery in Lleida that grows its own hops.',
+      welcomeBtn:'Got it, let\u2019s go!', resetCacheLabel:'Reset test',
+    },
+  };
+
+  /* ═══════════════ STORAGE ═══════════════ */
+  HOP_BOARD_KEY = 'wk_hop_board_v1';
+  CARN_BOARD_KEY = 'wk_carn_board_v1';
+  PLAYER_KEY = 'wk_vilot_player_v1';
+
+  DEMO_HOP = [
+    { name:'Equip Linx', ms:38000, fails:0, demo:true },
+    { name:'Nuria & Pau', ms:51000, fails:1, demo:true },
+    { name:'Marc', ms:64000, fails:1, demo:true },
+    { name:'Família Ortiz', ms:82000, fails:2, demo:true },
+  ];
+  DEMO_CARN = [
+    { name:'Equip Linx', ms:71000, fails:0, demo:true },
+    { name:'Nuria & Pau', ms:96000, fails:1, demo:true },
+    { name:'Los Rastreadores', ms:118000, fails:1, demo:true },
+    { name:'Marc', ms:134000, fails:2, demo:true },
+    { name:'Escola Bosc', ms:167000, fails:3, demo:true },
+  ];
+
+  SPLASH_DONE_KEY = 'wk_vilot_splash_v1';
+  WELCOME_KEY = 'wk_vilot_welcome_v1';
+
+  state = {
+    lang:'ca', screen:'splash', ch:'hop', showWelcome:false,
+    node:'h1', trail:[], wrong:null, fails:0,
+    startedAt:null, elapsed:0, scored:false,
+    hopBoard:[], carnBoard:[], player:null,
+    nick:'', regOpen:false, regErr:'', zoom:false,
+    boardTab:'hop', carnDone:false,
+  };
+
+  componentDidMount() {
+    let hopBoard=[], carnBoard=[], player=null, welcomeDone=false;
+    try {
+      hopBoard = JSON.parse(localStorage.getItem(this.HOP_BOARD_KEY)||'[]')||[];
+      carnBoard = JSON.parse(localStorage.getItem(this.CARN_BOARD_KEY)||'[]')||[];
+      player = JSON.parse(localStorage.getItem(this.PLAYER_KEY)||'null');
+      welcomeDone = localStorage.getItem(this.WELCOME_KEY)==='1';
+    } catch(e){}
+    const splashSeen = sessionStorage.getItem(this.SPLASH_DONE_KEY)==='1';
+    if (splashSeen) {
+      this.setState({ lang:this.props.defaultLang||'ca', hopBoard, carnBoard, player, screen:'home', showWelcome:!welcomeDone });
+    } else {
+      this.setState({ lang:this.props.defaultLang||'ca', hopBoard, carnBoard, player, screen:'splash' });
+      this._splashTimer = setTimeout(()=>{
+        try{sessionStorage.setItem(this.SPLASH_DONE_KEY,'1');}catch(e){}
+        this.setState({ screen:'home', showWelcome:!welcomeDone });
+      }, 8200);
+    }
+  }
+  componentWillUnmount(){ this.stopTicker(); if(this._splashTimer)clearTimeout(this._splashTimer); }
+
+  resetCache(){
+    try{ localStorage.clear(); sessionStorage.clear(); }catch(e){}
+    location.reload();
+  }
+  dismissWelcome(){
+    try{localStorage.setItem(this.WELCOME_KEY,'1');}catch(e){}
+    this.setState({ showWelcome:false });
+  }
+
+  componentDidUpdate(pp, ps){
+    if(this.state.screen==='win'&&ps.screen!=='win')setTimeout(()=>this.confetti(),90);
+  }
+
+  writePlayer(p){ try{localStorage.setItem(this.PLAYER_KEY,JSON.stringify(p));}catch(e){} this.setState({player:p}); return p; }
+
+  /* Challenge-agnostic helpers */
+  curKey(){ return this.state.ch==='hop'?this.HOP_K:this.CARN_K; }
+  curSP(){ return this.state.ch==='hop'?this.HOP_SP:this.CARN_SP; }
+  curPath(){ return this.state.ch==='hop'?this.HOP_PATH:this.CARN_PATH; }
+  curOrder(){ return this.state.ch==='hop'?this.HOP_ORDER:this.CARN_ORDER; }
+  curTarget(){ return this.state.ch==='hop'?this.HOP_TARGET:this.CARN_TARGET; }
+  curBoardKey(){ return this.state.ch==='hop'?this.HOP_BOARD_KEY:this.CARN_BOARD_KEY; }
+  curBoardState(){ return this.state.ch==='hop'?this.state.hopBoard:this.state.carnBoard; }
+  startNode(){ return this.state.ch==='hop'?'h1':'c1'; }
+
+  leaves(K,nid,acc){ acc=acc||[]; const n=K[nid]; if(!n)return acc; n.o.forEach(o=>{if(o.to.sp)acc.push(o.to.sp);else this.leaves(K,o.to.n,acc);}); return acc; }
+
+  clk(){return(window.__WK_CLK=window.__WK_CLK||{t0:null,node:null,iv:null});}
+  stopTicker(){const g=this.clk();if(g.iv){clearInterval(g.iv);g.iv=null;}}
+  fmt(ms){const s=Math.max(0,Math.floor(ms/1000));return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');}
+  s(){return this.T[this.state.lang]||this.T.ca;}
+  pill(code){const on=this.state.lang===code;return'border:none;border-radius:999px;padding:7px 10px;font-size:11px;font-weight:800;'+(on?'background:#278a5e;color:#fff':'background:transparent;color:#a8a29e');}
+
+  register(){
+    const nick=(this.state.nick||'').trim().replace(/\s+/g,' ');
+    const t=this.s();
+    if(nick.length<2){this.setState({regErr:t.errShort});return;}
+    const allNames=[].concat(this.state.hopBoard,this.state.carnBoard);
+    const taken=allNames.some(r=>(r.name||'').toLowerCase()===nick.toLowerCase());
+    if(taken){this.setState({regErr:t.errTaken});return;}
+    const p=this.writePlayer({nick,hopStartedAt:Date.now(),hopDone:false,hopMs:null,hopFails:0,carnDone:false,carnMs:null,carnFails:0});
+    this.setState({regOpen:false,regErr:''});
+    this.begin('hop',true,p.hopStartedAt);
+  }
+
+  resume(){
+    const p=this.state.player;if(!p)return;
+    if(!p.hopDone) this.begin('hop',true,p.hopStartedAt);
+    else if(!p.carnDone) this.begin('carn',true,p.carnStartedAt);
+  }
+
+  begin(ch,scored,from){
+    const g=this.clk(); const t0=from||Date.now();
+    if(g.iv)clearInterval(g.iv);
+    g.t0=t0; g.iv=setInterval(()=>{if(g.node&&g.t0)g.node.textContent=this.fmt(Date.now()-g.t0);},250);
+    this.setState({screen:'play',ch,node:ch==='hop'?'h1':'c1',trail:[],wrong:null,fails:0,startedAt:t0,elapsed:0,scored});
+  }
+
+  pick(nodeId,opt){
+    const st=this.state, lg=st.lang;
+    const trail=st.trail.concat([{node:nodeId,tag:opt.tag,text:opt.x[lg]}]);
+    if(opt.to.n){this.setState({trail,node:opt.to.n});return;}
+    if(opt.to.sp===this.curTarget()){
+      this.stopTicker();
+      const elapsed=st.startedAt?Date.now()-st.startedAt:st.elapsed;
+      let hb=st.hopBoard, cb=st.carnBoard;
+      if(st.scored&&st.player){
+        if(st.ch==='hop'&&!st.player.hopDone){
+          this.writePlayer(Object.assign({},st.player,{hopDone:true,hopMs:elapsed,hopFails:st.fails}));
+          hb=hb.concat([{name:st.player.nick,ms:elapsed,fails:st.fails,me:true}]).sort((a,b)=>a.ms-b.ms).slice(0,20);
+          try{localStorage.setItem(this.HOP_BOARD_KEY,JSON.stringify(hb));}catch(e){}
+        } else if(st.ch==='carn'&&!st.player.carnDone){
+          this.writePlayer(Object.assign({},st.player,{carnDone:true,carnMs:elapsed,carnFails:st.fails}));
+          cb=cb.concat([{name:st.player.nick,ms:elapsed,fails:st.fails,me:true}]).sort((a,b)=>a.ms-b.ms).slice(0,20);
+          try{localStorage.setItem(this.CARN_BOARD_KEY,JSON.stringify(cb));}catch(e){}
+        }
+      }
+      this.setState({trail,screen:'win',elapsed,startedAt:null,hopBoard:hb,carnBoard:cb});
+      return;
+    }
+    /* Wrong species */
+    const PATH=this.curPath();
+    let back=trail.length-1;
+    while(back>=0&&PATH.indexOf(trail[back].node)<0)back--;
+    const resumeNode=back>=0?trail[back].node:this.startNode();
+    this.setState({screen:'fail',wrong:opt.to.sp,fails:st.fails+1,trail:trail.slice(0,Math.max(0,back)),node:resumeNode});
+  }
+
+  undo(){const tr=this.state.trail;if(!tr.length)return;this.setState({trail:tr.slice(0,-1),node:tr[tr.length-1].node});}
+
+  startCarnChallenge(){
+    const p=this.state.player;
+    const now=Date.now();
+    if(p&&!p.carnDone){
+      this.writePlayer(Object.assign({},p,{carnStartedAt:now}));
+      this.begin('carn',true,now);
+    } else {
+      this.begin('carn',false);
+    }
+  }
+
+  confetti(){
+    const root=document.querySelector('[data-wk-root]')||document.body;
+    const host=document.createElement('div');host.style.cssText='position:absolute;inset:0;pointer-events:none;z-index:9999;overflow:hidden';
+    const cols=['#278a5e','#5cc791','#94e0b3','#f59e0b','#194836','#fff'];
+    for(let i=0;i<90;i++){const p=document.createElement('i');const size=6+Math.random()*7;
+    p.style.cssText='position:absolute;top:-12vh;left:'+(Math.random()*100).toFixed(2)+'vw;width:'+size.toFixed(1)+'px;height:'+(size*(Math.random()>.5?1:2)).toFixed(1)+'px;background:'+cols[i%cols.length]+';border-radius:'+(Math.random()>.6?'999px':'2px')+';--dx:'+(Math.random()*60-30).toFixed(0)+'vw;--rot:'+(Math.random()*1080-540).toFixed(0)+'deg;animation:wkfall '+(2.4+Math.random()*2).toFixed(2)+'s cubic-bezier(.2,.6,.5,1) '+(Math.random()*.8).toFixed(2)+'s forwards';
+    host.appendChild(p);}root.appendChild(host);setTimeout(()=>host.remove(),5600);
+  }
+
+  renderVals(){
+    const st=this.state, t=this.s(), lg=st.lang;
+    const K=this.curKey(), SP=this.curSP(), PATH=this.curPath(), ORDER=this.curOrder(), TARGET=this.curTarget();
+    const node=K[st.node]||K[this.startNode()];
+    const done=PATH.indexOf(st.node)<0?st.trail.length:PATH.indexOf(st.node);
+    const wrong=st.wrong?SP[st.wrong]:null;
+    const alive=this.leaves(K,st.node);
+    const totalSp=ORDER.length;
+    const resumeStep=(K[st.node].o[0].tag||'').replace(/[a-z]$/,'');
+    const tgt=SP[TARGET];
+    const isHop=st.ch==='hop';
+
+    /* Board */
+    const bTab=st.boardTab;
+    const bKey=bTab==='hop'?this.HOP_BOARD_KEY:this.CARN_BOARD_KEY;
+    const bState=bTab==='hop'?st.hopBoard:st.carnBoard;
+    const bDemo=bTab==='hop'?this.DEMO_HOP:this.DEMO_CARN;
+    const rows=(this.props.demoBoard!==false?bState.concat(bDemo):bState).slice().sort((a,b)=>a.ms-b.ms).slice(0,12);
+    const hasCarnScores=st.carnBoard.length>0||this.props.demoBoard!==false;
+
+    return {
+      t,
+      isSplash: st.screen === 'splash',
+      isWelcome: st.showWelcome && st.screen === 'home',
+      dismissWelcome: () => this.dismissWelcome(),
+      resetCache: () => this.resetCache(),
+      headerSub: st.ch==='carn'&&(st.screen==='play'||st.screen==='fail')? (lg==='ca'?'Repte carnívors':lg==='en'?'Carnivore challenge':'Reto carnívoros') : t.collab,
+      showClock: st.screen==='play'||st.screen==='win',
+      clock: this.fmt(st.elapsed),
+      clockRef:(n)=>{this.clk().node=n;},
+      showLangs: st.screen==='home'||st.screen==='board',
+      setCa:()=>this.setState({lang:'ca'}), setEs:()=>this.setState({lang:'es'}), setEn:()=>this.setState({lang:'en'}),
+      pillCa:this.pill('ca'), pillEs:this.pill('es'), pillEn:this.pill('en'),
+
+      /* Home */
+      isHome: st.screen==='home',
+      canCompete: !st.player,
+      used: !!st.player,
+      nick: st.player?st.player.nick:'',
+      nickInitial: st.player?st.player.nick.slice(0,1).toUpperCase():'',
+      usedNote: st.player&&st.player.hopDone? t.usedDoneFmt.replace('{t}',this.fmt(st.player.hopMs)) : (st.player? t.usedPending:''),
+      canResume: !!st.player&&(!st.player.hopDone||(st.player.carnStartedAt&&!st.player.carnDone)),
+      resumeRun:()=>this.resume(),
+      requestScored:()=>this.setState({regOpen:true,regErr:'',nick:''}),
+      startFree:()=>this.begin('hop',false),
+      goBoard:()=>this.setState({screen:'board',boardTab:'hop'}),
+      goHome:()=>this.setState({screen:'home'}),
+
+      /* Reg modal */
+      isReg: st.regOpen,
+      nickValue: st.nick,
+      onNick:(e)=>this.setState({nick:e.target.value,regErr:''}),
+      nickStyle:'width:100%;min-height:56px;border:2px solid '+(st.regErr?'#fca5a5':'#c3efd2')+';border-radius:14px;padding:0 15px;font-size:17px;font-weight:700;color:#194836;background:#fff;outline:none',
+      hasRegErr:!!st.regErr, regErr:st.regErr,
+      confirmReg:()=>this.register(),
+      cancelReg:()=>this.setState({regOpen:false,regErr:''}),
+
+      /* Play */
+      isPlay: st.screen==='play',
+      targetSlot: isHop?'wk-vista-hero':'wk-marta-hero',
+      targetPhotoPh: isHop?t.vistaPhotoPh:(t.martaPhotoPh||'Foto'),
+      targetName: tgt.n[lg],
+      targetSci: tgt.sci,
+      stepNo: resumeStep,
+      nodeTitle: node.title[lg],
+      barStyle:'height:100%;border-radius:999px;background:#36ab76;transition:width .5s cubic-bezier(.22,1,.36,1);width:'+Math.round((done/PATH.length)*100)+'%',
+      options: node.o.map(o=>({tag:o.tag,text:o.x[lg],onPick:()=>this.pick(st.node,o)})),
+      suspectsLabel: isHop?t.suspects:t.carnSuspects,
+      remainLabel:(isHop?t.outFmt:t.carnOutFmt).replace('{n}',alive.length),
+      speciesCols: isHop?3:4,
+      species: ORDER.map(id=>{const dead=alive.indexOf(id)<0;return{name:SP[id].n[lg],dead,
+        tone:'display:flex;align-items:center;justify-content:center;text-align:center;min-height:32px;border:1px solid '+(dead?'#e7e5e4':'#c3efd2')+';background:'+(dead?'#fafaf9':'#f2fcf5')+';border-radius:9px;padding:4px 3px;font-size:10px;line-height:1.2;font-weight:700;transition:opacity .4s ease,color .4s ease;color:'+(dead?'#a8a29e':'#1d5740')+';opacity:'+(dead?'.5':'1')+(dead?';text-decoration:line-through;text-decoration-color:#dc2626;text-decoration-thickness:1.5px':'')};}),
+      hasTrail:st.trail.length>0,
+      trail:st.trail.map(s=>({tag:s.tag})),
+      stepBack:()=>this.undo(),
+      hasFails:st.fails>0,
+      failsLabel:t.failsFmt.replace('{n}',st.fails),
+
+      /* Zoom */
+      isZoom:st.zoom,
+      openZoom:()=>this.setState({zoom:true}),
+      closeZoom:()=>this.setState({zoom:false}),
+
+      /* Fail */
+      isFail:st.screen==='fail',
+      wrongName:wrong?wrong.n[lg]:'',
+      wrongSci:wrong?wrong.sci:'',
+      resumeLabel:t.resumeFmt.replace('{n}',resumeStep),
+      retry:()=>this.setState({screen:'play',wrong:null}),
+
+      /* Win */
+      isWin:st.screen==='win',
+      winTitle: isHop?t.hopWinTitle:t.carnWinTitle,
+      winBody: isHop?t.hopWinBody:t.carnWinBody,
+      winFact: isHop?t.vistaFact:t.martaFact,
+      stepsDone:st.trail.length,
+      fails:st.fails,
+      winPath:st.trail.map(s=>({tag:s.tag,text:s.text})),
+      savedRun:st.screen==='win'&&st.scored&&!!st.player,
+      showCarnTransition: st.screen==='win'&&isHop,
+      startCarn:()=>this.startCarnChallenge(),
+      startFreeAgain:()=>this.begin(st.ch,false),
+
+      /* Board */
+      isBoard:st.screen==='board',
+      boardKicker:bTab==='hop'?t.hopBoardKicker:t.carnBoardKicker,
+      hasBoardTabs:hasCarnScores,
+      hopTabStyle:'flex:1;border:none;border-radius:999px;padding:9px 12px;font-size:12px;font-weight:800;'+(bTab==='hop'?'background:#278a5e;color:#fff':'background:transparent;color:#a8a29e'),
+      carnTabStyle:'flex:1;border:none;border-radius:999px;padding:9px 12px;font-size:12px;font-weight:800;'+(bTab==='carn'?'background:#278a5e;color:#fff':'background:transparent;color:#a8a29e'),
+      showHopBoard:()=>this.setState({boardTab:'hop'}),
+      showCarnBoard:()=>this.setState({boardTab:'carn'}),
+      boardEmpty:rows.length===0,
+      board:rows.map((r,i)=>({
+        rank:i+1,
+        rankStyle:'flex:none;width:28px;height:28px;border-radius:999px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;'+(i===0?'background:#278a5e;color:#fff':(i<3?'background:#e1f8e8;color:#216e4e':'background:#f5f5f4;color:#a8a29e')),
+        row:'display:flex;align-items:center;gap:10px;border:1px solid '+(i===0?'#c3efd2':'#e7e5e4')+';background:'+(i===0?'#f2fcf5':'#fff')+';border-radius:13px;padding:11px 12px',
+        name:r.name,
+        tagText:r.demo?t.demoTag:(r.me?t.youTag:''),
+        tagStyle:(r.demo||r.me)?'flex:none;border-radius:999px;padding:3px 8px;font-size:9px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;'+(r.me?'background:#e1f8e8;color:#216e4e':'background:#f5f5f4;color:#a8a29e'):'display:none',
+        fails:r.fails===1?t.failsOneShort:t.failsShortFmt.replace('{n}',r.fails||0),
+        time:this.fmt(r.ms),
+      })),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
