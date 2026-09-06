@@ -1,0 +1,24 @@
+.stat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  border: 1px solid var(--wk-border);
+  border-radius: 11px;
+  padding: var(--wk-space-4);
+}
+
+.label {
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wk-color-text-faint);
+}
+
+.value {
+  font-family: var(--wk-font-mono);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--wk-color-brand-hover);
+}

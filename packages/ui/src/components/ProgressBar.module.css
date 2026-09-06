@@ -1,0 +1,13 @@
+.track {
+  height: 5px;
+  border-radius: var(--wk-radius-pill);
+  background: var(--wk-border);
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  border-radius: var(--wk-radius-pill);
+  background: var(--wk-color-brand-accent);
+  transition: width var(--wk-duration-slow) var(--wk-ease-out);
+}

@@ -1,0 +1,30 @@
+.button {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: var(--wk-radius-pill);
+  cursor: pointer;
+}
+
+.button:focus-visible {
+  outline: 2px solid var(--wk-color-brand-accent);
+  outline-offset: 2px;
+}
+
+.onDark {
+  background: rgb(255 255 255 / 14%);
+  color: var(--wk-white);
+}
+
+.onDark:hover {
+  background: rgb(255 255 255 / 24%);
+}
+
+.plain {
+  background: var(--wk-surface-sunken);
+  color: var(--wk-color-text-muted);
+}

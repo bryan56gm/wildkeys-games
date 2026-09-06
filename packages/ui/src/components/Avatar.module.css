@@ -1,0 +1,21 @@
+.avatar {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: var(--wk-radius-pill);
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.soft {
+  background: var(--wk-color-brand-soft);
+  color: var(--wk-color-brand-hover);
+}
+
+.solid {
+  background: var(--wk-color-brand);
+  color: var(--wk-color-text-on-brand);
+}

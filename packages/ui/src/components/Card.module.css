@@ -1,0 +1,35 @@
+.card {
+  border: 1px solid var(--wk-border);
+  border-radius: var(--wk-radius-xl);
+  background: var(--wk-surface);
+}
+
+.padded {
+  padding: var(--wk-space-6);
+}
+
+.flush {
+  overflow: hidden;
+}
+
+.brand {
+  border-color: var(--wk-color-brand-border);
+}
+
+.accent {
+  border-color: var(--wk-amber-500);
+  background: linear-gradient(135deg, var(--wk-color-accent-surface), var(--wk-amber-100));
+  color: var(--wk-color-accent-text);
+}
+
+.danger {
+  border: 2px solid var(--wk-color-danger-border);
+  background: var(--wk-color-danger-surface);
+  color: var(--wk-color-danger-text);
+}
+
+.dark {
+  border-color: var(--wk-color-brand-deep);
+  background: var(--wk-color-brand-strong);
+  color: var(--wk-white);
+}
