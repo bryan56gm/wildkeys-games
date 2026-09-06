@@ -4,6 +4,7 @@ import { formatClock } from '@/lib/format/time';
 import { RegistrationDialog } from '../components/RegistrationDialog';
 import { useChallengeCopy } from '../hooks/use-game-copy';
 import { useNicknameTaken } from '../hooks/use-taken-nicknames';
+import { usePhotoViewer } from '../hooks/use-photo-viewer';
 import { useSpeciesPhoto } from '../hooks/use-species-photo';
 import { HomeScreen } from '../screens/HomeScreen';
 import { useGameSession } from '../session-context';
@@ -15,21 +16,25 @@ import styles from '../GameApp.module.css';
  * botón «atrás» cierra el diálogo en vez de salirse del juego.
  */
 export function HomeRoute({ registering = false }: { registering?: boolean }) {
-  const { definition, t, player, mainChallenge, begin, challengeById } = useGameSession();
+  const { definition, t, player, mainChallenge, challengeById } = useGameSession();
   const navigate = useNavigate();
   const mainCopy = useChallengeCopy(t, mainChallenge.id);
   const isNicknameTaken = useNicknameTaken(definition);
   const photoOf = useSpeciesPhoto();
+  const viewer = usePhotoViewer();
   const slug = definition.slug;
 
+  /**
+   * Navega a la partida diciendo si puntúa. Arrancarla es cosa de `PlayRoute`:
+   * con una sola fuente de verdad no hay forma de que la ruta y la partida se
+   * contradigan a mitad de camino.
+   */
   const play = useCallback(
     (challengeId: string, scored: boolean, startedAt: number) => {
-      const challenge = challengeById(challengeId);
-      if (!challenge) return;
-      begin(challenge, scored, startedAt);
-      void navigate(gamePaths.play(slug, challengeId));
+      if (!challengeById(challengeId)) return;
+      void navigate(gamePaths.play(slug, challengeId), { state: { scored, startedAt } });
     },
-    [begin, challengeById, navigate, slug]
+    [challengeById, navigate, slug]
   );
 
   const handleRegister = useCallback(
@@ -66,6 +71,7 @@ export function HomeRoute({ registering = false }: { registering?: boolean }) {
           resume: t('resumeRun'),
           sponsorSubtitle: t('sponsorSubtitle'),
           sponsorDescription: t('sponsorDescription'),
+          zoomLabel: t('zoomLabel'),
         }}
         sponsor={definition.sponsor}
         target={{
@@ -76,6 +82,7 @@ export function HomeRoute({ registering = false }: { registering?: boolean }) {
         }}
         player={record ? { nickname: record.nickname, note: playerNote() } : null}
         canResume={player.pendingChallengeId() !== null}
+        onViewPhoto={() => viewer.open(mainChallenge.key.targetSpeciesId)}
         onStart={() => void navigate(gamePaths.register(slug))}
         onResume={handleResume}
         onFreePlay={() => play(mainChallenge.id, false, Date.now())}

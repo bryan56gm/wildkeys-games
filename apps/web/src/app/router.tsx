@@ -34,7 +34,6 @@ export const router = createBrowserRouter([
       { index: true, element: <HomeRoute /> },
       { path: gameRoutePatterns.register, element: <HomeRoute registering /> },
       { path: gameRoutePatterns.play, element: <PlayRoute /> },
-      { path: gameRoutePatterns.zoom, element: <PlayRoute zoomed /> },
       { path: gameRoutePatterns.board, element: <BoardRoute /> },
       { path: gameRoutePatterns.boardChallenge, element: <BoardRoute /> },
     ],

@@ -43,6 +43,20 @@
   text-wrap: pretty;
 }
 
+.photoButton {
+  display: block;
+  width: 100%;
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.photoButton:focus-visible {
+  outline: 3px solid var(--wk-color-brand-accent);
+  outline-offset: -3px;
+}
+
 .summary {
   display: flex;
   flex-direction: column;

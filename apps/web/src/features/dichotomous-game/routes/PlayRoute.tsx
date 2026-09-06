@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Navigate, useNavigate, useParams } from 'react-router';
+import { Navigate, useLocation, useNavigate, useParams } from 'react-router';
 import {
   currentNode,
   currentStepLabel,
@@ -15,9 +15,9 @@ import { FALLBACK_LOCALE } from '@/app/i18n/locale';
 import { useLocale } from '@/app/i18n/locale';
 import { formatClock } from '@/lib/format/time';
 import { BonusOffer } from '../components/BonusOffer';
-import { ZoomDialog } from '../components/ZoomDialog';
 import { useBonusCopy, useChallengeCopy } from '../hooks/use-game-copy';
 import { useFinishRun } from '../hooks/use-finish-run';
+import { usePhotoViewer } from '../hooks/use-photo-viewer';
 import { useSpeciesPhoto } from '../hooks/use-species-photo';
 import { FailScreen } from '../screens/FailScreen';
 import { PlayScreen } from '../screens/PlayScreen';
@@ -29,21 +29,36 @@ import { gamePaths } from './paths';
  * La partida: jugar, fallar y ganar. El estado vive en la sesión, no aquí, así
  * que ir al marcador y volver con «atrás» no la destruye.
  */
-export function PlayRoute({ zoomed = false }: { zoomed?: boolean }) {
+export function PlayRoute() {
   const { challengeId = '' } = useParams();
   const { definition, t, player, activeRun, begin, dispatch, challengeById } = useGameSession();
   const { locale } = useLocale();
   const navigate = useNavigate();
+  const location = useLocation();
   const { finish, queued } = useFinishRun();
   const photoOf = useSpeciesPhoto();
+  const viewer = usePhotoViewer();
   const slug = definition.slug;
 
-  // Entrar por la URL directamente (o recargar) arranca una partida libre.
+  /**
+   * Cómo arranca la partida.
+   *
+   * Quien navega hasta aquí adjunta si la partida puntúa y desde cuándo corre
+   * el reloj; entrar por la URL a pelo (o recargar) da una partida libre.
+   *
+   * Va en el estado de la navegación y no en una llamada aparte a propósito:
+   * antes se arrancaba la partida y **después** se navegaba, y entre ambas
+   * cosas había un render donde la ruta y la partida no coincidían. Este efecto
+   * lo interpretaba como «hay que empezar una nueva» y la reemplazaba por una
+   * libre — por eso las marcas del reto extra nunca llegaban a la clasificación.
+   */
+  const intent = location.state as { scored?: boolean; startedAt?: number } | null;
   const challenge = challengeById(challengeId);
   const needsStart = !!challenge && activeRun?.challenge.id !== challengeId;
   useEffect(() => {
-    if (needsStart && challenge) begin(challenge, false, Date.now());
-  }, [begin, challenge, needsStart]);
+    if (!needsStart || !challenge) return;
+    begin(challenge, intent?.scored ?? false, intent?.startedAt ?? Date.now());
+  }, [begin, challenge, needsStart, intent?.scored, intent?.startedAt]);
 
   const copy = useChallengeCopy(t, challengeId || definition.challenges[0]!.id);
   const bonus = nextBonus();
@@ -109,8 +124,12 @@ export function PlayRoute({ zoomed = false }: { zoomed?: boolean }) {
             />
           ) : undefined
         }
+        onViewPhoto={() => viewer.open(compiled.key.targetSpeciesId)}
         onBoard={() => void navigate(gamePaths.board(slug, challengeId))}
-        onPlayAgain={() => begin(challenge, false, Date.now())}
+        onPlayAgain={() => {
+          begin(challenge, false, Date.now());
+          void navigate(gamePaths.play(slug, challengeId), { replace: true, state: null });
+        }}
       />
     );
   }
@@ -120,6 +139,7 @@ export function PlayRoute({ zoomed = false }: { zoomed?: boolean }) {
     return (
       <FailScreen
         wrongPhoto={photoOf(wrong.id)}
+        onViewPhoto={() => viewer.open(wrong.id)}
         copy={{
           title: t('failTitle'),
           body: t('failBody'),
@@ -138,44 +158,31 @@ export function PlayRoute({ zoomed = false }: { zoomed?: boolean }) {
   }
 
   return (
-    <>
-      <PlayScreen
-        copy={{
-          yourTarget: t('yourTarget'),
-          stepWord: t('stepWord'),
-          zoomLabel: t('zoomLabel'),
-          suspects: copy.suspects,
-          remaining: copy.remaining(reachableSpecies(compiled, state.nodeId).length),
-          trailTitle: t('trailTitle'),
-          undo: t('backStep'),
-          fails: state.fails > 0 ? t('failsFmt', { n: state.fails }) : null,
-          progressLabel: t('keyLabel'),
-        }}
-        locale={locale}
-        target={photo}
-        stepLabel={currentStepLabel(compiled, state)}
-        progress={progressRatio(compiled, state)}
-        species={speciesInPlay(compiled, state)}
-        speciesColumns={challenge.speciesColumns}
-        nodeTitle={resolveText(currentNode(compiled, state).title, locale, FALLBACK_LOCALE)}
-        options={currentNode(compiled, state).options}
-        trail={state.trail}
-        onPick={(optionIndex) => dispatch({ type: 'PICK', optionIndex })}
-        onUndo={() => dispatch({ type: 'UNDO' })}
-        onZoom={() => void navigate(gamePaths.zoom(slug, challengeId))}
-      />
-
-      <ZoomDialog
-        open={zoomed}
-        onClose={() => void navigate(-1)}
-        photo={photoOf(compiled.key.targetSpeciesId)}
-        name={targetName}
-        scientificName={target.scientificName}
-        photoLabel={copy.photoPlaceholder}
-        hint={t('zoomHint')}
-        closeLabel={t('cancelLabel')}
-      />
-    </>
+    <PlayScreen
+      copy={{
+        yourTarget: t('yourTarget'),
+        stepWord: t('stepWord'),
+        zoomLabel: t('zoomLabel'),
+        suspects: copy.suspects,
+        remaining: copy.remaining(reachableSpecies(compiled, state.nodeId).length),
+        trailTitle: t('trailTitle'),
+        undo: t('backStep'),
+        fails: state.fails > 0 ? t('failsFmt', { n: state.fails }) : null,
+        progressLabel: t('keyLabel'),
+      }}
+      locale={locale}
+      target={photo}
+      stepLabel={currentStepLabel(compiled, state)}
+      progress={progressRatio(compiled, state)}
+      species={speciesInPlay(compiled, state)}
+      speciesColumns={challenge.speciesColumns}
+      nodeTitle={resolveText(currentNode(compiled, state).title, locale, FALLBACK_LOCALE)}
+      options={currentNode(compiled, state).options}
+      trail={state.trail}
+      onPick={(optionIndex) => dispatch({ type: 'PICK', optionIndex })}
+      onUndo={() => dispatch({ type: 'UNDO' })}
+      onZoom={() => viewer.open(compiled.key.targetSpeciesId)}
+    />
   );
 
   /** Siguiente reto marcado como extra tras el actual. */
@@ -186,14 +193,17 @@ export function PlayRoute({ zoomed = false }: { zoomed?: boolean }) {
       : definition.challenges.slice(index + 1).find((item) => item.bonus);
   }
 
+  /** Acepta el reto extra. Puntúa si el jugador está registrado y no lo ha
+   *  jugado aún; si no, es partida libre. */
   function startBonus(next: NonNullable<ReturnType<typeof nextBonus>>) {
-    const alreadyPlayed = player.player?.runs[next.id];
-    if (player.player && !alreadyPlayed) {
-      const record = player.startRun(next.id);
-      begin(next, true, record?.runs[next.id]?.startedAt ?? Date.now());
-    } else {
-      begin(next, false, Date.now());
-    }
-    void navigate(gamePaths.play(slug, next.id));
+    const puntuable = !!player.player && !player.player.runs[next.id];
+    const record = puntuable ? player.startRun(next.id) : null;
+
+    void navigate(gamePaths.play(slug, next.id), {
+      state: {
+        scored: puntuable,
+        startedAt: record?.runs[next.id]?.startedAt ?? Date.now(),
+      },
+    });
   }
 }

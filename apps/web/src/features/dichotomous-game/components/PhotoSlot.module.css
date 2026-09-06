@@ -1,7 +1,10 @@
 .image {
   display: block;
   width: 100%;
+  /* El marco ya se ha adaptado a la proporción de la foto, así que `cover`
+     apenas recorta: llena sin franjas y sin deformar. */
   object-fit: cover;
+  object-position: center;
   background: var(--wk-surface-sunken);
 }
 
