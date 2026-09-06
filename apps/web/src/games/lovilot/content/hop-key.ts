@@ -19,14 +19,14 @@ export const hopKey: DichotomousKey<Locale> = defineKey<Locale>({
   id: 'lovilot.hop',
   rootNodeId: 'h1',
   targetSpeciesId: 'vista',
-  displayOrder: ['chinook', 'cascade', 'cashmere', 'comet', 'vista', 'raku'],
+  displayOrder: ['chinook', 'cascade', 'cashmere', 'comet', 'vista', 'rakau'],
   species: {
     chinook: variety('Chinook'),
     cascade: variety('Cascade'),
     cashmere: variety('Cashmere'),
     comet: variety('Comet'),
     vista: variety('Vista'),
-    raku: variety('Raku'),
+    rakau: variety('Rakau'),
   },
   nodes: {
     h1: {
@@ -139,7 +139,7 @@ export const hopKey: DichotomousKey<Locale> = defineKey<Locale>({
         },
         {
           tag: '5b',
-          to: toSpecies('raku'),
+          to: toSpecies('rakau'),
           text: text(
             'Flor amb bràctees majoritàriament compactes/tancades en el moment de la collita.',
             'Flor con brácteas mayoritariamente compactas/cerradas en el momento de la cosecha.',

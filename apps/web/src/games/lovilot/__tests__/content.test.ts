@@ -103,7 +103,7 @@ describe('clave del lúpulo', () => {
       '4a': 'h5',
       '4b': 'comet',
       '5a': 'vista',
-      '5b': 'raku',
+      '5b': 'rakau',
     });
   });
 
