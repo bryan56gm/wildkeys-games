@@ -57,7 +57,7 @@ export const hopKey: DichotomousKey<Locale> = defineKey<Locale>({
       options: [
         {
           tag: '2a',
-          to: toSpecies('chinook'),
+          to: toNode('h3'),
           text: text(
             'Flors amb forma de prisma, prim a la punta i s’eixampla cap a la base.',
             'Flores con forma de prisma, estrechas en la punta y que se ensanchan hacia la base.',
@@ -66,7 +66,7 @@ export const hopKey: DichotomousKey<Locale> = defineKey<Locale>({
         },
         {
           tag: '2b',
-          to: toNode('h3'),
+          to: toSpecies('cashmere'),
           text: text(
             'Flors amb forma arrodonida.',
             'Flores de forma redondeada.',
@@ -76,28 +76,24 @@ export const hopKey: DichotomousKey<Locale> = defineKey<Locale>({
       ],
     },
     h3: {
-      title: text(
-        'Detalls de la flor arrodonida',
-        'Detalles de la flor redondeada',
-        'Round flower details'
-      ),
+      title: text('Densitat de la flor', 'Densidad de la flor', 'Flower density'),
       options: [
         {
           tag: '3a',
           to: toSpecies('cascade'),
           text: text(
-            '[Descripció pendent — Cascade]',
-            '[Descripción pendiente — Cascade]',
-            '[Description pending — Cascade]'
+            'Flors poc denses i amb bràctees bastant obertes.',
+            'Flores poco densas y con brácteas bastante abiertas.',
+            'Flowers loosely packed, with fairly open bracts.'
           ),
         },
         {
           tag: '3b',
-          to: toSpecies('cashmere'),
+          to: toSpecies('chinook'),
           text: text(
-            '[Descripció pendent — Cashmere]',
-            '[Descripción pendiente — Cashmere]',
-            '[Description pending — Cashmere]'
+            'Flors bastant compactes amb bràctees majoritàriament tancades.',
+            'Flores bastante compactas con brácteas mayoritariamente cerradas.',
+            'Flowers fairly compact, with mostly closed bracts.'
           ),
         },
       ],

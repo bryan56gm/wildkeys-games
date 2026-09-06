@@ -44,6 +44,56 @@ describe('clave del lúpulo', () => {
   it('pone en juego las seis variedades desde la raíz', () => {
     expect(compiled.reachableSpeciesByNode.get('h1')).toHaveLength(6);
   });
+
+  /**
+   * La estructura, rama a rama, tal y como la firmó Esther. Está escrita aquí
+   * para que tocar la clave sin querer salte en los tests: es contenido
+   * científico, no una preferencia de diseño.
+   */
+  it('respeta la clave publicada, rama a rama', () => {
+    const destino = (nodeId: string, tag: string) => {
+      const option = compiled.key.nodes[nodeId]?.options.find((item) => item.tag === tag);
+      if (!option) return `${tag}: NO EXISTE`;
+      return option.to.kind === 'node' ? option.to.nodeId : option.to.speciesId;
+    };
+
+    expect({
+      '1a': destino('h1', '1a'),
+      '1b': destino('h1', '1b'),
+      '2a': destino('h2', '2a'),
+      '2b': destino('h2', '2b'),
+      '3a': destino('h3', '3a'),
+      '3b': destino('h3', '3b'),
+      '4a': destino('h4', '4a'),
+      '4b': destino('h4', '4b'),
+      '5a': destino('h5', '5a'),
+      '5b': destino('h5', '5b'),
+    }).toEqual({
+      '1a': 'h2',
+      '1b': 'h4',
+      '2a': 'h3',
+      '2b': 'cashmere',
+      '3a': 'cascade',
+      '3b': 'chinook',
+      '4a': 'h5',
+      '4b': 'comet',
+      '5a': 'vista',
+      '5b': 'raku',
+    });
+  });
+
+  it('no deja ninguna rama con texto pendiente', () => {
+    const pendientes: string[] = [];
+    for (const node of Object.values(compiled.key.nodes)) {
+      for (const option of node.options) {
+        for (const [locale, value] of Object.entries(option.text)) {
+          if (/pendent|pendiente|pending/i.test(value))
+            pendientes.push(`${option.tag} (${locale})`);
+        }
+      }
+    }
+    expect(pendientes).toEqual([]);
+  });
 });
 
 describe('clave de carnívoros', () => {
