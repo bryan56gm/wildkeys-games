@@ -48,8 +48,33 @@
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: var(--wk-space-6) calc(var(--wk-space-6) + env(safe-area-inset-left))
-    calc(var(--wk-space-6) + env(safe-area-inset-bottom));
+  padding: var(--wk-space-6) calc(var(--wk-space-6) + env(safe-area-inset-left, 0px))
+    calc(var(--wk-space-6) + env(safe-area-inset-bottom, 0px));
+}
+
+/*
+ * La tarjeta se aparta del teclado.
+ *
+ * Se mueve la tarjeta de verdad porque iOS superpone el teclado sin encoger
+ * la página: no basta con rellenar el diálogo por debajo.
+ *
+ * Con la propiedad `translate` y no con `transform`: la animación de entrada
+ * del panel ya usa `transform`, y una sobrescribiría a la otra. Siendo
+ * propiedades independientes, conviven.
+ */
+.center .panel,
+.sheet .panel {
+  translate: 0 calc(-1 * var(--wk-keyboard-inset, 0px));
+  transition: translate var(--wk-duration-fast) ease-out;
+}
+
+/* Con el teclado abierto queda poco alto: la tarjeta se ajusta y hace scroll
+   por dentro en vez de desbordarse. */
+.sheet[data-keyboard] .panel,
+.center[data-keyboard] .panel {
+  max-height: calc(100dvh - var(--wk-keyboard-inset, 0px) - var(--wk-space-8));
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .sheet::backdrop {
@@ -70,7 +95,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 22px var(--wk-space-6) calc(22px + env(safe-area-inset-bottom));
+  padding: 22px var(--wk-space-6) calc(22px + env(safe-area-inset-bottom, 0px));
 }
 
 .full::backdrop {

@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   min-height: 100svh;
-  padding: 0 var(--wk-space-6) calc(28px + env(safe-area-inset-bottom));
+  padding: 0 var(--wk-space-6) calc(28px + env(safe-area-inset-bottom, 0px));
 }
 
 .canvas {

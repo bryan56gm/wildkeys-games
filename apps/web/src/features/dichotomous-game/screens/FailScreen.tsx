@@ -49,7 +49,7 @@ export function FailScreen({ copy, wrong, onRetry }: FailScreenProps) {
         <span className={styles.resumeText}>{copy.resumeNote}</span>
       </Card>
 
-      <Button size="lg" onClick={onRetry} autoFocus>
+      <Button size="lg" onClick={onRetry}>
         {copy.retry}
       </Button>
     </section>

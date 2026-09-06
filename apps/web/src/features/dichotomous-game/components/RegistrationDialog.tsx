@@ -1,4 +1,4 @@
-import { useId, useState, type FormEvent } from 'react';
+import { useId, useRef, useState, type FormEvent } from 'react';
 import { Button, Dialog, Kicker } from '@wkg/ui';
 import { SCORE_LIMITS } from '@wkg/leaderboard';
 import styles from './RegistrationDialog.module.css';
@@ -37,6 +37,7 @@ export function RegistrationDialog({
 }: RegistrationDialogProps) {
   const [nickname, setNickname] = useState('');
   const [error, setError] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const inputId = useId();
   const errorId = `${inputId}-error`;
 
@@ -61,6 +62,7 @@ export function RegistrationDialog({
         </div>
 
         <input
+          ref={inputRef}
           id={inputId}
           className={styles.input}
           data-invalid={error ? '' : undefined}
@@ -72,7 +74,17 @@ export function RegistrationDialog({
           placeholder={copy.placeholder}
           maxLength={SCORE_LIMITS.nicknameMaxLength}
           autoComplete="off"
-          autoFocus
+          // Sin foco automático: en móvil el teclado saltaría encima del texto
+          // antes de que al jugador le dé tiempo a leer qué se le pide.
+          enterKeyHint="go"
+          // El teclado se abre después de que el diálogo se haya reacomodado;
+          // este scroll garantiza que el campo queda a la vista.
+          onFocus={() => {
+            window.setTimeout(
+              () => inputRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' }),
+              250
+            );
+          }}
           aria-label={copy.title}
           aria-invalid={error ? true : undefined}
           aria-describedby={error ? errorId : undefined}

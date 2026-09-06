@@ -3,7 +3,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--wk-space-4);
-  padding: calc(14px + env(safe-area-inset-top)) 2px var(--wk-space-6);
+  padding: calc(14px + env(safe-area-inset-top, 0px)) 2px var(--wk-space-6);
 }
 
 .brand {
