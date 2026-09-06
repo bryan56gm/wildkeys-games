@@ -1,0 +1,54 @@
+/**
+ * Base global de la aplicación. Los tokens vienen de `@wkg/ui`; aquí solo se
+ * fija el lienzo y lo que el navegador no trae de serie.
+ */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--wk-surface-page);
+  background-image: radial-gradient(circle at 2px 2px, rgb(0 0 0 / 2%) 1px, transparent 0);
+  background-size: 24px 24px;
+  color: var(--wk-color-text);
+  font-family: var(--wk-font-sans);
+  -webkit-tap-highlight-color: transparent;
+  overscroll-behavior-y: contain;
+}
+
+/* El juego es de una sola columna: nunca debe haber scroll horizontal. */
+body,
+#root {
+  overflow-x: hidden;
+}
+
+a {
+  color: var(--wk-color-brand);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--wk-color-brand-deep);
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+:focus-visible {
+  outline: 3px solid var(--wk-color-brand-accent);
+  outline-offset: 2px;
+}
+
+img {
+  max-width: 100%;
+}

@@ -1,0 +1,55 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wk-space-5);
+  border: 2px solid var(--wk-color-brand-strong);
+  border-radius: var(--wk-radius-xl);
+  padding: var(--wk-space-7);
+  background: linear-gradient(135deg, var(--wk-color-brand-strong), var(--wk-color-brand-deep));
+}
+
+.title {
+  margin: 0;
+  font-family: var(--wk-font-serif);
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.26;
+  color: var(--wk-white);
+  text-wrap: pretty;
+}
+
+.subtitle {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--wk-color-brand-border);
+  text-wrap: pretty;
+}
+
+.preview {
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 18%);
+  border-radius: 14px;
+  background: rgb(255 255 255 / 8%);
+}
+
+.previewNames {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 11px 13px;
+}
+
+.previewName {
+  font-family: var(--wk-font-serif);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--wk-white);
+}
+
+.previewSci {
+  font-family: var(--wk-font-serif);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--wk-color-brand-pale);
+}

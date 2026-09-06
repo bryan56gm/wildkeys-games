@@ -1,0 +1,29 @@
+/**
+ * Tema LO VILOT: verde WildKeys + amarillo de la cervecería.
+ *
+ * Solo redefine tokens semánticos de `@wkg/ui`. Un juego futuro con otra
+ * paleta crea su propio `theme.module.css` con esta misma forma y no toca ni
+ * un componente.
+ */
+.theme {
+  --wk-color-brand: var(--wk-green-500);
+  --wk-color-brand-hover: var(--wk-green-600);
+  --wk-color-brand-strong: var(--wk-green-800);
+  --wk-color-brand-deep: var(--wk-green-700);
+  --wk-color-brand-accent: var(--wk-green-400);
+
+  --wk-color-accent: var(--wk-amber-400);
+
+  /* Fondo ilustrado de la pantalla de carga. */
+  --wk-splash-gradient: linear-gradient(
+    180deg,
+    #0d2f27 0%,
+    #134539 22%,
+    #1a5c42 42%,
+    #237050 60%,
+    #2c8259 78%,
+    #3a9564 100%
+  );
+  --wk-splash-glow: rgb(251 191 36 / 35%);
+  --wk-splash-accent: var(--wk-amber-400);
+}

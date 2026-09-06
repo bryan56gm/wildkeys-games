@@ -1,0 +1,37 @@
+.grid {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  border: 1px solid var(--wk-color-brand-border);
+  border-radius: var(--wk-radius-sm);
+  padding: 4px 3px;
+  background: var(--wk-color-brand-tint);
+  color: var(--wk-color-brand-deep);
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  transition:
+    opacity var(--wk-duration-base) ease,
+    color var(--wk-duration-base) ease,
+    border-color var(--wk-duration-base) ease;
+}
+
+.ruledOut {
+  border-color: var(--wk-border);
+  background: var(--wk-surface-page);
+  color: var(--wk-color-text-faint);
+  opacity: 0.5;
+  text-decoration: line-through;
+  text-decoration-color: var(--wk-color-danger);
+  text-decoration-thickness: 1.5px;
+}
