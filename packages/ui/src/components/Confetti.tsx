@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import styles from './Confetti.module.css';
 
@@ -35,8 +35,17 @@ const COLOR_COUNT = 6;
  */
 export function Confetti({ pieces = 90, seed = 1 }: ConfettiProps) {
   const items = useMemo(() => buildPieces(pieces, seed), [pieces, seed]);
+  const [finished, setFinished] = useState(false);
 
-  if (typeof document === 'undefined') return null;
+  // Cuando la última partícula ha caído, fuera del DOM. Con `forwards` se
+  // quedaban clavadas al fondo del viewport, acumulándose para siempre.
+  useEffect(() => {
+    const lastToLand = Math.max(...items.map((piece) => piece.duration + piece.delay));
+    const timer = window.setTimeout(() => setFinished(true), lastToLand * 1000);
+    return () => window.clearTimeout(timer);
+  }, [items]);
+
+  if (finished || typeof document === 'undefined') return null;
 
   return createPortal(
     <div className={styles.host} aria-hidden="true">

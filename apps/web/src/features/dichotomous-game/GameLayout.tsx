@@ -1,6 +1,7 @@
 import { Outlet, useLoaderData } from 'react-router';
 import { useOfflineQueue } from '@wkg/leaderboard';
 import { GameHeader } from './components/GameHeader';
+import { SpeciesPhotoViewer } from './components/SpeciesPhotoViewer';
 import { WelcomeDialog } from './components/WelcomeDialog';
 import { useChallengeCopy } from './hooks/use-game-copy';
 import { useOnceFlag } from './hooks/use-once-flags';
@@ -64,6 +65,8 @@ function GameFrame() {
         />
         <Outlet />
       </div>
+
+      <SpeciesPhotoViewer />
 
       <WelcomeDialog
         open={!welcome.done && !activeRun}

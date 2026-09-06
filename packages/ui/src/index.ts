@@ -17,6 +17,7 @@ export { Confetti, type ConfettiProps } from './components/Confetti.js';
 export { Dialog, type DialogPlacement, type DialogProps } from './components/Dialog.js';
 export { IconButton, type IconButtonProps } from './components/IconButton.js';
 export { Kicker, type KickerProps, type KickerTone } from './components/Kicker.js';
+export { PhotoViewer, type PhotoViewerProps } from './components/PhotoViewer.js';
 export { Pill, type PillProps, type PillTone } from './components/Pill.js';
 export { ProgressBar, type ProgressBarProps } from './components/ProgressBar.js';
 export {
@@ -28,3 +29,4 @@ export { Stat, type StatProps } from './components/Stat.js';
 export { VisuallyHidden } from './components/VisuallyHidden.js';
 export { cx } from './lib/cx.js';
 export { useKeyboardInset } from './lib/use-keyboard-inset.js';
+export { usePinchZoom, type PinchZoomResult, type ZoomState } from './lib/use-pinch-zoom.js';

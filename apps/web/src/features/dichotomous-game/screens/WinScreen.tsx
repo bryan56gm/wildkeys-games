@@ -39,6 +39,8 @@ export interface WinScreenProps {
   outroHref: string;
   /** Oferta del reto extra, si toca. */
   bonus?: ReactNode;
+  /** Amplía la foto a pantalla completa. */
+  onViewPhoto?: () => void;
   onBoard(): void;
   onPlayAgain(): void;
 }
@@ -54,6 +56,7 @@ export function WinScreen({
   path,
   outroHref,
   bonus,
+  onViewPhoto,
   onBoard,
   onPlayAgain,
 }: WinScreenProps) {
@@ -82,7 +85,9 @@ export function WinScreen({
       </header>
 
       <Card tone="brand" flush>
-        <PhotoSlot photo={target.photo} label={target.photoLabel} height={160} />
+        <button type="button" className={styles.photoButton} onClick={onViewPhoto}>
+          <PhotoSlot photo={target.photo} label={target.photoLabel} maxHeight={160} />
+        </button>
         <div className={styles.summary}>
           <div className={styles.names}>
             <span className={styles.name}>{target.name}</span>

@@ -20,7 +20,7 @@ export function BonusOffer({ copy, photo, scientificName, onAccept }: BonusOffer
       <p className={styles.subtitle}>{copy.subtitle}</p>
 
       <div className={styles.preview}>
-        <PhotoSlot photo={photo} label={copy.photoPlaceholder} height={120} />
+        <PhotoSlot photo={photo} label={copy.photoPlaceholder} maxHeight={120} />
         <div className={styles.previewNames}>
           <span className={styles.previewName}>{copy.name}</span>
           <span className={styles.previewSci}>{scientificName}</span>

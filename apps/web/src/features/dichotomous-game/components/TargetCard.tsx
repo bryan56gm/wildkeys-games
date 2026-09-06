@@ -10,9 +10,9 @@ export interface TargetCardProps {
   kicker: string;
   name: string;
   caption: string;
-  /** Si se pasa, la foto es un botón que abre el zoom. */
-  onZoom?: () => void;
-  zoomLabel?: string;
+  /** Si se pasa, la foto es un botón que la amplía a pantalla completa. */
+  onZoom?: (() => void) | undefined;
+  zoomLabel?: string | undefined;
   /** Bloque a la derecha del pie (el número de paso, en partida). */
   aside?: { label: string; value: string };
   /**
@@ -35,7 +35,7 @@ export function TargetCard({
   aside,
   layout = 'inline',
 }: TargetCardProps) {
-  const image = <PhotoSlot photo={photo} label={photoLabel} height={photoHeight} />;
+  const image = <PhotoSlot photo={photo} label={photoLabel} maxHeight={photoHeight} />;
 
   return (
     <Card tone="brand" flush className={onZoom ? styles.playable : undefined}>

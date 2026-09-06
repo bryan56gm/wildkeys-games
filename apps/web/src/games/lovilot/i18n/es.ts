@@ -48,7 +48,7 @@ export const es: LovilotCopy = {
   trailTitle: 'Tu recorrido',
   backStep: 'Deshacer paso',
   zoomLabel: 'Ampliar',
-  zoomHint: 'Toca fuera de la foto para volver a la clave.',
+  zoomHint: 'Toca dos veces o pellizca para acercar. Toca fuera para volver.',
   failsFmt: 'Fallos hasta ahora: {n}',
 
   failTitle: '¡Oooh, has fallado!',

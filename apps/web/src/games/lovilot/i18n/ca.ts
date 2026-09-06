@@ -51,7 +51,7 @@ export const ca = {
   trailTitle: 'El teu recorregut',
   backStep: 'Desfer pas',
   zoomLabel: 'Ampliar',
-  zoomHint: 'Toca fora de la foto per tornar a la clau.',
+  zoomHint: 'Toca dues vegades o pessiga per apropar. Toca fora per tornar.',
   failsFmt: 'Errors fins ara: {n}',
 
   failTitle: 'Oooh, has fallat!',

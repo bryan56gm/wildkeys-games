@@ -1,13 +1,26 @@
-import styles from './PhotoSlot.module.css';
+import { useState } from 'react';
 import { cx } from '@wkg/ui';
+import styles from './PhotoSlot.module.css';
 import type { PhotoRef } from '../types';
+
+/**
+ * Hasta dónde se deja estirar el marco para acomodar la foto.
+ *
+ * Las fotos llegan con proporciones muy distintas: unas casi panorámicas
+ * (900×491) y otras verticales (600×900). Con un marco fijo, o se recorta media
+ * imagen o queda diminuta entre franjas. El marco se adapta a cada una, pero
+ * dentro de estos topes: más apaisado sería una tira ilegible y más vertical se
+ * comería la pantalla del móvil.
+ */
+const RATIO_MIN = 0.9;
+const RATIO_MAX = 2;
 
 export interface PhotoSlotProps {
   photo: PhotoRef;
   /** Descripción de la foto; también es el texto del marcador si no hay imagen. */
   label: string;
-  /** Alto del hueco: número en píxeles o cualquier medida CSS. */
-  height: number | string;
+  /** Alto máximo. El marco puede quedar más bajo si la foto es apaisada. */
+  maxHeight: number | string;
   className?: string;
 }
 
@@ -15,12 +28,14 @@ export interface PhotoSlotProps {
  * Foto de un objetivo. Mientras no exista la imagen real, dibuja un marcador
  * con su descripción: nunca un hueco roto ni un salto de maquetación.
  */
-export function PhotoSlot({ photo, label, height, className }: PhotoSlotProps) {
+export function PhotoSlot({ photo, label, maxHeight, className }: PhotoSlotProps) {
+  const [ratio, setRatio] = useState<number | null>(null);
+
   if (!photo.src) {
     return (
       <div
         className={cx(styles.placeholder, className)}
-        style={{ height }}
+        style={{ height: maxHeight }}
         role="img"
         aria-label={label}
       >
@@ -47,7 +62,17 @@ export function PhotoSlot({ photo, label, height, className }: PhotoSlotProps) {
       src={photo.src}
       alt={label}
       className={cx(styles.image, className)}
-      style={{ height }}
+      style={{
+        maxHeight,
+        // Hasta que se conoce la proporción real se reserva el alto máximo, y
+        // así la maqueta no da un salto cuando la imagen entra.
+        aspectRatio: ratio === null ? undefined : Math.min(RATIO_MAX, Math.max(RATIO_MIN, ratio)),
+        height: ratio === null ? maxHeight : undefined,
+      }}
+      onLoad={(event) => {
+        const { naturalWidth, naturalHeight } = event.currentTarget;
+        if (naturalHeight > 0) setRatio(naturalWidth / naturalHeight);
+      }}
       loading="eager"
       decoding="async"
     />

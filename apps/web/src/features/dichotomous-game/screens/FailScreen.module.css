@@ -55,6 +55,23 @@
   text-align: left;
 }
 
+.wrongPhoto {
+  display: block;
+  overflow: hidden;
+  width: 100%;
+  border: none;
+  border-radius: var(--wk-radius-md);
+  margin-bottom: var(--wk-space-2);
+  padding: 0;
+  background: none;
+  cursor: zoom-in;
+}
+
+.wrongPhoto:focus-visible {
+  outline: 3px solid var(--wk-color-brand-accent);
+  outline-offset: 2px;
+}
+
 .wrongName {
   font-family: var(--wk-font-serif);
   font-size: 18px;

@@ -18,6 +18,7 @@ export interface HomeScreenCopy {
   resume: string;
   sponsorSubtitle: string;
   sponsorDescription: string;
+  zoomLabel: string;
 }
 
 export interface HomeScreenProps {
@@ -27,6 +28,8 @@ export interface HomeScreenProps {
   /** Jugador ya registrado en este dispositivo, con su nota de estado. */
   player: { nickname: string; note: string } | null;
   canResume: boolean;
+  /** Amplía la foto del objetivo a pantalla completa. */
+  onViewPhoto?: () => void;
   onStart(): void;
   onResume(): void;
   onFreePlay(): void;
@@ -40,6 +43,7 @@ export function HomeScreen({
   target,
   player,
   canResume,
+  onViewPhoto,
   onStart,
   onResume,
   onFreePlay,
@@ -77,6 +81,8 @@ export function HomeScreen({
         name={target.name}
         caption={target.caption}
         layout="stacked"
+        onZoom={onViewPhoto}
+        zoomLabel={copy.zoomLabel}
       />
 
       <Card className={styles.keyCard}>
