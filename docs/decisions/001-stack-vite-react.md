@@ -1,9 +1,11 @@
 # 001 — Stack: Vite + React, no Next/Astro
 
 ## Estado
+
 Aceptado.
 
 ## Contexto
+
 El primer juego (WildKeys × LO VILOT) y los que vengan después necesitan
 cargar una vez con conexión y funcionar 100% offline después — sin
 sign-in, sin backend en el camino crítico de juego. Rendimiento objetivo:
@@ -11,6 +13,7 @@ tiempo hasta interactivo en el móvil de un asistente a un evento físico,
 no un motor gráfico (no hay canvas/WebGL).
 
 ## Decisión
+
 - **Vite + React + TypeScript strict.** SPA cliente puro.
 - **No Next.js**: está pensado para SSR/streaming/rutas de servidor;
   forzar "carga única offline" contra Next significa pelear el framework
@@ -23,6 +26,7 @@ no un motor gráfico (no hay canvas/WebGL).
   el install del service worker.
 
 ## Consecuencias
+
 - Sin SSR: cualquier necesidad futura de SEO por juego individual queda
   fuera de alcance (no es el objetivo — el SEO del ecosistema vive en
   wildkeys-next).
