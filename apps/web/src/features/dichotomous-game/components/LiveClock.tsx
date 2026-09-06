@@ -18,7 +18,7 @@ export function LiveClock({ startedAt, frozenMs = 0 }: LiveClockProps) {
   return (
     <span className={styles.clock}>
       <span className={styles.ping} aria-hidden="true">
-        <span className={styles.pingHalo} />
+        <span className={`${styles.pingHalo} wk-anim-ping`} />
         <span className={styles.pingDot} />
       </span>
       <time className={styles.value}>{formatClock(elapsed)}</time>

@@ -65,7 +65,7 @@ export function SplashScreen({
         <div className={styles.status}>
           <span className={styles.kicker}>{subtitle}</span>
           <span className={styles.loading}>
-            <span className={styles.dot} aria-hidden="true" />
+            <span className={`${styles.dot} wk-anim-ping-slow`} aria-hidden="true" />
             {loadingLabel}
           </span>
         </div>

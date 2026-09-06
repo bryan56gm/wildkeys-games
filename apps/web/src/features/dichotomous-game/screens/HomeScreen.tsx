@@ -46,7 +46,7 @@ export function HomeScreen({
   onBoard,
 }: HomeScreenProps) {
   return (
-    <section className={styles.screen}>
+    <section className={`${styles.screen} wk-anim-rise`}>
       <header className={styles.intro}>
         <Kicker tone="brand" className={styles.badge}>
           {copy.collab}

@@ -23,7 +23,6 @@
   border-radius: var(--wk-radius-pill);
   background: var(--wk-color-brand-light);
   opacity: 0.75;
-  animation: wk-ping 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;
 }
 
 .pingDot {

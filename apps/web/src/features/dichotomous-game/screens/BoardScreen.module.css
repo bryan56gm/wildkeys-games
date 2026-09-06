@@ -3,7 +3,6 @@
   flex: 1;
   flex-direction: column;
   gap: 15px;
-  animation: wk-rise 450ms ease-out both;
 }
 
 .head {

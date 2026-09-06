@@ -1,4 +1,5 @@
 import { useMemo } from 'react';
+import { createPortal } from 'react-dom';
 import styles from './Confetti.module.css';
 
 export interface ConfettiProps {
@@ -26,16 +27,23 @@ const COLOR_COUNT = 6;
  * Lluvia de confeti de la pantalla de victoria. Puramente decorativa
  * (`aria-hidden`) y sin estado: se monta al ganar y se desmonta al salir.
  * Con `prefers-reduced-motion` no se anima (regla global de tokens).
+ *
+ * Se dibuja en el `body` mediante un portal, no donde se declara: cualquier
+ * ancestro con `transform` —como la propia animación de entrada de la pantalla
+ * de victoria— se convierte en el marco de referencia de `position: fixed`, y
+ * el confeti caería dentro de esa tarjeta en vez de sobre toda la pantalla.
  */
 export function Confetti({ pieces = 90, seed = 1 }: ConfettiProps) {
   const items = useMemo(() => buildPieces(pieces, seed), [pieces, seed]);
 
-  return (
+  if (typeof document === 'undefined') return null;
+
+  return createPortal(
     <div className={styles.host} aria-hidden="true">
       {items.map((piece, index) => (
         <i
           key={index}
-          className={styles.piece}
+          className={`${styles.piece} wk-anim-fall`}
           data-color={piece.colorIndex}
           style={{
             left: `${piece.left}vw`,
@@ -49,7 +57,8 @@ export function Confetti({ pieces = 90, seed = 1 }: ConfettiProps) {
           }}
         />
       ))}
-    </div>
+    </div>,
+    document.body
   );
 }
 

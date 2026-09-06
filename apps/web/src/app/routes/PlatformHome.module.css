@@ -6,8 +6,8 @@
   max-width: var(--wk-canvas-width);
   min-height: 100svh;
   margin: 0 auto;
-  padding: calc(40px + env(safe-area-inset-top)) var(--wk-space-6)
-    calc(40px + env(safe-area-inset-bottom));
+  padding: calc(40px + env(safe-area-inset-top, 0px)) var(--wk-space-6)
+    calc(40px + env(safe-area-inset-bottom, 0px));
 }
 
 .head {

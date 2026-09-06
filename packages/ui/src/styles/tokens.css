@@ -191,6 +191,54 @@
   }
 }
 
+/*
+ * Utilidades de animación.
+ *
+ * Van aquí, en el CSS global, y no en cada módulo: un CSS Module renombra el
+ * nombre del keyframe que referencia (`wk-fall` → `_wk-fall_a1b2c3`) dando por
+ * hecho que está declarado en el mismo fichero. Como estos viven en el global,
+ * la referencia no encontraba nada y **la animación no llegaba a existir**.
+ * Declarando la clase junto al keyframe, ambos comparten ámbito y funciona.
+ */
+.wk-anim-rise {
+  animation: wk-rise var(--wk-duration-slow) ease-out both;
+}
+
+.wk-anim-rise-fast {
+  animation: wk-rise var(--wk-duration-base) ease-out both;
+}
+
+.wk-anim-pop {
+  animation: wk-pop var(--wk-duration-slow) ease-out both;
+}
+
+.wk-anim-pop-fast {
+  animation: wk-pop var(--wk-duration-base) ease-out both;
+}
+
+.wk-anim-pop-quick {
+  animation: wk-pop var(--wk-duration-fast) ease-out both;
+}
+
+.wk-anim-shake {
+  animation: wk-shake var(--wk-duration-slow) ease-out both;
+}
+
+.wk-anim-ping {
+  animation: wk-ping 1.4s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+.wk-anim-ping-slow {
+  animation: wk-ping 1.2s ease-in-out infinite;
+}
+
+/* El confeti fija duración y retardo por partícula desde el propio elemento. */
+.wk-anim-fall {
+  animation-name: wk-fall;
+  animation-timing-function: cubic-bezier(0.2, 0.6, 0.5, 1);
+  animation-fill-mode: forwards;
+}
+
 /* Quien pide menos movimiento no recibe animaciones decorativas. */
 @media (prefers-reduced-motion: reduce) {
   *,

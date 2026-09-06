@@ -9,9 +9,6 @@
 .piece {
   position: absolute;
   top: -12vh;
-  animation-name: wk-fall;
-  animation-timing-function: cubic-bezier(0.2, 0.6, 0.5, 1);
-  animation-fill-mode: forwards;
 }
 
 .piece[data-color='0'] {

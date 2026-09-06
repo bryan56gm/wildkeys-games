@@ -9,7 +9,22 @@ import { VitePWA } from 'vite-plugin-pwa';
  * ahí `generateSW` con precache de todos los assets del build y sin ninguna
  * ruta de datos de juego en runtime.
  */
+const TUNNEL_HOST = 'srv-bryan.tail54a186.ts.net';
+
 export default defineConfig({
+  server: {
+    // Carril propio: un proyecto = un puerto = un origen. Compartirlo hace que
+    // el navegador funda dos proyectos (service worker, cookies, historial).
+    port: 5174,
+    strictPort: true,
+    // Escucha en todas las interfaces. El dev corre dentro de un contenedor y
+    // el túnel de Tailscale vive en el anfitrión: atado solo a 127.0.0.1, el
+    // carril no llega y la URL se queda cargando indefinidamente. Es lo mismo
+    // que hace geofield, el otro proyecto Vite con túnel.
+    host: true,
+    // Sin esto Vite bloquea sus propios recursos servidos por el túnel.
+    allowedHosts: [TUNNEL_HOST],
+  },
   plugins: [
     react(),
     VitePWA({

@@ -36,7 +36,7 @@ export function BoardScreen({
   onBack,
 }: BoardScreenProps) {
   return (
-    <section className={styles.screen}>
+    <section className={`${styles.screen} wk-anim-rise`}>
       <header className={styles.head}>
         <Kicker tone="brand">{copy.kicker}</Kicker>
         <h2 className={styles.title}>{copy.title}</h2>

@@ -37,7 +37,7 @@ export function WelcomeDialog({ open, onDismiss, copy }: WelcomeDialogProps) {
         <span aria-hidden="true">🍺</span>
         <p className={styles.noteText}>{copy.note}</p>
       </div>
-      <Button onClick={onDismiss} size="md" autoFocus>
+      <Button onClick={onDismiss} size="md">
         {copy.button}
       </Button>
     </Dialog>

@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "Tokens de diseño y componentes compartidos entre juegos de la plataforma.",
+  "description": "Tokens de dise\u00f1o y componentes compartidos entre juegos de la plataforma.",
   "exports": {
     ".": "./src/index.ts",
     "./tokens.css": "./src/styles/tokens.css"
@@ -12,12 +12,15 @@
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
-    "react": "^19"
+    "react": "^19",
+    "react-dom": "^19"
   },
   "devDependencies": {
     "@types/react": "^19",
     "react": "^19",
     "typescript": "^5",
-    "vite": "^7"
+    "vite": "^7",
+    "react-dom": "^19",
+    "@types/react-dom": "^19"
   }
 }

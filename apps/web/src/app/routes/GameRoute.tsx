@@ -1,15 +1,14 @@
-import { useLoaderData, type LoaderFunctionArgs } from 'react-router';
-import {
-  GameApp,
-  validateGameDefinition,
-  type AnyGameDefinition,
-} from '@/features/dichotomous-game';
+import type { LoaderFunctionArgs } from 'react-router';
+import { validateGameDefinition, type AnyGameDefinition } from '@/features/dichotomous-game';
 import { findGame } from '@/games/registry';
 
 /**
  * Carga diferida del juego pedido en la ruta. El registro es la única fuente
  * de verdad: si el slug no está, la ruta responde 404 y el router pinta la
  * pantalla de error.
+ *
+ * Quien pinta el juego es `GameLayout` con sus rutas hijas; aquí solo se
+ * resuelve y valida la definición.
  */
 export async function gameLoader({ params }: LoaderFunctionArgs): Promise<AnyGameDefinition> {
   const entry = findGame(params['gameSlug']);
@@ -27,11 +26,6 @@ export async function gameLoader({ params }: LoaderFunctionArgs): Promise<AnyGam
   }
 
   return definition;
-}
-
-export function GameRoute() {
-  const definition = useLoaderData<AnyGameDefinition>();
-  return <GameApp key={definition.slug} definition={definition} />;
 }
 
 /**
