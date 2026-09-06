@@ -26,16 +26,24 @@ const TUNNEL = 'https://srv-bryan.tail54a186.ts.net:8451';
 
 const green = (text) => (process.stdout.isTTY ? '\u001b[32m' + text + '\u001b[39m' : text);
 
-/** IP de la red local, descartando docker (172.*) y la tailnet (100.*). */
+/**
+ * IP por la que se llega al dev desde fuera de este proceso.
+ *
+ * Se descarta la tailnet (100.*), que no es la que sirve el dev. Las 172.* se
+ * dejan como último recurso: aquí el dev corre en un contenedor y ésa es su
+ * única dirección alcanzable, así que ocultarla sería esconder justo el dato
+ * que hace falta para diagnosticar el túnel.
+ */
 function lanAddress() {
+  const candidates = [];
   for (const addresses of Object.values(networkInterfaces())) {
     for (const address of addresses ?? []) {
       if (address.family !== 'IPv4' || address.internal) continue;
-      if (address.address.startsWith('172.') || address.address.startsWith('100.')) continue;
-      return address.address;
+      if (address.address.startsWith('100.')) continue;
+      candidates.push(address.address);
     }
   }
-  return null;
+  return candidates.find((ip) => !ip.startsWith('172.')) ?? candidates[0] ?? null;
 }
 
 /** Qué fichero de entorno va a cargar Vite. */

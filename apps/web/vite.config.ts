@@ -17,8 +17,11 @@ export default defineConfig({
     // el navegador funda dos proyectos (service worker, cookies, historial).
     port: 5174,
     strictPort: true,
-    // El túnel apunta a IPv4; escuchar en ::1 devolvería 502.
-    host: '127.0.0.1',
+    // Escucha en todas las interfaces. El dev corre dentro de un contenedor y
+    // el túnel de Tailscale vive en el anfitrión: atado solo a 127.0.0.1, el
+    // carril no llega y la URL se queda cargando indefinidamente. Es lo mismo
+    // que hace geofield, el otro proyecto Vite con túnel.
+    host: true,
     // Sin esto Vite bloquea sus propios recursos servidos por el túnel.
     allowedHosts: [TUNNEL_HOST],
   },
