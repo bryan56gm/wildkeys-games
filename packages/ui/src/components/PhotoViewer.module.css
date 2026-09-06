@@ -53,29 +53,29 @@
 }
 
 /*
- * El escenario ocupa lo que quede y recorta lo que se salga al acercar.
- * `touch-action: none` es imprescindible: sin ello el navegador se queda los
- * gestos para hacer scroll y el pellizco nunca llega a la imagen.
+ * El escenario desplaza la foto ampliada con el scroll del navegador.
+ *
+ * `touch-action: manipulation` deja los gestos en manos del sistema: arrastrar
+ * va con su inercia y el pellizco funciona como en la galería del teléfono. La
+ * alternativa —capturar los punteros y mover la imagen a mano— es la que
+ * rompía el visor al llegar el segundo dedo.
  */
 .stage {
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: auto;
   min-height: 0;
   border-radius: 18px;
   background: #1c1917;
-  touch-action: none;
-  cursor: zoom-in;
+  touch-action: manipulation;
+  overscroll-behavior: contain;
+  scrollbar-width: none;
 }
 
-.stage[data-zoomed] {
-  cursor: grab;
-}
-
-.stage[data-zoomed]:active {
-  cursor: grabbing;
+.stage::-webkit-scrollbar {
+  display: none;
 }
 
 /* Entra entera: a pantalla completa se quiere ver toda, no un recorte. */
@@ -83,10 +83,17 @@
   max-width: 100%;
   max-height: 100%;
   object-fit: contain;
-  transform-origin: center;
-  transition: transform 120ms ease-out;
+  cursor: zoom-in;
+  transition: width 180ms var(--wk-ease-out);
   user-select: none;
   -webkit-user-drag: none;
+}
+
+/* Ampliada deja de encajarse: crece y es el escenario el que desplaza. */
+.stage[data-zoomed] .image {
+  max-width: none;
+  max-height: none;
+  cursor: zoom-out;
 }
 
 .hint {

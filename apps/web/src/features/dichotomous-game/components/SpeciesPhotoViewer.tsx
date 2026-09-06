@@ -28,6 +28,8 @@ export function SpeciesPhotoViewer() {
 
   return (
     <PhotoViewer
+      // Cada especie estrena visor: así se abre siempre encajada.
+      key={speciesId}
       open
       onClose={close}
       src={src}
