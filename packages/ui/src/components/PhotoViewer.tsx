@@ -1,7 +1,10 @@
+import { useEffect, useRef, useState } from 'react';
 import { Dialog } from './Dialog.js';
 import { IconButton } from './IconButton.js';
-import { usePinchZoom } from '../lib/use-pinch-zoom.js';
 import styles from './PhotoViewer.module.css';
+
+/** Cuánto se agranda la foto al ampliarla. */
+const ZOOM = 2.5;
 
 export interface PhotoViewerProps {
   open: boolean;
@@ -11,17 +14,24 @@ export interface PhotoViewerProps {
   name: string;
   caption?: string;
   closeLabel: string;
-  /** Pista de uso al pie ("toca dos veces para acercar"). */
+  /** Pista de uso al pie. */
   hint?: string;
 }
 
 /**
  * Visor de una fotografía a pantalla completa.
  *
- * La imagen entra encajada entera —nada de recortes al abrir— y desde ahí se
- * puede acercar con dos dedos o tocando dos veces, y desplazar arrastrando. El
- * desplazamiento está acotado, así que la foto nunca se pierde fuera de la
- * pantalla.
+ * El acercamiento y el desplazamiento los hace **el navegador**: la foto crece
+ * dentro de un contenedor con scroll, así que se arrastra con la misma inercia
+ * que cualquier página y se puede pellizcar como en la galería del teléfono.
+ *
+ * Antes esto estaba implementado a mano con eventos de puntero, y al llegar el
+ * segundo dedo `setPointerCapture` lanzaba `NotFoundError` y se llevaba por
+ * delante la pantalla entera. Reimplementar un gesto que el sistema ya resuelve
+ * salía caro y peor: así no hay estado que se pueda romper, y va más suave.
+ *
+ * Quien lo monte debe darle una `key` por fotografía, para que cada una se abra
+ * encajada aunque la anterior quedara ampliada.
  */
 export function PhotoViewer({
   open,
@@ -32,7 +42,18 @@ export function PhotoViewer({
   closeLabel,
   hint,
 }: PhotoViewerProps) {
-  const zoom = usePinchZoom();
+  const [zoomed, setZoomed] = useState(false);
+  const stage = useRef<HTMLDivElement>(null);
+
+  // Al ampliar, el centro de la foto es lo que interesa ver primero.
+  useEffect(() => {
+    const element = stage.current;
+    if (!element || !zoomed) return;
+    element.scrollTo({
+      left: (element.scrollWidth - element.clientWidth) / 2,
+      top: (element.scrollHeight - element.clientHeight) / 2,
+    });
+  }, [zoomed]);
 
   return (
     <Dialog open={open} onClose={onClose} label={name} placement="full" className={styles.viewer}>
@@ -58,20 +79,14 @@ export function PhotoViewer({
         </IconButton>
       </header>
 
-      <div
-        className={styles.stage}
-        data-zoomed={zoom.zoomed ? '' : undefined}
-        {...zoom.handlers}
-        onDoubleClick={zoom.toggle}
-      >
+      <div ref={stage} className={styles.stage} data-zoomed={zoomed ? '' : undefined}>
         <img
           src={src}
           alt={name}
           className={styles.image}
+          style={zoomed ? { width: `${ZOOM * 100}%` } : undefined}
           draggable={false}
-          style={{
-            transform: `scale(${zoom.state.scale}) translate(${zoom.state.x}px, ${zoom.state.y}px)`,
-          }}
+          onClick={() => setZoomed((current) => !current)}
         />
       </div>
 

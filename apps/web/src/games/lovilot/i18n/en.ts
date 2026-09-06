@@ -47,7 +47,7 @@ export const en: LovilotCopy = {
   trailTitle: 'Your route',
   backStep: 'Undo step',
   zoomLabel: 'Zoom in',
-  zoomHint: 'Double-tap or pinch to zoom in. Tap outside to go back.',
+  zoomHint: 'Tap the photo to zoom in. Tap outside to go back.',
   failsFmt: 'Wrong turns so far: {n}',
 
   failTitle: 'Oooh, wrong turn!',

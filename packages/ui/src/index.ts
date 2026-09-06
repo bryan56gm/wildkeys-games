@@ -29,4 +29,3 @@ export { Stat, type StatProps } from './components/Stat.js';
 export { VisuallyHidden } from './components/VisuallyHidden.js';
 export { cx } from './lib/cx.js';
 export { useKeyboardInset } from './lib/use-keyboard-inset.js';
-export { usePinchZoom, type PinchZoomResult, type ZoomState } from './lib/use-pinch-zoom.js';
