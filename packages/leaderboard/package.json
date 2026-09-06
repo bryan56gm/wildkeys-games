@@ -1,0 +1,26 @@
+{
+  "name": "@wkg/leaderboard",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Cliente tipado de Supabase, cola offline y hooks para la clasificación.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2"
+  },
+  "peerDependencies": {
+    "react": "^19"
+  },
+  "devDependencies": {
+    "@types/react": "^19",
+    "react": "^19",
+    "typescript": "^5",
+    "vitest": "^3"
+  }
+}
