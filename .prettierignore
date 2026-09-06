@@ -1,0 +1,7 @@
+# Material recibido del equipo de diseño: se conserva tal y como llegó.
+docs/game/
+
+# Generado
+dist/
+node_modules/
+pnpm-lock.yaml

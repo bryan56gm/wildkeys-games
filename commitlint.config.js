@@ -1,7 +1,7 @@
 /**
  * Commitlint con conventional commits estricto.
  */
-module.exports = {
+export default {
   extends: ['@commitlint/config-conventional'],
   rules: {
     'type-enum': [
