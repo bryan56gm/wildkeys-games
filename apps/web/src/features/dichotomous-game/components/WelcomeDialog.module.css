@@ -1,0 +1,54 @@
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--wk-radius-pill);
+  background: linear-gradient(135deg, var(--wk-color-brand-soft), var(--wk-color-brand-border));
+  color: var(--wk-color-brand);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wk-space-2);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--wk-font-serif);
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.22;
+  color: var(--wk-color-brand-strong);
+  text-wrap: pretty;
+}
+
+.body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--wk-color-text-muted);
+  text-wrap: pretty;
+}
+
+.note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--wk-space-4);
+  width: 100%;
+  border: 1px solid var(--wk-color-accent-border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  background: var(--wk-color-accent-surface);
+  text-align: left;
+}
+
+.noteText {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--wk-color-accent-text);
+  text-wrap: pretty;
+}

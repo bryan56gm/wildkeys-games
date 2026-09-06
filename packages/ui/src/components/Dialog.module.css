@@ -1,0 +1,83 @@
+.dialog {
+  max-width: none;
+  max-height: none;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: transparent;
+  overscroll-behavior: contain;
+}
+
+.dialog::backdrop {
+  background: var(--wk-overlay);
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--wk-canvas-width);
+  margin-inline: auto;
+}
+
+/* Centrado, tarjeta blanca — bienvenida. */
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--wk-space-8);
+}
+
+.center .panel {
+  max-width: 380px;
+  max-height: 100%;
+  overflow-y: auto;
+  gap: var(--wk-space-5);
+  align-items: center;
+  border-radius: var(--wk-radius-2xl);
+  padding: var(--wk-space-8) 22px;
+  background: var(--wk-surface);
+  box-shadow: var(--wk-shadow-modal);
+  text-align: center;
+  animation: wk-pop var(--wk-duration-base) ease-out both;
+}
+
+/* Anclado abajo — registro. */
+.sheet {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: var(--wk-space-6) calc(var(--wk-space-6) + env(safe-area-inset-left))
+    calc(var(--wk-space-6) + env(safe-area-inset-bottom));
+}
+
+.sheet::backdrop {
+  background: var(--wk-overlay);
+}
+
+.sheet .panel {
+  gap: var(--wk-space-5);
+  border-radius: 22px;
+  padding: 22px;
+  background: var(--wk-surface);
+  box-shadow: var(--wk-shadow-sheet);
+  animation: wk-rise var(--wk-duration-base) ease-out both;
+}
+
+/* A pantalla completa sobre fondo casi opaco — zoom de la foto. */
+.full {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 22px var(--wk-space-6) calc(22px + env(safe-area-inset-bottom));
+}
+
+.full::backdrop {
+  background: var(--wk-overlay-strong);
+}
+
+.full .panel {
+  gap: var(--wk-space-5);
+  animation: wk-pop var(--wk-duration-fast) ease-out both;
+}

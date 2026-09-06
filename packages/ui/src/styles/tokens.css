@@ -1,0 +1,203 @@
+/**
+ * Tokens de diseño de la plataforma.
+ *
+ * Dos niveles a propósito:
+ *  1. Primitivas (`--wk-green-600`, `--wk-space-3`…): la escala, nunca se usan
+ *     directamente en los componentes.
+ *  2. Semánticos (`--wk-color-brand`, `--wk-surface`…): lo único que consumen
+ *     los componentes. Un juego cambia su identidad redefiniendo estos, sin
+ *     tocar una sola línea de CSS de `@wkg/ui`.
+ *
+ * Valores extraídos del prototipo hifi (docs/game/reference/).
+ */
+
+:root {
+  /* ── Primitivas: color ─────────────────────────────────────────── */
+  --wk-green-900: #0d2f27;
+  --wk-green-800: #194836;
+  --wk-green-700: #1d5740;
+  --wk-green-600: #216e4e;
+  --wk-green-500: #278a5e;
+  --wk-green-400: #36ab76;
+  --wk-green-300: #5cc791;
+  --wk-green-200: #94e0b3;
+  --wk-green-150: #c3efd2;
+  --wk-green-100: #e1f8e8;
+  --wk-green-50: #f2fcf5;
+
+  --wk-amber-500: #d4a017;
+  --wk-amber-400: #fbbf24;
+  --wk-amber-300: #fde68a;
+  --wk-amber-100: #fef3c7;
+  --wk-amber-50: #fffbeb;
+  --wk-amber-800: #92400e;
+  --wk-amber-900: #78350f;
+
+  --wk-red-700: #7f1d1d;
+  --wk-red-600: #991b1b;
+  --wk-red-500: #dc2626;
+  --wk-red-300: #fca5a5;
+  --wk-red-200: #fecaca;
+  --wk-red-100: #fee2e2;
+  --wk-red-50: #fef2f2;
+
+  --wk-stone-900: #292524;
+  --wk-stone-700: #44403c;
+  --wk-stone-600: #57534e;
+  --wk-stone-500: #78716c;
+  --wk-stone-400: #a8a29e;
+  --wk-stone-300: #c8c4c0;
+  --wk-stone-200: #e7e5e4;
+  --wk-stone-100: #f5f5f4;
+  --wk-stone-50: #fafaf9;
+  --wk-white: #fff;
+
+  /* ── Primitivas: métrica ───────────────────────────────────────── */
+  --wk-space-1: 4px;
+  --wk-space-2: 6px;
+  --wk-space-3: 8px;
+  --wk-space-4: 10px;
+  --wk-space-5: 13px;
+  --wk-space-6: 16px;
+  --wk-space-7: 20px;
+  --wk-space-8: 24px;
+
+  --wk-radius-sm: 9px;
+  --wk-radius-md: 12px;
+  --wk-radius-lg: 16px;
+  --wk-radius-xl: 20px;
+  --wk-radius-2xl: 24px;
+  --wk-radius-pill: 999px;
+
+  /* Objetivo táctil mínimo en móvil. */
+  --wk-tap-target: 44px;
+  --wk-tap-target-lg: 56px;
+
+  --wk-font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --wk-font-serif: 'Merriweather', ui-serif, Georgia, serif;
+  --wk-font-mono: ui-monospace, Menlo, monospace;
+
+  --wk-shadow-brand: 0 6px 18px rgb(39 138 94 / 28%);
+  --wk-shadow-card: 0 6px 18px rgb(39 138 94 / 10%);
+  --wk-shadow-modal: 0 20px 60px rgb(0 0 0 / 25%);
+  --wk-shadow-sheet: 0 -10px 40px rgb(0 0 0 / 22%);
+
+  /* Ancho del lienzo: el diseño es móvil, centrado, y no crece en escritorio. */
+  --wk-canvas-width: 430px;
+
+  --wk-duration-fast: 180ms;
+  --wk-duration-base: 300ms;
+  --wk-duration-slow: 500ms;
+  --wk-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* ── Semánticos: los redefine cada juego en su tema ───────────── */
+  --wk-color-brand: var(--wk-green-500);
+  --wk-color-brand-hover: var(--wk-green-600);
+  --wk-color-brand-strong: var(--wk-green-800);
+  --wk-color-brand-deep: var(--wk-green-700);
+  --wk-color-brand-accent: var(--wk-green-400);
+  --wk-color-brand-light: var(--wk-green-300);
+  --wk-color-brand-pale: var(--wk-green-200);
+  --wk-color-brand-border: var(--wk-green-150);
+  --wk-color-brand-soft: var(--wk-green-100);
+  --wk-color-brand-tint: var(--wk-green-50);
+
+  --wk-color-accent: var(--wk-amber-400);
+  --wk-color-accent-border: var(--wk-amber-300);
+  --wk-color-accent-surface: var(--wk-amber-50);
+  --wk-color-accent-text: var(--wk-amber-900);
+  --wk-color-accent-text-soft: var(--wk-amber-800);
+
+  --wk-color-danger: var(--wk-red-500);
+  --wk-color-danger-strong: var(--wk-red-600);
+  --wk-color-danger-text: var(--wk-red-700);
+  --wk-color-danger-border: var(--wk-red-300);
+  --wk-color-danger-surface: var(--wk-red-50);
+  --wk-color-danger-icon-bg: var(--wk-red-100);
+
+  --wk-color-text: var(--wk-stone-900);
+  --wk-color-text-muted: var(--wk-stone-600);
+  --wk-color-text-subtle: var(--wk-stone-500);
+  --wk-color-text-faint: var(--wk-stone-400);
+  --wk-color-text-ghost: var(--wk-stone-300);
+  --wk-color-text-on-brand: var(--wk-white);
+
+  --wk-surface: var(--wk-white);
+  --wk-surface-sunken: var(--wk-stone-100);
+  --wk-surface-page: var(--wk-stone-50);
+  --wk-border: var(--wk-stone-200);
+
+  --wk-overlay: rgb(25 35 30 / 62%);
+  --wk-overlay-strong: rgb(25 35 30 / 94%);
+}
+
+/* Animaciones compartidas del diseño. */
+@keyframes wk-rise {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes wk-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  60% {
+    transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes wk-shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-7px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(3px);
+  }
+}
+
+@keyframes wk-ping {
+  75%,
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+@keyframes wk-fall {
+  to {
+    transform: translate3d(var(--wk-fall-x), 108vh, 0) rotate(var(--wk-fall-rot));
+    opacity: 0.9;
+  }
+}
+
+/* Quien pide menos movimiento no recibe animaciones decorativas. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

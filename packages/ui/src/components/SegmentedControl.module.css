@@ -1,0 +1,42 @@
+.group {
+  display: flex;
+  gap: 3px;
+  border: 1px solid var(--wk-border);
+  border-radius: var(--wk-radius-pill);
+  padding: 3px;
+  background: var(--wk-surface);
+}
+
+.item {
+  flex: 1;
+  border: none;
+  border-radius: var(--wk-radius-pill);
+  background: transparent;
+  color: var(--wk-color-text-faint);
+  font-family: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    background-color var(--wk-duration-fast),
+    color var(--wk-duration-fast);
+}
+
+.sm .item {
+  padding: 7px 10px;
+  font-size: 11px;
+}
+
+.md .item {
+  padding: 9px 12px;
+  font-size: 12px;
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--wk-color-brand-accent);
+  outline-offset: 1px;
+}
+
+.active {
+  background: var(--wk-color-brand);
+  color: var(--wk-color-text-on-brand);
+}

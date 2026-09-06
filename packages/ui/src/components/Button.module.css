@@ -1,0 +1,116 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wk-space-3);
+  border: 2px solid transparent;
+  border-radius: var(--wk-radius-lg);
+  font-family: var(--wk-font-sans);
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    background-color var(--wk-duration-fast),
+    border-color var(--wk-duration-fast),
+    transform var(--wk-duration-fast);
+}
+
+.button:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.button:not(:disabled):active {
+  transform: scale(0.985);
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--wk-color-brand-accent);
+  outline-offset: 2px;
+}
+
+.block {
+  width: 100%;
+}
+
+.sm {
+  min-height: var(--wk-tap-target);
+  padding: 0 var(--wk-space-5);
+  font-size: 13.5px;
+}
+
+.md {
+  min-height: 54px;
+  padding: 0 var(--wk-space-6);
+  font-size: 15.5px;
+}
+
+.lg {
+  min-height: 60px;
+  padding: 0 var(--wk-space-6);
+  font-size: 17px;
+}
+
+.primary {
+  background: var(--wk-color-brand);
+  color: var(--wk-color-text-on-brand);
+  box-shadow: var(--wk-shadow-brand);
+}
+
+.primary:not(:disabled):hover {
+  background: var(--wk-color-brand-hover);
+}
+
+.outline {
+  border-color: var(--wk-color-brand-border);
+  background: var(--wk-surface);
+  color: var(--wk-color-brand-hover);
+  font-weight: 700;
+}
+
+.outline:not(:disabled):hover {
+  background: var(--wk-color-brand-tint);
+}
+
+.neutral {
+  border-color: var(--wk-border);
+  background: var(--wk-surface);
+  color: var(--wk-color-text-muted);
+  font-weight: 700;
+}
+
+.neutral:not(:disabled):hover {
+  background: var(--wk-surface-sunken);
+}
+
+.inverse {
+  background: var(--wk-white);
+  color: var(--wk-color-brand-strong);
+}
+
+.inverse:not(:disabled):hover {
+  background: var(--wk-color-brand-soft);
+}
+
+.ghost {
+  min-height: auto;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--wk-color-brand);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ghost:not(:disabled):hover {
+  color: var(--wk-color-brand-hover);
+}
+
+.label {
+  display: inline-flex;
+  align-items: center;
+}
+
+.trailing {
+  display: inline-flex;
+  flex: none;
+}

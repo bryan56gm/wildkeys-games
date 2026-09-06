@@ -1,0 +1,65 @@
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--wk-space-4);
+  border: 1px solid var(--wk-border);
+  border-radius: 13px;
+  padding: 11px 12px;
+  background: var(--wk-surface);
+  list-style: none;
+}
+
+.leader {
+  border-color: var(--wk-color-brand-border);
+  background: var(--wk-color-brand-tint);
+}
+
+.rank {
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--wk-radius-pill);
+  background: var(--wk-surface-sunken);
+  color: var(--wk-color-text-faint);
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.gold {
+  background: var(--wk-color-brand);
+  color: var(--wk-color-text-on-brand);
+}
+
+.podium {
+  background: var(--wk-color-brand-soft);
+  color: var(--wk-color-brand-hover);
+}
+
+.name {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--wk-color-text);
+  font-size: 14.5px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.fails {
+  flex: none;
+  color: var(--wk-color-text-faint);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.time {
+  flex: none;
+  color: var(--wk-color-brand-hover);
+  font-family: var(--wk-font-mono);
+  font-size: 14.5px;
+  font-weight: 700;
+}

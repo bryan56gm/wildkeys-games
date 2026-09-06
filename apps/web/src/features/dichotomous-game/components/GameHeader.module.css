@@ -1,0 +1,48 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--wk-space-4);
+  padding: calc(14px + env(safe-area-inset-top)) 2px var(--wk-space-6);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: var(--wk-space-3);
+  min-width: 0;
+}
+
+.logo {
+  display: inline-flex;
+  color: var(--wk-color-brand);
+}
+
+.brandText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.brandName {
+  font-family: var(--wk-font-serif);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--wk-color-brand-strong);
+}
+
+.brandSub {
+  margin-top: 3px;
+  font-size: 7.5px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wk-color-brand-light);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}

@@ -1,0 +1,23 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100svh;
+  padding: 0 var(--wk-space-6) calc(28px + env(safe-area-inset-bottom));
+}
+
+.canvas {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100%;
+  max-width: var(--wk-canvas-width);
+}
+
+.source {
+  margin: 22px 0 0;
+  color: var(--wk-color-text-ghost);
+  font-size: 10px;
+  line-height: 1.6;
+  text-align: center;
+}

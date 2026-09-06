@@ -2,12 +2,19 @@
   "name": "wildkeys-games",
   "version": "0.1.0",
   "private": true,
+  "type": "module",
   "homepage": "https://games.wildkeys.io",
   "packageManager": "pnpm@10.26.0",
   "scripts": {
-    "prepare": "lefthook install || true",
+    "dev": "pnpm --filter @wkg/web dev",
+    "build": "pnpm --filter @wkg/web build",
+    "preview": "pnpm --filter @wkg/web preview",
+    "typecheck": "pnpm -r typecheck",
+    "test": "pnpm -r test",
     "lint": "eslint",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "check": "pnpm typecheck && pnpm lint && pnpm test",
+    "prepare": "lefthook install || true"
   },
   "devDependencies": {
     "@bryan56gm/harvis-standards": "github:bryan56gm/harvis-standards",
@@ -26,6 +33,12 @@
     ],
     "*.{json,md,yml,yaml}": [
       "prettier --write"
+    ]
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "lefthook"
     ]
   }
 }

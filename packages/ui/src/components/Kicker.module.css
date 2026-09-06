@@ -1,0 +1,23 @@
+.kicker {
+  font-size: 9.5px;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.brand {
+  color: var(--wk-color-brand-accent);
+}
+.accent {
+  color: var(--wk-color-accent-text-soft);
+}
+.muted {
+  color: var(--wk-color-text-faint);
+}
+.danger {
+  color: var(--wk-color-danger);
+}
+.onDark {
+  color: var(--wk-color-brand-pale);
+}

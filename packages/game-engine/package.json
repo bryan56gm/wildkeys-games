@@ -1,0 +1,19 @@
+{
+  "name": "@wkg/game-engine",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Motor genérico de claves dicotómicas: datos, validación y máquina de estados. Sin React, sin DOM.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "vitest": "^3"
+  }
+}

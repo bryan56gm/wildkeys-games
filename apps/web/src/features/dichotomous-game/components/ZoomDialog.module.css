@@ -1,0 +1,41 @@
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--wk-space-4);
+}
+
+.names {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.name {
+  font-family: var(--wk-font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--wk-white);
+}
+
+.sci {
+  font-family: var(--wk-font-serif);
+  font-size: 12px;
+  font-style: italic;
+  color: var(--wk-color-brand-pale);
+}
+
+.frame {
+  overflow: hidden;
+  border-radius: 18px;
+  background: #1c1917;
+}
+
+.hint {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: #a8b8b0;
+  text-align: center;
+}

@@ -1,15 +1,18 @@
 # 003 — Offline-first para el juego, Supabase solo para el leaderboard
 
 ## Estado
+
 Aceptado.
 
 ## Contexto
+
 Requisito no negociable: jugar debe funcionar sin red tras la primera
 carga (evento físico, wifi/datos no garantizados). Pero la clasificación
 (leaderboard) sí queremos que se sincronice en tiempo real entre
 dispositivos durante el evento.
 
 ## Decisión
+
 - **Jugar es 100% local.** Clave dicotómica, cronómetro, progreso y
   assets van precacheados por el service worker (`vite-plugin-pwa` /
   Workbox, `generateSW`) en el install. Nunca depende de red.
@@ -31,6 +34,7 @@ dispositivos durante el evento.
   REST directo. Select público. Sin update/delete desde cliente.
 
 ## Consecuencias
+
 - El leaderboard es gameable por alguien decidido (sin backend de
   validación fuerte) — riesgo aceptado a propósito: es un juego de evento,
   no un sistema con apuestas reales. No sobre-invertir en anti-cheat.

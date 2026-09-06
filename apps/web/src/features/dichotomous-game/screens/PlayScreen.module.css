@@ -1,0 +1,47 @@
+.screen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.suspects {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.suspectsHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--wk-space-4);
+}
+
+.sectionLabel {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wk-color-text-faint);
+}
+
+.remaining {
+  color: var(--wk-color-brand-hover);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.decision {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wk-space-4);
+  animation: wk-rise var(--wk-duration-base) ease-out both;
+}
+
+.fails {
+  margin: 0;
+  color: var(--wk-color-text-faint);
+  font-size: 11px;
+  line-height: 1.5;
+}

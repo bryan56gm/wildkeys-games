@@ -1,0 +1,86 @@
+.screen {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+  animation: wk-shake var(--wk-duration-slow) ease-out both;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--wk-space-5);
+  padding: 22px;
+  text-align: center;
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 54px;
+  height: 54px;
+  border-radius: var(--wk-radius-pill);
+  background: var(--wk-color-danger-icon-bg);
+  color: var(--wk-color-danger);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--wk-font-serif);
+  font-size: 25px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--wk-color-danger-strong);
+}
+
+.body {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.55;
+  color: var(--wk-color-danger-text);
+  text-wrap: pretty;
+}
+
+.wrong {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  border: 1px solid var(--wk-red-200);
+  border-radius: 14px;
+  padding: 13px;
+  background: var(--wk-surface);
+  text-align: left;
+}
+
+.wrongName {
+  font-family: var(--wk-font-serif);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--wk-color-text);
+}
+
+.wrongSci {
+  font-family: var(--wk-font-serif);
+  font-size: 13px;
+  font-style: italic;
+  color: var(--wk-color-text-subtle);
+}
+
+.resume {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wk-space-1);
+  border-radius: 15px;
+  padding: 13px 15px;
+}
+
+.resumeText {
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--wk-color-text-muted);
+  text-wrap: pretty;
+}

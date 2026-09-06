@@ -1,0 +1,34 @@
+.host {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.piece {
+  position: absolute;
+  top: -12vh;
+  animation-name: wk-fall;
+  animation-timing-function: cubic-bezier(0.2, 0.6, 0.5, 1);
+  animation-fill-mode: forwards;
+}
+
+.piece[data-color='0'] {
+  background: var(--wk-color-brand);
+}
+.piece[data-color='1'] {
+  background: var(--wk-color-brand-light);
+}
+.piece[data-color='2'] {
+  background: var(--wk-color-brand-pale);
+}
+.piece[data-color='3'] {
+  background: var(--wk-color-accent);
+}
+.piece[data-color='4'] {
+  background: var(--wk-color-brand-strong);
+}
+.piece[data-color='5'] {
+  background: var(--wk-white);
+}

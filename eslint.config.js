@@ -1,5 +1,10 @@
 import harvis from '@bryan56gm/harvis-standards';
 
-// boundaries (app/features/lib) aplica dentro de apps/web/src una vez
-// exista esa estructura — ver docs/decisions/001-stack-vite-react.md.
-export default [...harvis];
+/**
+ * Reglas comunes del ecosistema (`@bryan56gm/harvis-standards`).
+ *
+ * `docs/game/reference/` queda fuera a propósito: es el prototipo de diseño
+ * recibido del equipo de producto, se conserva tal cual y no es código del
+ * proyecto.
+ */
+export default [{ ignores: ['**/dist/**', '**/node_modules/**', 'docs/game/**'] }, ...harvis];
