@@ -11,6 +11,15 @@ import { useKeyboardInset } from '../lib/use-keyboard-inset.js';
 
 export type DialogPlacement = 'center' | 'sheet' | 'full';
 
+/** Animación de entrada de cada disposición. Las clases viven en el CSS global
+ *  junto a sus keyframes: un CSS Module renombraría la referencia y la
+ *  animación no llegaría a existir. */
+const ENTRANCE: Record<DialogPlacement, string> = {
+  center: 'wk-anim-pop-fast',
+  sheet: 'wk-anim-rise-fast',
+  full: 'wk-anim-pop-quick',
+};
+
 export interface DialogProps {
   open: boolean;
   onClose(): void;
@@ -78,7 +87,7 @@ export function Dialog({
           `tabIndex={-1}` el panel es un destino de foco válido sin entrar en
           el recorrido del tabulador, y el lector de pantalla lee el diálogo
           desde el principio. */}
-      <div className={styles.panel} tabIndex={-1} autoFocus>
+      <div className={cx(styles.panel, ENTRANCE[placement])} tabIndex={-1} autoFocus>
         {children}
       </div>
     </dialog>

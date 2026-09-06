@@ -186,7 +186,6 @@
   border-radius: var(--wk-radius-pill);
   background: var(--wk-color-brand-light);
   box-shadow: 0 0 8px rgb(92 199 145 / 60%);
-  animation: wk-ping 1.2s ease-in-out infinite;
 }
 
 .progress {

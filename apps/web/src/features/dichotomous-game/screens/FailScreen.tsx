@@ -17,7 +17,7 @@ export interface FailScreenProps {
 /** Rama equivocada: qué especie salió y a qué paso se vuelve. */
 export function FailScreen({ copy, wrong, onRetry }: FailScreenProps) {
   return (
-    <section className={styles.screen}>
+    <section className={`${styles.screen} wk-anim-shake`}>
       <Card tone="danger" className={styles.card}>
         <span className={styles.icon} aria-hidden="true">
           <svg

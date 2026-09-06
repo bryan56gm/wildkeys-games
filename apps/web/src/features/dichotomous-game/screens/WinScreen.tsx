@@ -58,7 +58,7 @@ export function WinScreen({
   onPlayAgain,
 }: WinScreenProps) {
   return (
-    <section className={styles.screen}>
+    <section className={`${styles.screen} wk-anim-pop`}>
       <Confetti />
 
       <header className={styles.head}>

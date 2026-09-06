@@ -9,7 +9,19 @@ import { VitePWA } from 'vite-plugin-pwa';
  * ahí `generateSW` con precache de todos los assets del build y sin ninguna
  * ruta de datos de juego en runtime.
  */
+const TUNNEL_HOST = 'srv-bryan.tail54a186.ts.net';
+
 export default defineConfig({
+  server: {
+    // Carril propio: un proyecto = un puerto = un origen. Compartirlo hace que
+    // el navegador funda dos proyectos (service worker, cookies, historial).
+    port: 5174,
+    strictPort: true,
+    // El túnel apunta a IPv4; escuchar en ::1 devolvería 502.
+    host: '127.0.0.1',
+    // Sin esto Vite bloquea sus propios recursos servidos por el túnel.
+    allowedHosts: [TUNNEL_HOST],
+  },
   plugins: [
     react(),
     VitePWA({

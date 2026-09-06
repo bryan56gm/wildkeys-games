@@ -4,7 +4,6 @@
   flex-direction: column;
   justify-content: center;
   gap: 18px;
-  animation: wk-shake var(--wk-duration-slow) ease-out both;
 }
 
 .card {

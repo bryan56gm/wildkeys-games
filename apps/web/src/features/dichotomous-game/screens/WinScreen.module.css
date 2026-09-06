@@ -4,7 +4,6 @@
   flex-direction: column;
   gap: 17px;
   padding-top: var(--wk-space-1);
-  animation: wk-pop var(--wk-duration-slow) ease-out both;
 }
 
 .head {

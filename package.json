@@ -6,7 +6,7 @@
   "homepage": "https://games.wildkeys.io",
   "packageManager": "pnpm@10.26.0",
   "scripts": {
-    "dev": "pnpm --filter @wkg/web dev",
+    "dev": "node scripts/dev-banner.mjs",
     "build": "pnpm --filter @wkg/web build",
     "preview": "pnpm --filter @wkg/web preview",
     "typecheck": "pnpm -r typecheck",

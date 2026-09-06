@@ -40,7 +40,6 @@
   background: var(--wk-surface);
   box-shadow: var(--wk-shadow-modal);
   text-align: center;
-  animation: wk-pop var(--wk-duration-base) ease-out both;
 }
 
 /* Anclado abajo — registro. */
@@ -87,7 +86,6 @@
   padding: 22px;
   background: var(--wk-surface);
   box-shadow: var(--wk-shadow-sheet);
-  animation: wk-rise var(--wk-duration-base) ease-out both;
 }
 
 /* A pantalla completa sobre fondo casi opaco — zoom de la foto. */
@@ -104,5 +102,4 @@
 
 .full .panel {
   gap: var(--wk-space-5);
-  animation: wk-pop var(--wk-duration-fast) ease-out both;
 }

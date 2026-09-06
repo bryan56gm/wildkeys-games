@@ -81,7 +81,7 @@ export function PlayScreen({
         />
       </section>
 
-      <section className={styles.decision} key={nodeTitle}>
+      <section className={`${styles.decision} wk-anim-rise-fast`} key={nodeTitle}>
         <span className={styles.sectionLabel}>{nodeTitle}</span>
         <DecisionList options={options} locale={locale} onPick={onPick} />
       </section>
