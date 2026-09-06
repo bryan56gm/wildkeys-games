@@ -55,6 +55,12 @@
   text-align: left;
 }
 
+.wrongPhoto {
+  overflow: hidden;
+  border-radius: var(--wk-radius-md);
+  margin-bottom: var(--wk-space-2);
+}
+
 .wrongName {
   font-family: var(--wk-font-serif);
   font-size: 18px;

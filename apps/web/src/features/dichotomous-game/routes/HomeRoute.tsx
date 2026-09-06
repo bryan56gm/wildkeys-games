@@ -4,6 +4,7 @@ import { formatClock } from '@/lib/format/time';
 import { RegistrationDialog } from '../components/RegistrationDialog';
 import { useChallengeCopy } from '../hooks/use-game-copy';
 import { useNicknameTaken } from '../hooks/use-taken-nicknames';
+import { useSpeciesPhoto } from '../hooks/use-species-photo';
 import { HomeScreen } from '../screens/HomeScreen';
 import { useGameSession } from '../session-context';
 import { gamePaths } from './paths';
@@ -18,6 +19,7 @@ export function HomeRoute({ registering = false }: { registering?: boolean }) {
   const navigate = useNavigate();
   const mainCopy = useChallengeCopy(t, mainChallenge.id);
   const isNicknameTaken = useNicknameTaken(definition);
+  const photoOf = useSpeciesPhoto();
   const slug = definition.slug;
 
   const play = useCallback(
@@ -67,7 +69,7 @@ export function HomeRoute({ registering = false }: { registering?: boolean }) {
         }}
         sponsor={definition.sponsor}
         target={{
-          photo: mainChallenge.photo,
+          photo: photoOf(mainChallenge.key.targetSpeciesId),
           photoLabel: mainCopy.photoPlaceholder,
           name: mainCopy.name,
           caption: mainCopy.caption,

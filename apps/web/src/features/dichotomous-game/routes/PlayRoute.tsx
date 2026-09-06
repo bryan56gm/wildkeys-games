@@ -18,6 +18,7 @@ import { BonusOffer } from '../components/BonusOffer';
 import { ZoomDialog } from '../components/ZoomDialog';
 import { useBonusCopy, useChallengeCopy } from '../hooks/use-game-copy';
 import { useFinishRun } from '../hooks/use-finish-run';
+import { useSpeciesPhoto } from '../hooks/use-species-photo';
 import { FailScreen } from '../screens/FailScreen';
 import { PlayScreen } from '../screens/PlayScreen';
 import { WinScreen } from '../screens/WinScreen';
@@ -34,6 +35,7 @@ export function PlayRoute({ zoomed = false }: { zoomed?: boolean }) {
   const { locale } = useLocale();
   const navigate = useNavigate();
   const { finish, queued } = useFinishRun();
+  const photoOf = useSpeciesPhoto();
   const slug = definition.slug;
 
   // Entrar por la URL directamente (o recargar) arranca una partida libre.
@@ -60,7 +62,7 @@ export function PlayRoute({ zoomed = false }: { zoomed?: boolean }) {
   const target = targetSpecies(compiled);
   const targetName = resolveText(target.name, locale, FALLBACK_LOCALE);
   const photo = {
-    photo: challenge.photo,
+    photo: photoOf(compiled.key.targetSpeciesId),
     photoLabel: copy.photoPlaceholder,
     name: targetName,
     scientificName: target.scientificName,
@@ -101,7 +103,7 @@ export function PlayRoute({ zoomed = false }: { zoomed?: boolean }) {
           bonus ? (
             <BonusOffer
               copy={bonusCopy}
-              photo={bonus.photo}
+              photo={photoOf(bonus.key.targetSpeciesId)}
               scientificName={bonus.key.species[bonus.key.targetSpeciesId]?.scientificName ?? ''}
               onAccept={() => startBonus(bonus)}
             />
@@ -117,6 +119,7 @@ export function PlayRoute({ zoomed = false }: { zoomed?: boolean }) {
     const wrong = speciesById(compiled, state.wrongSpeciesId);
     return (
       <FailScreen
+        wrongPhoto={photoOf(wrong.id)}
         copy={{
           title: t('failTitle'),
           body: t('failBody'),
@@ -165,7 +168,7 @@ export function PlayRoute({ zoomed = false }: { zoomed?: boolean }) {
       <ZoomDialog
         open={zoomed}
         onClose={() => void navigate(-1)}
-        photo={challenge.photo}
+        photo={photoOf(compiled.key.targetSpeciesId)}
         name={targetName}
         scientificName={target.scientificName}
         photoLabel={copy.photoPlaceholder}

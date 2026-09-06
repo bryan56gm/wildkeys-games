@@ -1,5 +1,6 @@
 import type { GameDefinition } from '@/features/dichotomous-game/types';
 import lovilotLogo from './assets/lovilot-logo.webp';
+import { speciesPhotos } from './species-photos';
 import { carnivoreKey } from './content/carnivore-key';
 import { hopKey } from './content/hop-key';
 import { lovilotBundle, type LovilotChallenge } from './i18n';
@@ -11,9 +12,9 @@ import theme from './theme.module.css';
  * Aquí solo hay configuración y contenido: claves, textos, tema y assets. Toda
  * la mecánica la ponen `@wkg/game-engine` y `features/dichotomous-game`.
  *
- * Las fotos de los objetivos aún no existen; en cuanto estén, se dejan en
- * `assets/` y se referencian en `photo.src`. Mientras tanto la pantalla pinta
- * un marcador con el texto de `<reto>.photoPlaceholder`.
+ * Las fotos se recogen solas de `assets/species/`: el nombre del fichero es el
+ * id de la especie (`vista.webp`). Añadir una es soltarla ahí, sin tocar
+ * código; una especie sin foto muestra su marcador y no rompe nada.
  */
 export const lovilotGame: GameDefinition<LovilotChallenge> = {
   slug: 'lovilot',
@@ -27,20 +28,11 @@ export const lovilotGame: GameDefinition<LovilotChallenge> = {
     logoSrc: lovilotLogo,
   },
 
+  speciesPhotos,
+
   challenges: [
-    {
-      id: 'hop',
-      key: hopKey,
-      photo: {},
-      speciesColumns: 3,
-    },
-    {
-      id: 'carn',
-      key: carnivoreKey,
-      photo: {},
-      speciesColumns: 4,
-      bonus: true,
-    },
+    { id: 'hop', key: hopKey, speciesColumns: 3 },
+    { id: 'carn', key: carnivoreKey, speciesColumns: 4, bonus: true },
   ],
 
   // Filas de ejemplo para que el marcador no salga vacío al abrir el evento.

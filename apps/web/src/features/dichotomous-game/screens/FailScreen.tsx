@@ -1,4 +1,6 @@
 import { Button, Card, Kicker } from '@wkg/ui';
+import { PhotoSlot } from '../components/PhotoSlot';
+import type { PhotoRef } from '../types';
 import styles from './FailScreen.module.css';
 
 export interface FailScreenProps {
@@ -11,11 +13,13 @@ export interface FailScreenProps {
     retry: string;
   };
   wrong: { name: string; scientificName: string };
+  /** Foto de la especie equivocada: verla es media lección. */
+  wrongPhoto?: PhotoRef;
   onRetry(): void;
 }
 
 /** Rama equivocada: qué especie salió y a qué paso se vuelve. */
-export function FailScreen({ copy, wrong, onRetry }: FailScreenProps) {
+export function FailScreen({ copy, wrong, wrongPhoto, onRetry }: FailScreenProps) {
   return (
     <section className={`${styles.screen} wk-anim-shake`}>
       <Card tone="danger" className={styles.card}>
@@ -38,6 +42,11 @@ export function FailScreen({ copy, wrong, onRetry }: FailScreenProps) {
         <p className={styles.body}>{copy.body}</p>
 
         <div className={styles.wrong}>
+          {wrongPhoto?.src ? (
+            <div className={styles.wrongPhoto}>
+              <PhotoSlot photo={wrongPhoto} label={wrong.name} height={120} />
+            </div>
+          ) : null}
           <Kicker tone="danger">{copy.youGot}</Kicker>
           <span className={styles.wrongName}>{wrong.name}</span>
           <span className={styles.wrongSci}>{wrong.scientificName}</span>

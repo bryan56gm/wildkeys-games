@@ -33,6 +33,31 @@ describe('definición del juego LO VILOT', () => {
   });
 });
 
+describe('fotografías', () => {
+  /** Especies aún sin foto. Al recibirlas, se quitan de aquí y el test lo exige. */
+  const PENDIENTES = ['cashmere', 'comet'];
+
+  it('cada especie de cada clave tiene su foto', () => {
+    const sinFoto: string[] = [];
+    for (const challenge of lovilotGame.challenges) {
+      for (const id of Object.keys(challenge.key.species)) {
+        if (!lovilotGame.speciesPhotos?.[id]) sinFoto.push(id);
+      }
+    }
+    expect(sinFoto.sort()).toEqual([...PENDIENTES].sort());
+  });
+
+  it('no hay fotos que no correspondan a ninguna especie', () => {
+    const conocidas = new Set(
+      lovilotGame.challenges.flatMap((challenge) => Object.keys(challenge.key.species))
+    );
+    const huerfanas = Object.keys(lovilotGame.speciesPhotos ?? {}).filter(
+      (id) => !conocidas.has(id)
+    );
+    expect(huerfanas).toEqual([]);
+  });
+});
+
 describe('clave del lúpulo', () => {
   const compiled = compileKey(lovilotGame.challenges[0]!.key);
 

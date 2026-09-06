@@ -12,11 +12,10 @@ export interface PhotoRef {
   readonly src?: string;
 }
 
-/** Un reto dentro de un juego: una clave, una foto y una rejilla de especies. */
+/** Un reto dentro de un juego: una clave y una rejilla de especies. */
 export interface ChallengeDefinition<C extends string> {
   readonly id: C;
   readonly key: DichotomousKey<Locale>;
-  readonly photo: PhotoRef;
   /** Columnas de la rejilla de especies; depende de cuántas haya. */
   readonly speciesColumns: number;
   /** Si es `true`, se ofrece como reto extra al ganar el reto anterior. */
@@ -55,6 +54,14 @@ export interface GameDefinition<C extends string = string> {
   /** Enlace de cierre a la marca (wildkeys.io). */
   readonly externalCtaHref: string;
   readonly demoScores?: readonly DemoScore<C>[];
+  /**
+   * Fotografía de cada especie, indexada por su id.
+   *
+   * Vive en la definición del juego y no en el motor: éste trabaja con datos
+   * puros y no debe saber que existen imágenes. Una especie sin foto muestra
+   * su marcador con el texto alternativo, así que faltar una no rompe nada.
+   */
+  readonly speciesPhotos?: Readonly<Record<string, string>>;
   /** Duración de la pantalla de carga, en ms. */
   readonly splashDurationMs?: number;
 }
