@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useSubmitScore } from '@wkg/leaderboard';
 import { useGameSession } from '../session-context';
 
@@ -12,10 +12,13 @@ import { useGameSession } from '../session-context';
 export function useFinishRun(): {
   finish(elapsedMs: number, fails: number): void;
   queued: boolean;
+  /** La partida libre recién ganada ha batido el récord personal. */
+  beatenBest: boolean;
 } {
-  const { definition, activeRun, player, freezeClock } = useGameSession();
+  const { definition, activeRun, player, bests, paths, results, freezeClock } = useGameSession();
   const { submit, lastOutcome } = useSubmitScore();
   const reported = useRef<string | null>(null);
+  const [beatenBest, setBeatenBest] = useState(false);
 
   const finish = useCallback(
     (elapsedMs: number, fails: number) => {
@@ -29,6 +32,20 @@ export function useFinishRun(): {
       reported.current = token;
 
       freezeClock(elapsedMs);
+      // El recorrido se guarda siempre: es material de repaso, no una marca.
+      paths.remember(activeRun.challenge.id, activeRun.state.trail);
+
+      const beaten = !activeRun.scored && bests.record(activeRun.challenge.id, elapsedMs);
+      setBeatenBest(beaten);
+      // El resultado, entero: es lo que hace que la pantalla final aguante una
+      // recarga sin convertirse en una partida nueva.
+      results.remember(activeRun.challenge.id, {
+        elapsedMs,
+        fails,
+        scored: activeRun.scored,
+        trail: activeRun.state.trail,
+        beatenBest: beaten,
+      });
 
       const record = player.player;
       if (!activeRun.scored || !record) return;
@@ -42,8 +59,8 @@ export function useFinishRun(): {
         fails,
       });
     },
-    [activeRun, definition.slug, freezeClock, player, submit]
+    [activeRun, bests, definition.slug, paths, results, freezeClock, player, submit]
   );
 
-  return { finish, queued: lastOutcome?.status === 'queued' };
+  return { finish, queued: lastOutcome?.status === 'queued', beatenBest };
 }

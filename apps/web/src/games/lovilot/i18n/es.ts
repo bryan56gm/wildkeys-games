@@ -11,6 +11,16 @@ export const es: LovilotCopy = {
   keyName: 'Clave dicotómica de las variedades de lúpulo de LO VILOT',
   keySpecies: '6 variedades · lúpulo cultivado en LO VILOT',
   yourTarget: 'Tu objetivo',
+  homeLabel: 'Volver al inicio del juego',
+  challengesLabel: 'Retos disponibles',
+  slideFmt: 'Reto {n} de {total}',
+  exitLabel: 'Salir',
+  exitTitle: '¿Salir de la partida?',
+  exitBodyFree: 'Estás a mitad del reto. Si sales, este recorrido se pierde y vuelves al inicio.',
+  exitBodyScored:
+    'Estás a mitad de tu intento puntuable y el cronómetro no se detiene. Puedes retomarlo desde el inicio con «Continuar mi intento».',
+  exitConfirm: 'Salir igualmente',
+  exitStay: 'Seguir jugando',
 
   sponsorSubtitle: 'Cervecería artesana · Lleida',
   sponsorDescription:
@@ -35,14 +45,24 @@ export const es: LovilotCopy = {
   errTaken: 'Ese nombre ya está en la clasificación. Prueba otro.',
 
   startLabel: 'Empezar el reto',
-  freeLabel: 'Modo libre',
   boardLabel: 'Clasificación',
   againLabel: 'Jugar otra vez',
   resumeRun: 'Continuar mi intento',
   savedTitle: 'Guardado como',
   seeBoard: 'Ver marcador',
-  usedDoneFmt: 'Ya has competido: {t}. Ahora puedes practicar en modo libre.',
+  rankFmt: 'Vas {n}.º de {total} en la clasificación',
   usedPending: 'Tienes un intento en marcha. El cronómetro sigue corriendo.',
+  replayLabel: 'Modo libre',
+  improveLabel: 'Mejorar tu tiempo',
+  bestFmt: 'Tu mejor tiempo libre: {t}',
+  newBestTitle: '¡Nuevo récord personal!',
+  newBestBody:
+    'Has batido tu mejor tiempo en modo libre. No cambia la clasificación del evento, pero es tuyo.',
+  scoredNote: 'Intento único: cuenta para la clasificación.',
+  replayNote: 'Ya superado. Puedes mejorar tu tiempo, aunque ya no puntúe.',
+  markFmt: 'Tu marca: {t}',
+  lockedFmt: 'Se desbloquea al identificar {name}.',
+  progressFmt: '{n} de {total} retos superados',
 
   stepWord: 'Paso',
   trailTitle: 'Tu recorrido',
@@ -64,6 +84,8 @@ export const es: LovilotCopy = {
   failsOneShort: '1 fallo',
   failsShortFmt: '{n} fallos',
   pathTitle: 'El camino correcto',
+  stepsFmt: '{n} pasos',
+  nextTitle: '¿Y ahora qué?',
 
   wkTitle: 'Acabas de usar una clave dicotómica.',
   wkBody:
@@ -78,9 +100,11 @@ export const es: LovilotCopy = {
   backLabel: 'Volver al inicio',
   demoTag: 'demo',
   youTag: 'tú',
+  youAreLabel: 'Tu posición',
+  positionFmt: '{n}.º de {total}',
+  findMeLabel: 'Ver mi marca',
   boardOffline: 'Sin conexión: la clasificación puede no estar actualizada.',
   boardPending: 'Tu marca se enviará sola cuando vuelvas a tener conexión.',
-  boardSyncedFmt: 'Actualizado a las {t}',
 
   splashSub: 'Reto de la clave dicotómica',
   splashLoading: 'Cargando…',

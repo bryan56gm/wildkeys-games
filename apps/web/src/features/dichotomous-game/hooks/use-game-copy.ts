@@ -62,6 +62,7 @@ export interface BonusCopy {
   readonly cta: string;
   readonly photoPlaceholder: string;
   readonly name: string;
+  readonly caption: string;
 }
 
 export function useBonusCopy<C extends string>(

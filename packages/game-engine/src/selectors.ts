@@ -90,12 +90,17 @@ export interface ResolvedStep<L extends string> {
   readonly option: KeyOption<L>;
 }
 
-/** Recorrido del jugador con el texto de cada rama elegida. */
+/**
+ * Recorrido del jugador con el texto de cada rama elegida.
+ *
+ * Toma el recorrido y no la partida entera porque es lo único que necesita:
+ * así también sirve para un recorrido guardado de una partida que ya terminó.
+ */
 export function resolvedTrail<L extends string>(
   compiled: CompiledKey<L>,
-  state: RunState
+  trail: readonly TrailStep[]
 ): readonly ResolvedStep<L>[] {
-  return state.trail.map((step) => ({
+  return trail.map((step) => ({
     step,
     option: getOption(compiled, step.nodeId, step.optionIndex),
   }));

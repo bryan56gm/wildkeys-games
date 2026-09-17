@@ -110,6 +110,7 @@
   align-items: center;
 }
 
+.leading,
 .trailing {
   display: inline-flex;
   flex: none;

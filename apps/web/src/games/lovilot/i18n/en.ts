@@ -11,6 +11,17 @@ export const en: LovilotCopy = {
   keyName: 'Dichotomous key to LO VILOT hop varieties',
   keySpecies: '6 varieties · hops grown at LO VILOT',
   yourTarget: 'Your target',
+  homeLabel: 'Back to the game home',
+  challengesLabel: 'Available challenges',
+  slideFmt: 'Challenge {n} of {total}',
+  exitLabel: 'Exit',
+  exitTitle: 'Leave the game?',
+  exitBodyFree:
+    'You are halfway through the challenge. If you leave, this run is lost and you go back to the start.',
+  exitBodyScored:
+    'You are halfway through your scored attempt and the clock keeps running. You can pick it up again from the home screen with "Resume my attempt".',
+  exitConfirm: 'Leave anyway',
+  exitStay: 'Keep playing',
 
   sponsorSubtitle: 'Craft brewery · Lleida',
   sponsorDescription: 'They grow their own hop varieties to brew beers with local character.',
@@ -34,14 +45,24 @@ export const en: LovilotCopy = {
   errTaken: 'That name is already on the leaderboard. Try another.',
 
   startLabel: 'Start the challenge',
-  freeLabel: 'Free play',
   boardLabel: 'Leaderboard',
   againLabel: 'Play again',
   resumeRun: 'Continue my attempt',
   savedTitle: 'Saved as',
   seeBoard: 'See board',
-  usedDoneFmt: 'You already competed: {t}. You can now practise in free mode.',
+  rankFmt: 'You are {n} of {total} on the leaderboard',
   usedPending: 'You have an attempt under way. The clock is still running.',
+  replayLabel: 'Free play',
+  improveLabel: 'Beat your time',
+  bestFmt: 'Your best free-play time: {t}',
+  newBestTitle: 'New personal best!',
+  newBestBody:
+    'You beat your best free-play time. It does not change the event leaderboard, but it is yours.',
+  scoredNote: 'One attempt only: it counts for the leaderboard.',
+  replayNote: 'Already solved. You can beat your time, even if it no longer scores.',
+  markFmt: 'Your time: {t}',
+  lockedFmt: 'Unlocks once you identify {name}.',
+  progressFmt: '{n} of {total} challenges solved',
 
   stepWord: 'Step',
   trailTitle: 'Your route',
@@ -63,6 +84,8 @@ export const en: LovilotCopy = {
   failsOneShort: '1 miss',
   failsShortFmt: '{n} misses',
   pathTitle: 'The correct route',
+  stepsFmt: '{n} steps',
+  nextTitle: 'What now?',
 
   wkTitle: 'You just used a dichotomous key.',
   wkBody:
@@ -77,9 +100,11 @@ export const en: LovilotCopy = {
   backLabel: 'Back to start',
   demoTag: 'demo',
   youTag: 'you',
+  youAreLabel: 'Your position',
+  positionFmt: '{n} of {total}',
+  findMeLabel: 'Jump to my time',
   boardOffline: 'Offline: the leaderboard may be out of date.',
   boardPending: 'Your time will be sent automatically once you are back online.',
-  boardSyncedFmt: 'Updated at {t}',
 
   splashSub: 'Dichotomous key challenge',
   splashLoading: 'Loading…',

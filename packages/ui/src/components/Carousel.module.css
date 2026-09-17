@@ -1,0 +1,99 @@
+.carousel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wk-space-3);
+}
+
+/*
+ * Sin degradados en los bordes: tapaban justo lo único que de verdad invita a
+ * arrastrar, que es ver asomar la tarjeta siguiente. La señal es el asomo, no
+ * una cortina encima de él.
+ */
+.track {
+  display: flex;
+  gap: var(--wk-space-4);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  /* El scroll lo mueve el dedo en horizontal sin secuestrar el de la página. */
+  overscroll-behavior-x: contain;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.track:focus-visible {
+  outline: 3px solid var(--wk-color-brand-accent);
+  outline-offset: 4px;
+  border-radius: var(--wk-radius-lg);
+}
+
+/*
+ * 87%: el 13% restante es la tarjeta siguiente asomando. Es la única señal que
+ * se entiende sin leer nada, así que no se toca sin mirar cómo queda en el
+ * móvil más estrecho.
+ */
+.slide {
+  flex: 0 0 87%;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Las tarjetas ocupan todo el alto de la diapositiva: en un carrusel, dos
+   tarjetas de distinta altura se ven como un fallo, no como una variación. */
+.slide > * {
+  flex: 1;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--wk-space-4);
+}
+
+.position {
+  font-size: 11.5px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wk-color-text-subtle);
+}
+
+.dots {
+  display: flex;
+  align-items: center;
+  gap: var(--wk-space-2);
+}
+
+/*
+ * El punto se ve pequeño pero el botón mide lo que debe medir: el área táctil
+ * se consigue con relleno transparente, no encogiendo el objetivo.
+ */
+.dot {
+  flex: none;
+  box-sizing: content-box;
+  width: 7px;
+  height: 7px;
+  padding: calc((var(--wk-tap-target) - 7px) / 2);
+  margin: calc(-1 * (var(--wk-tap-target) - 7px) / 4);
+  border: none;
+  border-radius: var(--wk-radius-pill);
+  background: var(--wk-color-text-ghost);
+  background-clip: content-box;
+  cursor: pointer;
+  transition: background-color var(--wk-duration-fast);
+}
+
+.dot[data-active] {
+  background: var(--wk-color-brand);
+  background-clip: content-box;
+}
+
+.dot:focus-visible {
+  outline: 2px solid var(--wk-color-brand-accent);
+  outline-offset: -8px;
+  border-radius: var(--wk-radius-md);
+}

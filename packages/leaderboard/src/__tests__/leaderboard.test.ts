@@ -2,6 +2,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { validateScore } from '../config.js';
 import { createScoreQueue } from '../queue.js';
 import { compareEntries, mergeWithPending } from '../ranking.js';
+import { nextRetryDelay } from '../retry.js';
 import { createSnapshotStore } from '../snapshot.js';
 import type { KeyValueStore, ScoreEntry } from '../types.js';
 
@@ -133,5 +134,22 @@ describe('ranking', () => {
     const merged = mergeWithPending(published, pending);
     expect(merged.map((row) => row.id)).toEqual(['p2', 'remote']);
     expect(merged[0]?.mine).toBe(true);
+  });
+});
+
+describe('nextRetryDelay', () => {
+  it('empieza en ocho segundos y dobla con cada fallo', () => {
+    expect(nextRetryDelay(0)).toBe(8_000);
+    expect(nextRetryDelay(1)).toBe(16_000);
+    expect(nextRetryDelay(2)).toBe(32_000);
+  });
+
+  it('no pasa de un minuto: una marca tiene que llegar mientras su dueño sigue en la sala', () => {
+    expect(nextRetryDelay(10)).toBe(60_000);
+    expect(nextRetryDelay(100)).toBe(60_000);
+  });
+
+  it('trata un contador corrupto como el primer intento', () => {
+    expect(nextRetryDelay(-5)).toBe(8_000);
   });
 });

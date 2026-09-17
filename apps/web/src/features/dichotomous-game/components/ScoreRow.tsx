@@ -1,3 +1,4 @@
+import type { Ref } from 'react';
 import { Pill, cx } from '@wkg/ui';
 import { formatClock } from '@/lib/format/time';
 import styles from './ScoreRow.module.css';
@@ -16,12 +17,16 @@ export interface ScoreRowProps {
   failsLabel: string;
   youTag: string;
   demoTag: string;
+  ref?: Ref<HTMLLIElement> | undefined;
 }
 
 /** Una fila del marcador. */
-export function ScoreRow({ row, failsLabel, youTag, demoTag }: ScoreRowProps) {
+export function ScoreRow({ row, failsLabel, youTag, demoTag, ref }: ScoreRowProps) {
   return (
-    <li className={cx(styles.row, row.rank === 1 && styles.leader)}>
+    <li
+      ref={ref}
+      className={cx(styles.row, row.rank === 1 && styles.leader, row.mine && styles.mine)}
+    >
       <span
         className={cx(styles.rank, row.rank === 1 ? styles.gold : row.rank <= 3 && styles.podium)}
       >

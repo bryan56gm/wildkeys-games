@@ -1,4 +1,4 @@
-import { Button, Card, Kicker } from '@wkg/ui';
+import { Button, Card, Kicker, ReplayIcon } from '@wkg/ui';
 import { PhotoSlot } from '../components/PhotoSlot';
 import type { PhotoRef } from '../types';
 import styles from './FailScreen.module.css';
@@ -60,7 +60,7 @@ export function FailScreen({ copy, wrong, wrongPhoto, onViewPhoto, onRetry }: Fa
         <span className={styles.resumeText}>{copy.resumeNote}</span>
       </Card>
 
-      <Button size="lg" onClick={onRetry}>
+      <Button size="lg" onClick={onRetry} leading={<ReplayIcon size={18} />}>
         {copy.retry}
       </Button>
     </section>

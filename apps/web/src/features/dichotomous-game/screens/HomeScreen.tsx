@@ -1,6 +1,6 @@
-import { Avatar, Button, Card, Kicker } from '@wkg/ui';
-import { TargetCard } from '../components/TargetCard';
-import type { PhotoRef, SponsorDefinition } from '../types';
+import type { ReactNode } from 'react';
+import { Avatar, Button, Card, Carousel, Kicker, TrophyIcon } from '@wkg/ui';
+import type { SponsorDefinition } from '../types';
 import styles from './HomeScreen.module.css';
 
 export interface HomeScreenCopy {
@@ -11,44 +11,30 @@ export interface HomeScreenCopy {
   keyLabel: string;
   keyName: string;
   keySpecies: string;
-  yourTarget: string;
-  start: string;
-  free: string;
   board: string;
-  resume: string;
   sponsorSubtitle: string;
   sponsorDescription: string;
-  zoomLabel: string;
+  challengesLabel: string;
+  /** «Reto 2 de 2», rótulo del carrusel. */
+  slideLabel(position: number, total: number): string;
 }
 
 export interface HomeScreenProps {
   copy: HomeScreenCopy;
   sponsor?: SponsorDefinition | undefined;
-  target: { photo: PhotoRef; photoLabel: string; name: string; caption: string };
+  /**
+   * Los retos del juego, en el orden en que deben ofrecerse: cada uno trae su
+   * estado y su acción. La portada no decide cuántos hay ni qué se puede hacer
+   * con ellos; solo los coloca.
+   */
+  challenges: readonly ReactNode[];
   /** Jugador ya registrado en este dispositivo, con su nota de estado. */
   player: { nickname: string; note: string } | null;
-  canResume: boolean;
-  /** Amplía la foto del objetivo a pantalla completa. */
-  onViewPhoto?: () => void;
-  onStart(): void;
-  onResume(): void;
-  onFreePlay(): void;
   onBoard(): void;
 }
 
-/** Portada del juego: qué hay que identificar y cómo empezar. */
-export function HomeScreen({
-  copy,
-  sponsor,
-  target,
-  player,
-  canResume,
-  onViewPhoto,
-  onStart,
-  onResume,
-  onFreePlay,
-  onBoard,
-}: HomeScreenProps) {
+/** Portada del juego: en qué punto estás y qué puedes jugar ahora. */
+export function HomeScreen({ copy, sponsor, challenges, player, onBoard }: HomeScreenProps) {
   return (
     <section className={`${styles.screen} wk-anim-rise`}>
       <header className={styles.intro}>
@@ -74,16 +60,9 @@ export function HomeScreen({
         </Card>
       ) : null}
 
-      <TargetCard
-        photo={target.photo}
-        photoLabel={target.photoLabel}
-        kicker={copy.yourTarget}
-        name={target.name}
-        caption={target.caption}
-        layout="stacked"
-        onZoom={onViewPhoto}
-        zoomLabel={copy.zoomLabel}
-      />
+      <Carousel label={copy.challengesLabel} slideLabel={copy.slideLabel}>
+        {challenges}
+      </Carousel>
 
       <Card className={styles.keyCard}>
         <Kicker>{copy.keyLabel}</Kicker>
@@ -100,43 +79,16 @@ export function HomeScreen({
               <span className={styles.playerNote}>{player.note}</span>
             </div>
           </Card>
-        ) : (
-          <Button size="lg" onClick={onStart} trailing={<Chevron />}>
-            {copy.start}
-          </Button>
-        )}
+        ) : null}
 
-        {canResume ? <Button onClick={onResume}>{copy.resume}</Button> : null}
-
-        <div className={styles.secondary}>
-          <Button variant="outline" size="sm" onClick={onFreePlay}>
-            {copy.free}
-          </Button>
-          <Button variant="neutral" size="sm" onClick={onBoard}>
-            {copy.board}
-          </Button>
-        </div>
+        {/* Jugar es cosa de cada tarjeta; aquí solo queda lo que no es de
+            ningún reto en concreto. */}
+        <Button variant="neutral" size="sm" onClick={onBoard} leading={<TrophyIcon size={16} />}>
+          {copy.board}
+        </Button>
       </div>
 
       <p className={styles.foot}>{copy.foot}</p>
     </section>
-  );
-}
-
-function Chevron() {
-  return (
-    <svg
-      width="20"
-      height="20"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.4"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <polyline points="9 18 15 12 9 6" />
-    </svg>
   );
 }

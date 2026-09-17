@@ -1,7 +1,8 @@
 import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { useLeaderboard, useLeaderboardService } from '@wkg/leaderboard';
-import type { ScoreRowData } from '../components/ScoreRow';
+import { formatClock } from '@/lib/format/time';
+import { rankedRows, visibleRows } from '../board-rows';
 import { BoardScreen } from '../screens/BoardScreen';
 import { useGameSession } from '../session-context';
 import { gamePaths } from './paths';
@@ -21,35 +22,18 @@ export function BoardRoute() {
   const slug = definition.slug;
 
   const active = definition.challenges.find((c) => c.id === challengeId)?.id ?? mainChallenge.id;
-  const { entries, source, fetchedAt } = useLeaderboard({
+  const { entries, source } = useLeaderboard({
     gameSlug: slug,
     challenge: active,
     limit: MAX_ROWS,
   });
 
-  const rows = useMemo<readonly ScoreRowData[]>(() => {
-    const real = entries.map((entry) => ({
-      name: entry.nickname,
-      elapsedMs: entry.elapsedMs,
-      fails: entry.fails,
-      mine: entry.mine,
-      demo: false,
-    }));
-    const demo = (definition.demoScores ?? [])
-      .filter((score) => score.challenge === active)
-      .map((score) => ({
-        name: score.name,
-        elapsedMs: score.elapsedMs,
-        fails: score.fails,
-        mine: false,
-        demo: true,
-      }));
-
-    return [...real, ...demo]
-      .sort((a, b) => a.elapsedMs - b.elapsedMs || a.fails - b.fails)
-      .slice(0, MAX_ROWS)
-      .map((row, index) => ({ ...row, rank: index + 1 }));
-  }, [entries, definition.demoScores, active]);
+  const ranking = useMemo(
+    () => rankedRows(entries, definition.demoScores ?? [], active),
+    [entries, definition.demoScores, active]
+  );
+  const board = useMemo(() => visibleRows(ranking, MAX_ROWS), [ranking]);
+  const mine = ranking.find((row) => row.mine);
 
   const hasPending = service.pending().some((item) => item.gameSlug === slug);
 
@@ -64,6 +48,8 @@ export function BoardRoute() {
         youTag: t('youTag'),
         demoTag: t('demoTag'),
         tabsLabel: t('boardTitle'),
+        youAre: t('youAreLabel'),
+        findMe: t('findMeLabel'),
         notice: notice(),
       }}
       tabs={definition.challenges.map((challenge) => ({
@@ -72,23 +58,32 @@ export function BoardRoute() {
       }))}
       activeTab={active}
       onTabChange={(value) => void navigate(gamePaths.board(slug, value), { replace: true })}
-      rows={rows}
+      rows={board.rows}
+      mine={
+        mine
+          ? {
+              position: t('positionFmt', { n: mine.rank, total: ranking.length }),
+              time: formatClock(mine.elapsedMs),
+            }
+          : null
+      }
+      mineIsFarBelow={board.mineIsFarBelow}
       failsLabel={(fails) => (fails === 1 ? t('failsOneShort') : t('failsShortFmt', { n: fails }))}
       onBack={() => void navigate(gamePaths.home(slug))}
     />
   );
 
+  /**
+   * Aviso solo cuando pasa algo.
+   *
+   * Antes decía también la hora de la última actualización, y eso desconcierta
+   * más de lo que informa: que la clasificación esté al día es lo normal, y
+   * contarlo hace pensar que puede no estarlo. El marcador se refresca solo por
+   * Realtime; si algo va mal, entonces sí se dice.
+   */
   function notice(): string | null {
     if (hasPending) return t('boardPending');
     if (source === 'cached') return t('boardOffline');
-    if (source === 'live' && fetchedAt) {
-      return t('boardSyncedFmt', {
-        t: new Date(fetchedAt).toLocaleTimeString(undefined, {
-          hour: '2-digit',
-          minute: '2-digit',
-        }),
-      });
-    }
     return null;
   }
 }

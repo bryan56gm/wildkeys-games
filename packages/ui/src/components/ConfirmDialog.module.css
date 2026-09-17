@@ -1,0 +1,52 @@
+.badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: var(--wk-radius-pill);
+}
+
+.plain {
+  background: var(--wk-color-brand-soft);
+  color: var(--wk-color-brand);
+}
+
+.warning {
+  background: var(--wk-color-accent-surface);
+  color: var(--wk-color-accent-text);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wk-space-2);
+}
+
+.title {
+  margin: 0;
+  font-family: var(--wk-font-serif);
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.22;
+  color: var(--wk-color-brand-strong);
+  text-wrap: pretty;
+}
+
+.body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--wk-color-text-muted);
+  text-wrap: pretty;
+}
+
+/* En columna y no en fila: dos botones del sistema (54px de alto, texto de
+   frase entera) no caben uno al lado del otro en un móvil estrecho sin partir
+   el texto. */
+.actions {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: var(--wk-space-3);
+  width: 100%;
+}

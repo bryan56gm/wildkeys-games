@@ -1,8 +1,9 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import { formatClock } from '@/lib/format/time';
+import { ChallengeCard } from '../components/ChallengeCard';
 import { RegistrationDialog } from '../components/RegistrationDialog';
-import { useChallengeCopy } from '../hooks/use-game-copy';
+import { useChallengeBoard, type ChallengeStatus } from '../hooks/use-challenge-board';
 import { useNicknameTaken } from '../hooks/use-taken-nicknames';
 import { usePhotoViewer } from '../hooks/use-photo-viewer';
 import { useSpeciesPhoto } from '../hooks/use-species-photo';
@@ -16,9 +17,9 @@ import styles from '../GameApp.module.css';
  * botón «atrás» cierra el diálogo en vez de salirse del juego.
  */
 export function HomeRoute({ registering = false }: { registering?: boolean }) {
-  const { definition, t, player, mainChallenge, challengeById } = useGameSession();
+  const { definition, t, player, bests, mainChallenge } = useGameSession();
   const navigate = useNavigate();
-  const mainCopy = useChallengeCopy(t, mainChallenge.id);
+  const board = useChallengeBoard();
   const isNicknameTaken = useNicknameTaken(definition);
   const photoOf = useSpeciesPhoto();
   const viewer = usePhotoViewer();
@@ -31,10 +32,9 @@ export function HomeRoute({ registering = false }: { registering?: boolean }) {
    */
   const play = useCallback(
     (challengeId: string, scored: boolean, startedAt: number) => {
-      if (!challengeById(challengeId)) return;
       void navigate(gamePaths.play(slug, challengeId), { state: { scored, startedAt } });
     },
-    [challengeById, navigate, slug]
+    [navigate, slug]
   );
 
   const handleRegister = useCallback(
@@ -44,12 +44,6 @@ export function HomeRoute({ registering = false }: { registering?: boolean }) {
     },
     [mainChallenge.id, play, player]
   );
-
-  const handleResume = useCallback(() => {
-    const challengeId = player.pendingChallengeId();
-    const startedAt = challengeId ? player.player?.runs[challengeId]?.startedAt : undefined;
-    if (challengeId && startedAt) play(challengeId, true, startedAt);
-  }, [play, player]);
 
   const record = player.player;
 
@@ -64,28 +58,15 @@ export function HomeRoute({ registering = false }: { registering?: boolean }) {
           keyLabel: t('keyLabel'),
           keyName: t('keyName'),
           keySpecies: t('keySpecies'),
-          yourTarget: t('yourTarget'),
-          start: t('startLabel'),
-          free: t('freeLabel'),
           board: t('boardLabel'),
-          resume: t('resumeRun'),
           sponsorSubtitle: t('sponsorSubtitle'),
           sponsorDescription: t('sponsorDescription'),
-          zoomLabel: t('zoomLabel'),
+          challengesLabel: t('challengesLabel'),
+          slideLabel: (position, total) => t('slideFmt', { n: position, total }),
         }}
         sponsor={definition.sponsor}
-        target={{
-          photo: photoOf(mainChallenge.key.targetSpeciesId),
-          photoLabel: mainCopy.photoPlaceholder,
-          name: mainCopy.name,
-          caption: mainCopy.caption,
-        }}
+        challenges={byUrgency(board).map(renderChallenge)}
         player={record ? { nickname: record.nickname, note: playerNote() } : null}
-        canResume={player.pendingChallengeId() !== null}
-        onViewPhoto={() => viewer.open(mainChallenge.key.targetSpeciesId)}
-        onStart={() => void navigate(gamePaths.register(slug))}
-        onResume={handleResume}
-        onFreePlay={() => play(mainChallenge.id, false, Date.now())}
         onBoard={() => void navigate(gamePaths.board(slug, mainChallenge.id))}
       />
       <p className={styles.source}>{t('source')}</p>
@@ -110,12 +91,125 @@ export function HomeRoute({ registering = false }: { registering?: boolean }) {
     </>
   );
 
+  function renderChallenge(status: ChallengeStatus) {
+    const { challenge, stage } = status;
+    const targetId = challenge.key.targetSpeciesId;
+
+    return (
+      <ChallengeCard
+        key={challenge.id}
+        copy={{
+          kicker: challenge.bonus ? t(`${challenge.id}.bonusKicker`) : t('yourTarget'),
+          name: t(`${challenge.id}.name`),
+          caption: t(`${challenge.id}.caption`),
+          photoLabel: t(`${challenge.id}.photoPlaceholder`),
+          zoomLabel: t('zoomLabel'),
+          action: actionLabel(status),
+          note: noteFor(status),
+          best: bestNote(challenge.id),
+        }}
+        photo={photoOf(targetId)}
+        stage={stage}
+        photoFit={board.length > 1 ? 'fixed' : 'adaptive'}
+        onViewPhoto={() => viewer.open(targetId)}
+        onAction={() => startChallenge(status)}
+      />
+    );
+  }
+
+  /**
+   * Qué ofrece el botón de un reto, según en qué punto esté.
+   *
+   * Un reto bloqueado enseña la misma etiqueta que tendrá cuando se abra, solo
+   * que apagada: así se ve qué hay detrás sin prometer nada distinto.
+   */
+  function actionLabel(status: ChallengeStatus): string {
+    switch (status.stage) {
+      case 'running':
+        return t('resumeRun');
+      case 'done':
+        return t('improveLabel');
+      case 'locked':
+      case 'open':
+        return t('startLabel');
+    }
+  }
+
+  /** Qué se cuenta bajo el nombre: la marca, el aviso o qué lo desbloquea. */
+  function noteFor(status: ChallengeStatus): string {
+    switch (status.stage) {
+      case 'locked':
+        return t('lockedFmt', { name: nameOf(status.unlockedBy?.id) });
+      case 'running':
+        return t('usedPending');
+      case 'done':
+        return status.elapsedMs === null
+          ? t('replayNote')
+          : t('markFmt', { t: formatClock(status.elapsedMs) });
+      case 'open':
+        return t('scoredNote');
+    }
+  }
+
+  /**
+   * Empieza —o retoma— un reto. Puntúa solo la primera vez y con jugador
+   * registrado: repetir siempre es para practicar, nunca queda bloqueado.
+   */
+  function startChallenge({ challenge, stage, startedAt }: ChallengeStatus) {
+    if (stage === 'locked') return;
+
+    if (stage === 'open' && !record) {
+      return void navigate(gamePaths.register(slug));
+    }
+
+    if (stage === 'running' && startedAt !== null) {
+      return play(challenge.id, true, startedAt);
+    }
+
+    if (stage === 'open' && record) {
+      const started = player.startRun(challenge.id);
+      return play(challenge.id, true, started?.runs[challenge.id]?.startedAt ?? Date.now());
+    }
+
+    play(challenge.id, false, Date.now());
+  }
+
+  /**
+   * Los retos se ordenan por lo que el jugador puede hacer ahora, no por cómo
+   * están declarados: lo empezado, lo que puede jugar, lo que aún no tiene y,
+   * al final, lo ya superado. Recién competido el principal, esto deja el reto
+   * extra en cabeza sin que nadie tenga que decirlo.
+   */
+  function byUrgency(statuses: readonly ChallengeStatus[]): readonly ChallengeStatus[] {
+    const priority: Record<ChallengeStatus['stage'], number> = {
+      running: 0,
+      open: 1,
+      locked: 2,
+      done: 3,
+    };
+    return [...statuses].sort((a, b) => priority[a.stage] - priority[b.stage]);
+  }
+
+  /**
+   * El récord propio, solo cuando existe. Se dice aparte de la marca de la
+   * clasificación y con otras palabras a propósito: son dos cosas distintas y
+   * mezclarlas haría creer que repetir mejora el puesto, que no es verdad.
+   */
+  function bestNote(challengeId: string): string | null {
+    const best = bests.bestOf(challengeId);
+    return best === null ? null : t('bestFmt', { t: formatClock(best) });
+  }
+
+  function nameOf(challengeId: string | undefined): string {
+    return challengeId ? t(`${challengeId}.name`) : '';
+  }
+
   /** Nota de estado bajo el nombre del jugador. */
   function playerNote(): string {
-    const run = record?.runs[mainChallenge.id];
-    if (run?.completed && run.elapsedMs !== null) {
-      return t('usedDoneFmt', { t: formatClock(run.elapsedMs) });
-    }
-    return t('usedPending');
+    const pending = board.find((status) => status.stage === 'running');
+    if (pending) return t('usedPending');
+
+    const done = board.filter((status) => status.stage === 'done').length;
+    return t('progressFmt', { n: done, total: board.length });
   }
 }

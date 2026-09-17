@@ -14,6 +14,16 @@ export const ca = {
   keyName: 'Clau dicotòmica de les varietats de llúpol de LO VILOT',
   keySpecies: '6 varietats · llúpol cultivat a LO VILOT',
   yourTarget: 'El teu objectiu',
+  homeLabel: "Tornar a l'inici del joc",
+  challengesLabel: 'Reptes disponibles',
+  slideFmt: 'Repte {n} de {total}',
+  exitLabel: 'Sortir',
+  exitTitle: 'Vols sortir de la partida?',
+  exitBodyFree: "Ets a mig repte. Si surts, aquest recorregut es perd i tornes a l'inici.",
+  exitBodyScored:
+    "Ets a mig intent puntuable i el cronòmetre no s'atura. El pots reprendre des de l'inici amb «Continuar el meu intent».",
+  exitConfirm: 'Sortir igualment',
+  exitStay: 'Continuar jugant',
 
   sponsorSubtitle: 'Cerveseria artesana · Lleida',
   sponsorDescription:
@@ -38,14 +48,24 @@ export const ca = {
   errTaken: 'Aquest nom ja és a la classificació. Prova’n un altre.',
 
   startLabel: 'Començar el repte',
-  freeLabel: 'Mode lliure',
   boardLabel: 'Classificació',
   againLabel: 'Jugar un altre cop',
   resumeRun: 'Continuar el meu intent',
   savedTitle: 'Desat com a',
   seeBoard: 'Veure marcador',
-  usedDoneFmt: 'Ja has competit: {t}. Ara pots practicar en mode lliure.',
+  rankFmt: 'Vas {n}.º de {total} a la classificació',
   usedPending: 'Tens un intent en marxa. El cronòmetre continua corrent.',
+  replayLabel: 'Mode lliure',
+  improveLabel: 'Millorar el temps',
+  bestFmt: 'El teu millor temps lliure: {t}',
+  newBestTitle: 'Nou rècord personal!',
+  newBestBody:
+    "Has batut el teu millor temps en mode lliure. No canvia la classificació de l'esdeveniment, però és teu.",
+  scoredNote: 'Intent únic: compta per a la classificació.',
+  replayNote: 'Ja superat. Pots millorar el teu temps, encara que ja no puntuï.',
+  markFmt: 'La teva marca: {t}',
+  lockedFmt: 'Es desbloqueja en identificar {name}.',
+  progressFmt: '{n} de {total} reptes superats',
 
   stepWord: 'Pas',
   trailTitle: 'El teu recorregut',
@@ -67,6 +87,8 @@ export const ca = {
   failsOneShort: '1 error',
   failsShortFmt: '{n} errors',
   pathTitle: 'El camí correcte',
+  stepsFmt: '{n} passos',
+  nextTitle: 'I ara què?',
 
   wkTitle: 'Acabes de fer servir una clau dicotòmica.',
   wkBody:
@@ -81,9 +103,11 @@ export const ca = {
   backLabel: 'Tornar a l’inici',
   demoTag: 'demo',
   youTag: 'tu',
+  youAreLabel: 'La teva posició',
+  positionFmt: '{n}.º de {total}',
+  findMeLabel: 'Veure la meva marca',
   boardOffline: 'Sense connexió: la classificació pot no estar actualitzada.',
   boardPending: 'La teva marca s’enviarà sola quan tornis a tenir connexió.',
-  boardSyncedFmt: 'Actualitzat a les {t}',
 
   splashSub: 'Repte de la clau dicotòmica',
   splashLoading: 'Carregant…',

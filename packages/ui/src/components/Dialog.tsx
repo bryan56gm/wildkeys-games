@@ -7,7 +7,7 @@ import {
 } from 'react';
 import styles from './Dialog.module.css';
 import { cx } from '../lib/cx.js';
-import { useKeyboardInset } from '../lib/use-keyboard-inset.js';
+import { useVisualViewportHeight } from '../lib/use-visual-viewport.js';
 
 export type DialogPlacement = 'center' | 'sheet' | 'full';
 
@@ -49,12 +49,21 @@ export function Dialog({
   className,
 }: DialogProps) {
   const ref = useRef<HTMLDialogElement>(null);
-  const keyboardInset = useKeyboardInset();
+  const panelRef = useRef<HTMLDivElement>(null);
+  const visualHeight = useVisualViewportHeight();
 
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
-    if (open && !element.open) element.showModal();
+    if (open && !element.open) {
+      element.showModal();
+      // `showModal()` reparte el foco por especificación y, sin un elemento con
+      // `autofocus` en el DOM, se lo lleva el primer campo enfocable — en móvil
+      // eso abre el teclado encima del texto. React no renderiza el atributo
+      // (lo aplica por su cuenta, y antes de este efecto), así que el foco al
+      // panel se pone aquí, después, que es lo único que el navegador respeta.
+      panelRef.current?.focus({ preventScroll: true });
+    }
     if (!open && element.open) element.close();
   }, [open]);
 
@@ -74,20 +83,20 @@ export function Dialog({
       ref={ref}
       aria-label={label}
       className={cx(styles.dialog, styles[placement], className)}
-      // El teclado de iOS tapa lo que hay debajo en vez de encogerlo, así que
-      // el diálogo se aparta otro tanto por su cuenta.
-      style={{ ['--wk-keyboard-inset' as string]: `${keyboardInset}px` }}
-      data-keyboard={keyboardInset > 0 ? '' : undefined}
+      /*
+       * El diálogo mide lo que mide el área visible, no la pantalla. Al abrirse
+       * el teclado, el hueco encoge y el diálogo con él: el contenido se
+       * reacomoda donde toca en vez de quedar tapado, y no hace falta moverlo.
+       */
+      style={visualHeight === null ? undefined : { height: `${visualHeight}px` }}
       onCancel={handleCancel}
       onClick={handleBackdropClick}
     >
-      {/* El foco va al panel, no al primer campo: `showModal()` enfoca por
-          especificación el primer elemento enfocable, y en móvil eso abre el
-          teclado encima del texto antes de que dé tiempo a leerlo. Con
-          `tabIndex={-1}` el panel es un destino de foco válido sin entrar en
-          el recorrido del tabulador, y el lector de pantalla lee el diálogo
-          desde el principio. */}
-      <div className={cx(styles.panel, ENTRANCE[placement])} tabIndex={-1} autoFocus>
+      {/* El foco va al panel, no al primer campo (lo coloca el efecto de
+          arriba). Con `tabIndex={-1}` el panel es un destino de foco válido sin
+          entrar en el recorrido del tabulador, y el lector de pantalla lee el
+          diálogo desde el principio. */}
+      <div ref={panelRef} className={cx(styles.panel, ENTRANCE[placement])} tabIndex={-1}>
         {children}
       </div>
     </dialog>

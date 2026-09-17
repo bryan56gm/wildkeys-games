@@ -1,9 +1,21 @@
 import type { ResolvedStep } from '@wkg/game-engine';
-import { resolveText } from '@wkg/game-engine';
-import { Avatar, Button, Card, Confetti, Kicker, Stat } from '@wkg/ui';
-import { FALLBACK_LOCALE, type Locale } from '@/app/i18n/locale';
+import {
+  Avatar,
+  Button,
+  Card,
+  Confetti,
+  Disclosure,
+  HomeIcon,
+  Kicker,
+  ReplayIcon,
+  Stat,
+  StopwatchIcon,
+  TrophyIcon,
+} from '@wkg/ui';
+import type { Locale } from '@/app/i18n/locale';
 import { BrandOutro } from '../components/BrandOutro';
 import { PhotoSlot } from '../components/PhotoSlot';
+import { SolvedPath } from '../components/SolvedPath';
 import type { PhotoRef } from '../types';
 import styles from './WinScreen.module.css';
 import type { ReactNode } from 'react';
@@ -17,9 +29,19 @@ export interface WinScreenCopy {
   failsLabel: string;
   savedTitle: string;
   seeBoard: string;
+  /** «Vas 3.º de 14», una vez guardada la marca. */
+  rank: string | null;
+  /** Título y cuerpo del récord personal, si esta partida lo ha batido. */
+  newBestTitle: string;
+  newBestBody: string;
   pathTitle: string;
+  /** «6 pasos», al lado del título del recorrido plegado. */
+  pathNote: string;
+  /** Encabeza las salidas: «¿Y ahora qué?». */
+  nextTitle: string;
   boardLabel: string;
   againLabel: string;
+  homeLabel: string;
   outroTitle: string;
   outroBody: string;
   outroCta: string;
@@ -35,6 +57,8 @@ export interface WinScreenProps {
   savedAs: string | null;
   /** Aviso de sincronización (marca en cola, sin conexión…). */
   syncNote?: string | undefined;
+  /** La partida libre ha batido el récord personal. */
+  beatenBest?: boolean;
   path: readonly ResolvedStep<Locale>[];
   outroHref: string;
   /** Oferta del reto extra, si toca. */
@@ -43,9 +67,19 @@ export interface WinScreenProps {
   onViewPhoto?: () => void;
   onBoard(): void;
   onPlayAgain(): void;
+  onHome(): void;
 }
 
-/** Victoria: métricas, camino correcto, reto extra y cierre de marca. */
+/**
+ * Final de reto: qué has hecho, qué puedes hacer ahora, y el detalle aparte.
+ *
+ * El orden es el que necesita alguien que acaba de terminar y aún tiene el
+ * móvil en la mano en medio de un evento: primero su marca, después **las
+ * salidas** —seguir con el reto extra, ver la clasificación, volver al
+ * inicio—, y solo entonces el detalle, plegado. El recorrido paso a paso
+ * interesa a quien lo busca; puesto por delante, entierra lo que la mayoría
+ * viene a hacer y satura justo cuando hay que decidir.
+ */
 export function WinScreen({
   copy,
   locale,
@@ -53,12 +87,14 @@ export function WinScreen({
   stats,
   savedAs,
   syncNote,
+  beatenBest = false,
   path,
   outroHref,
   bonus,
   onViewPhoto,
   onBoard,
   onPlayAgain,
+  onHome,
 }: WinScreenProps) {
   return (
     <section className={`${styles.screen} wk-anim-pop`}>
@@ -102,12 +138,25 @@ export function WinScreen({
         </div>
       </Card>
 
+      {beatenBest ? (
+        <Card tone="accent" className={styles.best}>
+          <span className={styles.bestIcon} aria-hidden="true">
+            <StopwatchIcon size={20} />
+          </span>
+          <div className={styles.bestText}>
+            <span className={styles.bestTitle}>{copy.newBestTitle}</span>
+            <span className={styles.bestBody}>{copy.newBestBody}</span>
+          </div>
+        </Card>
+      ) : null}
+
       {savedAs ? (
         <Card tone="brand" className={styles.saved}>
           <Avatar name={savedAs} tone="solid" />
           <div className={styles.savedText}>
             <Kicker tone="brand">{copy.savedTitle}</Kicker>
             <span className={styles.savedName}>{savedAs}</span>
+            {copy.rank ? <span className={styles.rank}>{copy.rank}</span> : null}
             {syncNote ? <span className={styles.syncNote}>{syncNote}</span> : null}
           </div>
           <Button
@@ -122,21 +171,35 @@ export function WinScreen({
         </Card>
       ) : null}
 
-      <section className={styles.path}>
-        <Kicker>{copy.pathTitle}</Kicker>
-        <ol className={styles.pathList}>
-          {path.map(({ step, option }, index) => (
-            <li key={`${step.nodeId}-${index}`} className={styles.pathItem}>
-              <span className={styles.pathTag}>{option.tag}</span>
-              <span className={styles.pathText}>
-                {resolveText(option.text, locale, FALLBACK_LOCALE)}
-              </span>
-            </li>
-          ))}
-        </ol>
+      <section className={styles.next}>
+        <Kicker>{copy.nextTitle}</Kicker>
+        {/* El reto extra es la salida destacada cuando existe: es lo que
+            continúa la partida. Las demás siempre están, en su tono. */}
+        {bonus}
+        <Button variant="outline" onClick={onBoard} leading={<TrophyIcon size={17} />}>
+          {copy.boardLabel}
+        </Button>
+        <div className={styles.secondary}>
+          <Button variant="neutral" size="sm" onClick={onHome} leading={<HomeIcon size={16} />}>
+            {copy.homeLabel}
+          </Button>
+          <Button
+            variant="neutral"
+            size="sm"
+            onClick={onPlayAgain}
+            leading={<ReplayIcon size={16} />}
+          >
+            {copy.againLabel}
+          </Button>
+        </div>
       </section>
 
-      {bonus}
+      {/* Abierto de entrada: aquí el recorrido no es letra pequeña, es lo que
+          el jugador enseña a los demás y con lo que repasa la clave. Plegado
+          pasaba desapercibido. */}
+      <Disclosure summary={copy.pathTitle} note={copy.pathNote} defaultOpen>
+        <SolvedPath path={path} locale={locale} />
+      </Disclosure>
 
       <BrandOutro
         title={copy.outroTitle}
@@ -144,15 +207,6 @@ export function WinScreen({
         cta={copy.outroCta}
         href={outroHref}
       />
-
-      <div className={styles.actions}>
-        <Button variant="outline" size="sm" onClick={onBoard}>
-          {copy.boardLabel}
-        </Button>
-        <Button variant="neutral" size="sm" onClick={onPlayAgain}>
-          {copy.againLabel}
-        </Button>
-      </div>
 
       <p className={styles.source}>{copy.source}</p>
     </section>

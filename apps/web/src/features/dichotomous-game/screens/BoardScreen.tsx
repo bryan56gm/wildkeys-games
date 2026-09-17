@@ -1,4 +1,5 @@
-import { Button, Kicker, SegmentedControl } from '@wkg/ui';
+import { Fragment, useRef } from 'react';
+import { Button, HomeIcon, Kicker, SegmentedControl } from '@wkg/ui';
 import { ScoreRow, type ScoreRowData } from '../components/ScoreRow';
 import styles from './BoardScreen.module.css';
 
@@ -11,7 +12,10 @@ export interface BoardScreenCopy {
   youTag: string;
   demoTag: string;
   tabsLabel: string;
-  /** Aviso de estado: sin conexión, marca pendiente, hora de sincronización. */
+  /** Resumen de la marca propia: «Tu posición», «7.º de 23». */
+  youAre: string;
+  findMe: string;
+  /** Aviso de estado: sin conexión o marca pendiente. */
   notice: string | null;
 }
 
@@ -21,6 +25,13 @@ export interface BoardScreenProps {
   activeTab: string;
   onTabChange(tab: string): void;
   rows: readonly ScoreRowData[];
+  /**
+   * Puesto y tiempo propios en este reto, de toda la clasificación —no solo de
+   * lo que se ve—. `null` si aún no se ha competido en él.
+   */
+  mine: { position: string; time: string } | null;
+  /** La marca propia no entra en el corte y se ha añadido al final. */
+  mineIsFarBelow?: boolean;
   failsLabel(fails: number): string;
   onBack(): void;
 }
@@ -32,9 +43,13 @@ export function BoardScreen({
   activeTab,
   onTabChange,
   rows,
+  mine,
+  mineIsFarBelow = false,
   failsLabel,
   onBack,
 }: BoardScreenProps) {
+  const mineRowRef = useRef<HTMLLIElement>(null);
+
   return (
     <section className={`${styles.screen} wk-anim-rise`}>
       <header className={styles.head}>
@@ -53,6 +68,27 @@ export function BoardScreen({
         />
       ) : null}
 
+      {/*
+        Lo primero que se busca al abrir una clasificación es uno mismo. Se dice
+        arriba, antes de la lista, y de paso lleva hasta la fila: con veintitantas
+        marcas, encontrarse a mano es justo lo que hace que la gente deje de
+        mirar el marcador.
+      */}
+      {mine ? (
+        <button
+          type="button"
+          className={styles.you}
+          onClick={() =>
+            mineRowRef.current?.scrollIntoView({ block: 'center', behavior: 'smooth' })
+          }
+        >
+          <span className={styles.youLabel}>{copy.youAre}</span>
+          <span className={styles.youPosition}>{mine.position}</span>
+          <span className={styles.youTime}>{mine.time}</span>
+          <span className={styles.youFind}>{copy.findMe}</span>
+        </button>
+      ) : null}
+
       {copy.notice ? (
         <p className={styles.notice} role="status">
           {copy.notice}
@@ -63,19 +99,28 @@ export function BoardScreen({
         <p className={styles.empty}>{copy.empty}</p>
       ) : (
         <ol className={styles.rows}>
-          {rows.map((row) => (
-            <ScoreRow
-              key={`${row.name}-${row.elapsedMs}-${row.rank}`}
-              row={row}
-              failsLabel={failsLabel(row.fails)}
-              youTag={copy.youTag}
-              demoTag={copy.demoTag}
-            />
+          {rows.map((row, index) => (
+            <Fragment key={`${row.name}-${row.elapsedMs}-${row.rank}`}>
+              {/* Marca el salto cuando la fila propia viene de mucho más abajo:
+                  sin esto parecería que va justo detrás de la anterior. */}
+              {mineIsFarBelow && index === rows.length - 1 ? (
+                <li className={styles.gap} aria-hidden="true">
+                  ···
+                </li>
+              ) : null}
+              <ScoreRow
+                ref={row.mine ? mineRowRef : undefined}
+                row={row}
+                failsLabel={failsLabel(row.fails)}
+                youTag={copy.youTag}
+                demoTag={copy.demoTag}
+              />
+            </Fragment>
           ))}
         </ol>
       )}
 
-      <Button variant="outline" size="sm" onClick={onBack}>
+      <Button variant="outline" size="sm" onClick={onBack} leading={<HomeIcon size={16} />}>
         {copy.back}
       </Button>
     </section>

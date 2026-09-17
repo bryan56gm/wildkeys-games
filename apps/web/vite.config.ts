@@ -2,6 +2,7 @@ import { fileURLToPath, URL } from 'node:url';
 import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
+import { requestLog } from './vite/request-log';
 
 /**
  * El requisito manda sobre la configuración: tras la primera visita con red,
@@ -26,6 +27,9 @@ export default defineConfig({
     allowedHosts: [TUNNEL_HOST],
   },
   plugins: [
+    // Los logs de petición van los primeros: así miden también lo que sirven
+    // los demás plugins.
+    requestLog(),
     react(),
     VitePWA({
       registerType: 'autoUpdate',

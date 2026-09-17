@@ -110,7 +110,7 @@ describe('selectores', () => {
 
   it('resuelve el recorrido con el texto de cada rama', () => {
     const mid = runReducer(compiled, run, { type: 'PICK', optionIndex: 0 });
-    expect(resolvedTrail(compiled, mid)[0]?.option.text.es).toBe('Con pelo');
+    expect(resolvedTrail(compiled, mid.trail)[0]?.option.text.es).toBe('Con pelo');
   });
 
   it('solo permite deshacer con pasos dados y en juego', () => {

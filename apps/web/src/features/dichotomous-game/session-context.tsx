@@ -11,7 +11,10 @@ import type { Translate } from '@wkg/i18n';
 import type { Locale } from '@/app/i18n/locale';
 import type { GameCopy } from './copy';
 import { useGameCopy } from './hooks/use-game-copy';
+import { usePersonalBests, type UsePersonalBestsResult } from './hooks/use-personal-bests';
 import { usePlayer, type UsePlayerResult } from './hooks/use-player';
+import { useLastResults, type UseLastResultsResult } from './hooks/use-last-results';
+import { useSolvedPaths, type UseSolvedPathsResult } from './hooks/use-solved-paths';
 import type { AnyGameDefinition, ChallengeDefinition } from './types';
 
 /** Partida en curso. Vive en el layout, así que navegar no la destruye. */
@@ -29,6 +32,12 @@ export interface GameSession {
   readonly definition: AnyGameDefinition;
   readonly t: Translate<GameCopy<string>>;
   readonly player: UsePlayerResult;
+  /** Mejores tiempos en modo libre; nada que ver con la clasificación. */
+  readonly bests: UsePersonalBestsResult;
+  /** Recorridos ya resueltos, para repasarlos sin volver a jugar. */
+  readonly paths: UseSolvedPathsResult;
+  /** Resultado de la última partida ganada de cada reto. */
+  readonly results: UseLastResultsResult;
   readonly activeRun: ActiveRun | null;
   /** Arranca una partida; si ya había una del mismo reto, la reemplaza. */
   begin(challenge: ChallengeDefinition<string>, scored: boolean, startedAt: number): void;
@@ -36,8 +45,6 @@ export interface GameSession {
   dispatch(event: RunEvent): void;
   /** Congela el cronómetro al ganar. */
   freezeClock(elapsedMs: number): void;
-  /** Descarta la partida (al volver a la portada). */
-  clear(): void;
   challengeById(id: string): ChallengeDefinition<string> | undefined;
   readonly mainChallenge: ChallengeDefinition<string>;
 }
@@ -61,6 +68,9 @@ export function GameSessionProvider({
 }) {
   const t = useGameCopy(definition);
   const player = usePlayer(definition.slug);
+  const bests = usePersonalBests(definition.slug);
+  const paths = useSolvedPaths(definition.slug);
+  const results = useLastResults(definition.slug);
   const [activeRun, setActiveRun] = useState<ActiveRun | null>(null);
 
   const begin = useCallback<GameSession['begin']>((challenge, scored, startedAt) => {
@@ -87,8 +97,6 @@ export function GameSessionProvider({
     );
   }, []);
 
-  const clear = useCallback(() => setActiveRun(null), []);
-
   const challengeById = useCallback(
     (id: string) => definition.challenges.find((challenge) => challenge.id === id),
     [definition.challenges]
@@ -102,15 +110,30 @@ export function GameSessionProvider({
       definition,
       t,
       player,
+      bests,
+      paths,
+      results,
       activeRun,
       begin,
       dispatch,
       freezeClock,
-      clear,
       challengeById,
       mainChallenge: main,
     }),
-    [definition, t, player, activeRun, begin, dispatch, freezeClock, clear, challengeById, main]
+    [
+      definition,
+      t,
+      player,
+      bests,
+      paths,
+      results,
+      activeRun,
+      begin,
+      dispatch,
+      freezeClock,
+      challengeById,
+      main,
+    ]
   );
 
   return <Context.Provider value={value}>{children}</Context.Provider>;
