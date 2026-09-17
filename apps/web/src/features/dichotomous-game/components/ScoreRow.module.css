@@ -63,3 +63,13 @@
   font-size: 14.5px;
   font-weight: 700;
 }
+
+/*
+ * La fila propia se busca con la mirada, así que se encuentra sin leer. En
+ * gris y no en verde: el verde es de la tarjeta del líder, y teñir la propia
+ * del mismo color hace creer que has ganado.
+ */
+.mine {
+  border-color: var(--wk-color-text-ghost);
+  background: var(--wk-surface-sunken);
+}

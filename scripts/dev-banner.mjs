@@ -22,7 +22,7 @@ const APP = join(ROOT, 'apps/web');
 
 /** Carril propio del proyecto. Ver `srv-bryan-infra/infra/dev-tunnels.tsv`. */
 const PORT = 5174;
-const TUNNEL = 'https://srv-bryan.tail54a186.ts.net:8451';
+const TUNNEL = 'https://srv-bryan.tail54a186.ts.net:8453';
 
 const green = (text) => (process.stdout.isTTY ? '\u001b[32m' + text + '\u001b[39m' : text);
 
@@ -100,13 +100,15 @@ const child = spawn(join(APP, 'node_modules/.bin/vite'), ['--port', String(PORT)
   stdio: ['inherit', 'pipe', 'inherit'],
 });
 
-// La cabecera de Vite la componemos aquí, pero sus errores de compilación y el
-// HMR se dejan pasar tal cual: son los que hacen falta mientras se trabaja.
+// La cabecera de Vite la componemos aquí, así que hasta que la nuestra está
+// impresa se descarta TODO lo que diga: su «Local», sus «Network» (una por
+// interfaz, y el VPS tiene cuatro puentes de docker) y el «press h + enter».
+// A partir de ahí se deja pasar tal cual: los errores de compilación y el HMR
+// son justo lo que hace falta mientras se trabaja.
 let bannerDone = false;
 child.stdout.on('data', (chunk) => {
-  const text = String(chunk);
-  if (!bannerDone && /Local:|ready in/i.test(text)) return;
-  process.stdout.write(text);
+  if (!bannerDone) return;
+  process.stdout.write(String(chunk));
 });
 
 const elapsed = await waitUntilServing(PORT, startedAt);

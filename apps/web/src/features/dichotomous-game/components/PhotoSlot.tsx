@@ -21,6 +21,13 @@ export interface PhotoSlotProps {
   label: string;
   /** Alto máximo. El marco puede quedar más bajo si la foto es apaisada. */
   maxHeight: number | string;
+  /**
+   * `adaptive` deja que el marco se ajuste a la proporción de la foto, que es
+   * lo que mejor se ve cuando la tarjeta va sola. `fixed` obliga al alto
+   * exacto: en un carrusel, dos fotos de distinta proporción descuadran las
+   * tarjetas, y ahí importa más que cuadren que ver cada foto entera.
+   */
+  fit?: 'adaptive' | 'fixed';
   className?: string;
 }
 
@@ -28,7 +35,13 @@ export interface PhotoSlotProps {
  * Foto de un objetivo. Mientras no exista la imagen real, dibuja un marcador
  * con su descripción: nunca un hueco roto ni un salto de maquetación.
  */
-export function PhotoSlot({ photo, label, maxHeight, className }: PhotoSlotProps) {
+export function PhotoSlot({
+  photo,
+  label,
+  maxHeight,
+  fit = 'adaptive',
+  className,
+}: PhotoSlotProps) {
   const [ratio, setRatio] = useState<number | null>(null);
 
   if (!photo.src) {
@@ -62,13 +75,18 @@ export function PhotoSlot({ photo, label, maxHeight, className }: PhotoSlotProps
       src={photo.src}
       alt={label}
       className={cx(styles.image, className)}
-      style={{
-        maxHeight,
-        // Hasta que se conoce la proporción real se reserva el alto máximo, y
-        // así la maqueta no da un salto cuando la imagen entra.
-        aspectRatio: ratio === null ? undefined : Math.min(RATIO_MAX, Math.max(RATIO_MIN, ratio)),
-        height: ratio === null ? maxHeight : undefined,
-      }}
+      style={
+        fit === 'fixed'
+          ? { height: maxHeight }
+          : {
+              maxHeight,
+              // Hasta que se conoce la proporción real se reserva el alto
+              // máximo, y así la maqueta no da un salto cuando la imagen entra.
+              aspectRatio:
+                ratio === null ? undefined : Math.min(RATIO_MAX, Math.max(RATIO_MIN, ratio)),
+              height: ratio === null ? maxHeight : undefined,
+            }
+      }
       onLoad={(event) => {
         const { naturalWidth, naturalHeight } = event.currentTarget;
         if (naturalHeight > 0) setRatio(naturalWidth / naturalHeight);

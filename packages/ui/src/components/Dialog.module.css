@@ -1,4 +1,13 @@
 .dialog {
+  /*
+   * Anclado arriba y no centrado por el navegador: cuando el teclado encoge el
+   * área visible, el diálogo mide ese hueco y tiene que empezar donde empieza
+   * la pantalla. Centrado, el navegador lo repartiría respecto a la pantalla
+   * entera —teclado incluido— y la mitad de abajo quedaría tapada.
+   */
+  position: fixed;
+  inset: 0 auto auto 0;
+  margin: 0;
   max-width: none;
   max-height: none;
   width: 100%;
@@ -11,6 +20,16 @@
 
 .dialog::backdrop {
   background: var(--wk-overlay);
+}
+
+/*
+ * Sin anillo de foco: el panel recibe el foco al abrirse para que el lector de
+ * pantalla lea el diálogo desde el principio, pero no es un control. El anillo
+ * de la regla global lo pintaba entero de verde, como si estuviera
+ * seleccionado.
+ */
+.panel:focus-visible {
+  outline: none;
 }
 
 .panel {
@@ -52,26 +71,13 @@
 }
 
 /*
- * La tarjeta se aparta del teclado.
- *
- * Se mueve la tarjeta de verdad porque iOS superpone el teclado sin encoger
- * la página: no basta con rellenar el diálogo por debajo.
- *
- * Con la propiedad `translate` y no con `transform`: la animación de entrada
- * del panel ya usa `transform`, y una sobrescribiría a la otra. Siendo
- * propiedades independientes, conviven.
+ * Con poco alto —el teclado abierto— la tarjeta se ajusta al hueco y hace
+ * scroll por dentro, en lugar de desbordarse o salirse por abajo. El alto del
+ * hueco lo pone el propio diálogo, que mide el área visible.
  */
 .center .panel,
 .sheet .panel {
-  translate: 0 calc(-1 * var(--wk-keyboard-inset, 0px));
-  transition: translate var(--wk-duration-fast) ease-out;
-}
-
-/* Con el teclado abierto queda poco alto: la tarjeta se ajusta y hace scroll
-   por dentro en vez de desbordarse. */
-.sheet[data-keyboard] .panel,
-.center[data-keyboard] .panel {
-  max-height: calc(100dvh - var(--wk-keyboard-inset, 0px) - var(--wk-space-8));
+  max-height: 100%;
   overflow-y: auto;
   overscroll-behavior: contain;
 }

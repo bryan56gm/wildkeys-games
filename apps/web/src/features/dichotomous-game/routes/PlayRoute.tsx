@@ -6,22 +6,18 @@ import {
   progressRatio,
   reachableSpecies,
   resolveText,
-  resolvedTrail,
   speciesById,
   speciesInPlay,
   targetSpecies,
 } from '@wkg/game-engine';
 import { FALLBACK_LOCALE } from '@/app/i18n/locale';
 import { useLocale } from '@/app/i18n/locale';
-import { formatClock } from '@/lib/format/time';
-import { BonusOffer } from '../components/BonusOffer';
-import { useBonusCopy, useChallengeCopy } from '../hooks/use-game-copy';
+import { useChallengeCopy } from '../hooks/use-game-copy';
 import { useFinishRun } from '../hooks/use-finish-run';
 import { usePhotoViewer } from '../hooks/use-photo-viewer';
 import { useSpeciesPhoto } from '../hooks/use-species-photo';
 import { FailScreen } from '../screens/FailScreen';
 import { PlayScreen } from '../screens/PlayScreen';
-import { WinScreen } from '../screens/WinScreen';
 import { useGameSession } from '../session-context';
 import { gamePaths } from './paths';
 
@@ -31,11 +27,11 @@ import { gamePaths } from './paths';
  */
 export function PlayRoute() {
   const { challengeId = '' } = useParams();
-  const { definition, t, player, activeRun, begin, dispatch, challengeById } = useGameSession();
+  const { definition, t, activeRun, begin, dispatch, challengeById } = useGameSession();
   const { locale } = useLocale();
   const navigate = useNavigate();
   const location = useLocation();
-  const { finish, queued } = useFinishRun();
+  const { finish } = useFinishRun();
   const photoOf = useSpeciesPhoto();
   const viewer = usePhotoViewer();
   const slug = definition.slug;
@@ -54,21 +50,38 @@ export function PlayRoute() {
    */
   const intent = location.state as { scored?: boolean; startedAt?: number } | null;
   const challenge = challengeById(challengeId);
-  const needsStart = !!challenge && activeRun?.challenge.id !== challengeId;
+  /*
+   * Se arranca cuando la partida en memoria no es la de esta URL, y también
+   * cuando llega una navegación con un cronómetro distinto: eso es «empezar de
+   * nuevo» —modo libre, o el reto extra— frente a «volver aquí», que llega sin
+   * estado (atrás desde el marcador) y debe encontrar la partida como estaba.
+   */
+  const needsStart =
+    !!challenge &&
+    (activeRun?.challenge.id !== challengeId ||
+      (intent?.startedAt !== undefined && activeRun.startedAt !== intent.startedAt));
   useEffect(() => {
     if (!needsStart || !challenge) return;
     begin(challenge, intent?.scored ?? false, intent?.startedAt ?? Date.now());
   }, [begin, challenge, needsStart, intent?.scored, intent?.startedAt]);
 
   const copy = useChallengeCopy(t, challengeId || definition.challenges[0]!.id);
-  const bonus = nextBonus();
-  const bonusCopy = useBonusCopy(t, bonus?.id ?? challengeId);
 
+  /*
+   * Ganar cierra la partida y lleva al resultado, que tiene URL propia. Se
+   * reemplaza la entrada del historial: «atrás» desde el resultado devuelve a
+   * la portada, no a una partida ya terminada.
+   */
   const status = activeRun?.state.status;
   useEffect(() => {
-    if (!activeRun || status !== 'won') return;
+    // `needsStart` manda: cuando se vuelve a jugar el mismo reto, la partida
+    // ganada sigue un render más en memoria. Sin esta guarda, el efecto la
+    // toma por la de esta URL y devuelve al resultado en bucle.
+    if (needsStart || !activeRun || activeRun.challenge.id !== challengeId) return;
+    if (status !== 'won') return;
     finish(Date.now() - activeRun.startedAt, activeRun.state.fails);
-  }, [activeRun, finish, status]);
+    void navigate(gamePaths.result(slug, activeRun.challenge.id), { replace: true });
+  }, [activeRun, challengeId, finish, navigate, needsStart, slug, status]);
 
   if (!challenge) return <Navigate to={gamePaths.home(slug)} replace />;
   if (!activeRun || activeRun.challenge.id !== challengeId) return null;
@@ -82,57 +95,6 @@ export function PlayRoute() {
     name: targetName,
     scientificName: target.scientificName,
   };
-
-  if (state.status === 'won') {
-    return (
-      <WinScreen
-        copy={{
-          title: copy.winTitle,
-          body: copy.winBody,
-          fact: copy.fact,
-          timeLabel: t('timeLabel'),
-          stepsLabel: t('stepsLabel'),
-          failsLabel: t('failsLabelShort'),
-          savedTitle: t('savedTitle'),
-          seeBoard: t('seeBoard'),
-          pathTitle: t('pathTitle'),
-          boardLabel: t('boardLabel'),
-          againLabel: t('againLabel'),
-          outroTitle: t('wkTitle'),
-          outroBody: t('wkBody'),
-          outroCta: t('wkCta'),
-          source: t('source'),
-        }}
-        locale={locale}
-        target={photo}
-        stats={{
-          time: formatClock(activeRun.finishedMs ?? 0),
-          steps: state.trail.length,
-          fails: state.fails,
-        }}
-        savedAs={activeRun.scored ? (player.player?.nickname ?? null) : null}
-        syncNote={queued ? t('boardPending') : undefined}
-        path={resolvedTrail(compiled, state)}
-        outroHref={definition.externalCtaHref}
-        bonus={
-          bonus ? (
-            <BonusOffer
-              copy={bonusCopy}
-              photo={photoOf(bonus.key.targetSpeciesId)}
-              scientificName={bonus.key.species[bonus.key.targetSpeciesId]?.scientificName ?? ''}
-              onAccept={() => startBonus(bonus)}
-            />
-          ) : undefined
-        }
-        onViewPhoto={() => viewer.open(compiled.key.targetSpeciesId)}
-        onBoard={() => void navigate(gamePaths.board(slug, challengeId))}
-        onPlayAgain={() => {
-          begin(challenge, false, Date.now());
-          void navigate(gamePaths.play(slug, challengeId), { replace: true, state: null });
-        }}
-      />
-    );
-  }
 
   if (state.status === 'failed' && state.wrongSpeciesId) {
     const wrong = speciesById(compiled, state.wrongSpeciesId);
@@ -184,26 +146,4 @@ export function PlayRoute() {
       onZoom={() => viewer.open(compiled.key.targetSpeciesId)}
     />
   );
-
-  /** Siguiente reto marcado como extra tras el actual. */
-  function nextBonus() {
-    const index = definition.challenges.findIndex((item) => item.id === challengeId);
-    return index < 0
-      ? undefined
-      : definition.challenges.slice(index + 1).find((item) => item.bonus);
-  }
-
-  /** Acepta el reto extra. Puntúa si el jugador está registrado y no lo ha
-   *  jugado aún; si no, es partida libre. */
-  function startBonus(next: NonNullable<ReturnType<typeof nextBonus>>) {
-    const puntuable = !!player.player && !player.player.runs[next.id];
-    const record = puntuable ? player.startRun(next.id) : null;
-
-    void navigate(gamePaths.play(slug, next.id), {
-      state: {
-        scored: puntuable,
-        startedAt: record?.runs[next.id]?.startedAt ?? Date.now(),
-      },
-    });
-  }
 }

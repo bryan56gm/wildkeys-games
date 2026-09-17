@@ -2,7 +2,16 @@
 <html lang="ca">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <!--
+      `interactive-widget=resizes-content`: al abrirse el teclado, el navegador
+      encoge la página en vez de taparla. Es lo que hace que en Android no haga
+      falta compensar nada; iOS todavía la tapa, y de eso se ocupa el diálogo
+      midiendo el área visible.
+    -->
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content"
+    />
     <meta name="theme-color" content="#278a5e" />
     <meta
       name="description"

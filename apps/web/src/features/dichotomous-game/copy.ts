@@ -17,6 +17,11 @@ export interface CommonCopy {
   keyName: string;
   keySpecies: string;
   yourTarget: string;
+  /** Etiqueta accesible de la marca, que vuelve a la portada. */
+  homeLabel: string;
+  /** Carrusel de retos de la portada, cuando hay más de uno. */
+  challengesLabel: string;
+  slideFmt: string;
 
   /** Patrocinador o colaborador (opcional en la definición, obligatorio aquí
    *  para que el copy exista si el juego lo activa). */
@@ -40,16 +45,36 @@ export interface CommonCopy {
   errShort: string;
   errTaken: string;
 
-  /** Acciones de portada. */
+  /** Acciones de portada, una por reto según en qué punto esté. */
   startLabel: string;
-  freeLabel: string;
+  /** Repetir un reto ya competido: se juega igual, pero ya no puntúa. */
+  improveLabel: string;
+  /** Repetir desde el final de reto, sin marca que mejorar todavía. */
+  replayLabel: string;
   boardLabel: string;
   againLabel: string;
   resumeRun: string;
   savedTitle: string;
   seeBoard: string;
-  usedDoneFmt: string;
+  rankFmt: string;
   usedPending: string;
+  /** Estado de cada reto en la portada. */
+  scoredNote: string;
+  replayNote: string;
+  markFmt: string;
+  bestFmt: string;
+  newBestTitle: string;
+  newBestBody: string;
+  lockedFmt: string;
+  progressFmt: string;
+
+  /** Salida de la partida. */
+  exitLabel: string;
+  exitTitle: string;
+  exitBodyFree: string;
+  exitBodyScored: string;
+  exitConfirm: string;
+  exitStay: string;
 
   /** Partida. */
   stepWord: string;
@@ -74,6 +99,10 @@ export interface CommonCopy {
   failsOneShort: string;
   failsShortFmt: string;
   pathTitle: string;
+  /** «6 pasos», junto al recorrido plegado del final. */
+  stepsFmt: string;
+  /** Encabeza las salidas del final de reto. */
+  nextTitle: string;
 
   /** Cierre de marca. */
   wkTitle: string;
@@ -88,9 +117,12 @@ export interface CommonCopy {
   backLabel: string;
   demoTag: string;
   youTag: string;
+  /** Resumen de la marca propia en el marcador. */
+  youAreLabel: string;
+  positionFmt: string;
+  findMeLabel: string;
   boardOffline: string;
   boardPending: string;
-  boardSyncedFmt: string;
 
   /** Carga inicial. */
   splashSub: string;

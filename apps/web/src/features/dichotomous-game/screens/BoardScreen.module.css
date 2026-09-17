@@ -27,6 +27,64 @@
   color: var(--wk-color-text-subtle);
 }
 
+/* Resumen de la marca propia: es un botón, pero se lee como una tarjeta. */
+.you {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2px var(--wk-space-4);
+  width: 100%;
+  /* Neutro a propósito: saber dónde estás es información, no un premio. El
+     verde de marca se leía como «has ganado». */
+  border: 1px solid var(--wk-border);
+  border-radius: 14px;
+  padding: var(--wk-space-4) var(--wk-space-5);
+  background: var(--wk-surface-sunken);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.you:active {
+  background: var(--wk-border);
+}
+
+.youLabel {
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--wk-color-text-subtle);
+}
+
+.youPosition {
+  grid-column: 1;
+  font-family: var(--wk-font-serif);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--wk-color-text);
+}
+
+.youTime {
+  grid-column: 2;
+  grid-row: 2;
+  align-self: center;
+  font-family: var(--wk-font-mono);
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--wk-color-text-muted);
+}
+
+.youFind {
+  grid-column: 2;
+  grid-row: 1;
+  justify-self: end;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--wk-color-text-muted);
+  text-decoration: underline;
+}
+
 .notice {
   margin: 0;
   border: 1px solid var(--wk-color-accent-border);
@@ -57,4 +115,14 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+/* El hueco entre el corte y la marca propia. */
+.gap {
+  padding: var(--wk-space-2) 0;
+  color: var(--wk-color-text-ghost);
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.3em;
+  text-align: center;
 }

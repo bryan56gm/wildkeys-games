@@ -3,6 +3,7 @@
  * Es el único paquete que habla con la red — el juego funciona sin él.
  */
 export * from './types.js';
+export { nextRetryDelay } from './retry.js';
 export { SCORE_LIMITS, validateScore, type LeaderboardConfig } from './config.js';
 export type { Database, ScoreInsert, ScoreRow } from './database.types.js';
 export { connectLeaderboardClient, type LeaderboardClient } from './client.js';

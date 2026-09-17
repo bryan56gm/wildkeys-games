@@ -1,0 +1,22 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  /* Lo que el navegador impone a un <button> y aquí sobra. */
+  border: 0;
+  padding: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: inherit;
+  cursor: pointer;
+}
+
+.button:focus-visible {
+  outline: 3px solid var(--wk-color-brand-accent);
+  outline-offset: 4px;
+  border-radius: var(--wk-radius-md);
+}
+
+.button:not(:disabled):active {
+  transform: scale(0.97);
+}

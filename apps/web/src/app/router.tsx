@@ -3,6 +3,7 @@ import { GameLayout } from '@/features/dichotomous-game/GameLayout';
 import { BoardRoute } from '@/features/dichotomous-game/routes/BoardRoute';
 import { HomeRoute } from '@/features/dichotomous-game/routes/HomeRoute';
 import { PlayRoute } from '@/features/dichotomous-game/routes/PlayRoute';
+import { ResultRoute } from '@/features/dichotomous-game/routes/ResultRoute';
 import { gameRoutePatterns } from '@/features/dichotomous-game/routes/paths';
 import { gameLoader, GameRouteFallback } from './routes/GameRoute';
 import { PlatformHome } from './routes/PlatformHome';
@@ -34,6 +35,7 @@ export const router = createBrowserRouter([
       { index: true, element: <HomeRoute /> },
       { path: gameRoutePatterns.register, element: <HomeRoute registering /> },
       { path: gameRoutePatterns.play, element: <PlayRoute /> },
+      { path: gameRoutePatterns.result, element: <ResultRoute /> },
       { path: gameRoutePatterns.board, element: <BoardRoute /> },
       { path: gameRoutePatterns.boardChallenge, element: <BoardRoute /> },
     ],

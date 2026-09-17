@@ -1,3 +1,10 @@
+/* Columna: puesta en un carrusel, la tarjeta recibe el alto de la más alta y
+   el pie tiene que quedarse abajo en lugar de dejar un hueco bajo la foto. */
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
 .playable {
   border-width: 2px;
   border-radius: 17px;
@@ -36,9 +43,17 @@
 }
 
 .footer {
+  margin-top: auto;
   display: flex;
   align-items: center;
   gap: var(--wk-space-4);
+  border-top: 1px solid var(--wk-color-brand-soft);
+  padding: var(--wk-space-4) var(--wk-space-5);
+}
+
+/* Separado del pie de identificación por una línea: son dos cosas distintas
+   —quién es y qué puedes hacer— y conviene que se lean como tales. */
+.footerSlot {
   border-top: 1px solid var(--wk-color-brand-soft);
   padding: var(--wk-space-4) var(--wk-space-5);
 }

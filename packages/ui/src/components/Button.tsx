@@ -10,6 +10,8 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   size?: ButtonSize;
   /** Ocupa todo el ancho disponible; por defecto sí, el diseño es de una columna. */
   block?: boolean;
+  /** Icono a la izquierda del texto (la casa de «volver al inicio»). */
+  leading?: ReactNode;
   /** Icono a la derecha del texto (la chevron del prototipo). */
   trailing?: ReactNode;
   ref?: Ref<HTMLButtonElement>;
@@ -24,6 +26,7 @@ export function Button({
   variant = 'primary',
   size = 'md',
   block = true,
+  leading,
   trailing,
   children,
   className,
@@ -36,6 +39,7 @@ export function Button({
       className={cx(styles.button, styles[variant], styles[size], block && styles.block, className)}
       {...rest}
     >
+      {leading ? <span className={styles.leading}>{leading}</span> : null}
       <span className={styles.label}>{children}</span>
       {trailing ? <span className={styles.trailing}>{trailing}</span> : null}
     </button>

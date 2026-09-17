@@ -14,6 +14,9 @@ export const gamePaths = {
   home: (slug: string) => `/${slug}`,
   register: (slug: string) => `/${slug}/registro`,
   play: (slug: string, challengeId: string) => `/${slug}/jugar/${challengeId}`,
+  /** El resultado tiene URL propia: así sobrevive a una recarga y se puede
+   *  volver a él sin repetir la partida. */
+  result: (slug: string, challengeId: string) => `/${slug}/resultado/${challengeId}`,
   board: (slug: string, challengeId?: string) =>
     challengeId ? `/${slug}/marcador/${challengeId}` : `/${slug}/marcador`,
 } as const;
@@ -22,6 +25,7 @@ export const gamePaths = {
 export const gameRoutePatterns = {
   register: 'registro',
   play: 'jugar/:challengeId',
+  result: 'resultado/:challengeId',
   board: 'marcador',
   boardChallenge: 'marcador/:challengeId',
 } as const;
