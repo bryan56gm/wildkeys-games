@@ -90,3 +90,17 @@ No hay que tocar ni el motor, ni el UI kit, ni las pantallas: la ruta
 `docs/game/` es el handoff del equipo de diseño (prototipo hifi, modelo de
 datos y assets del primer juego). Es la fuente de verdad del contenido y del
 aspecto, y se conserva tal como llegó: no se formatea ni se lintea.
+
+## Licencia
+
+El código está bajo [PolyForm Strict 1.0.0](LICENSE): se puede **leer y usar
+para fines no comerciales**, pero no modificar, ni redistribuir, ni vender
+copias. Para cualquier otro uso hace falta permiso de WildKeys.
+
+Es a propósito. Este repositorio se hará público para que el trabajo se pueda
+ver y estudiar, no para que se reutilice: es un juego hecho para un evento
+concreto, con la marca y el contenido de terceros dentro.
+
+El **contenido no es software** y queda fuera de esa licencia: las claves
+dicotómicas, las fotografías, los textos y las marcas (WildKeys y LO VILOT)
+son de sus autores, con todos los derechos reservados.
