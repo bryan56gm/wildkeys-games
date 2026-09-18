@@ -1,11 +1,17 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-
-/** Cómo está la foto: cuánto crecida y cuánto movida respecto al centro. */
-interface Transform {
-  readonly scale: number;
-  readonly x: number;
-  readonly y: number;
-}
+import {
+  focusAt,
+  IDENTITY,
+  MAX_SCALE,
+  MIN_SCALE,
+  OVERSHOOT,
+  placeFocus,
+  same,
+  settledOf,
+  withRubber,
+  type Box,
+  type Transform,
+} from './zoom-geometry.js';
 
 export interface PinchZoom {
   /**
@@ -26,19 +32,13 @@ export interface PinchZoom {
   reset(): void;
 }
 
-const MIN_SCALE = 1;
-const MAX_SCALE = 6;
 const TOGGLE_SCALE = 2.5;
-/** Cuánto se deja estirar más allá del tope antes de volver solo. */
-const OVERSHOOT = 1.35;
 /** Un toque que dure más o se mueva más ya no es un toque, es un arrastre. */
 const TAP_MS = 250;
 const TAP_SLOP = 12;
 /** Ventana para el segundo toque del doble toque. */
 const DOUBLE_TAP_MS = 300;
 const EASE_MS = 240;
-
-const IDENTITY: Transform = { scale: 1, x: 0, y: 0 };
 
 /**
  * Pellizcar para acercar y arrastrar para mover, como en la galería del móvil.
@@ -75,7 +75,7 @@ export function usePinchZoom(): PinchZoom {
 
   const view = useRef<Transform>(IDENTITY);
   /** Marco y tamaño real de la foto, medidos al empezar cada gesto. */
-  const box = useRef({ width: 0, height: 0, cx: 0, cy: 0, photoW: 0, photoH: 0 });
+  const box = useRef<Box>({ width: 0, height: 0, cx: 0, cy: 0, photoW: 0, photoH: 0 });
   const pointers = useRef(new Map<number, { x: number; y: number }>());
   /** El gesto en curso, congelado tal y como empezó. */
   const origin = useRef<{
@@ -150,45 +150,6 @@ export function usePinchZoom(): PinchZoom {
     [commit]
   );
 
-  /** El sitio válido más cercano al que está ahora. */
-  const settled = useCallback((from: Transform): Transform => {
-    const scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, from.scale));
-    if (scale === MIN_SCALE) return IDENTITY;
-
-    const { width, height, photoW, photoH } = box.current;
-    const maxX = Math.max(0, (photoW * scale - width) / 2);
-    const maxY = Math.max(0, (photoH * scale - height) / 2);
-    // Al cambiar la escala, el desplazamiento se ajusta en la misma proporción.
-    const ratio = scale / from.scale;
-
-    return {
-      scale,
-      x: Math.min(maxX, Math.max(-maxX, from.x * ratio)),
-      y: Math.min(maxY, Math.max(-maxY, from.y * ratio)),
-    };
-  }, []);
-
-  /** Deja pasar del tope, pero cada vez cuesta más. */
-  const rubber = useCallback((value: number, limit: number): number => {
-    const excess = Math.abs(value) - limit;
-    if (excess <= 0) return value;
-
-    const give = box.current.width || 1;
-    const eased = (excess * 0.55 * give) / (give + 0.55 * excess);
-    return Math.sign(value) * (limit + eased);
-  }, []);
-
-  const bounded = useCallback(
-    (next: Transform): Transform => {
-      const { width, height, photoW, photoH } = box.current;
-      const maxX = Math.max(0, (photoW * next.scale - width) / 2);
-      const maxY = Math.max(0, (photoH * next.scale - height) / 2);
-
-      return { scale: next.scale, x: rubber(next.x, maxX), y: rubber(next.y, maxY) };
-    },
-    [rubber]
-  );
-
   const zoomAt = useCallback(
     (scale: number, point?: { clientX: number; clientY: number }) => {
       if (!content) return;
@@ -198,14 +159,19 @@ export function usePinchZoom(): PinchZoom {
       const next = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
       if (next === from.scale) return;
 
-      const px = point ? point.clientX - box.current.cx : 0;
-      const py = point ? point.clientY - box.current.cy : 0;
-      const focusX = (px - from.x) / from.scale;
-      const focusY = (py - from.y) / from.scale;
+      const screen = {
+        x: point?.clientX ?? box.current.cx,
+        y: point?.clientY ?? box.current.cy,
+      };
 
-      settle(settled({ scale: next, x: px - focusX * next, y: py - focusY * next }));
+      settle(
+        settledOf(
+          box.current,
+          placeFocus(box.current, focusAt(box.current, from, screen), screen, next)
+        )
+      );
     },
-    [content, measure, settle, settled]
+    [content, measure, settle]
   );
 
   const reset = useCallback(() => settle(IDENTITY), [settle]);
@@ -241,10 +207,7 @@ export function usePinchZoom(): PinchZoom {
         view: from,
         distance: span.distance,
         center: span.center,
-        focus: {
-          x: (span.center.x - box.current.cx - from.x) / from.scale,
-          y: (span.center.y - box.current.cy - from.y) / from.scale,
-        },
+        focus: focusAt(box.current, from, span.center),
       };
     };
 
@@ -270,6 +233,29 @@ export function usePinchZoom(): PinchZoom {
       anchor();
     };
 
+    /**
+     * Pinta y vuelve a anclar el gesto en lo que de verdad se ve.
+     *
+     * Hace falta porque el tope recorta el desplazamiento: mientras la foto
+     * cabe entera en el marco no se puede mover, pero la cuenta seguía pidiendo
+     * moverla. Ese desplazamiento invisible se iba acumulando y reaparecía de
+     * golpe en cuanto la foto crecía lo justo para poder moverse —el salto seco
+     * al acercar, y el mismo al revés al alejar—. Reanclando en lo recortado,
+     * el gesto nunca guarda nada que no se esté viendo.
+     */
+    const rebase = (
+      next: Transform,
+      span: { distance: number; center: { x: number; y: number } }
+    ) => {
+      commit(next);
+      origin.current = {
+        view: next,
+        distance: span.distance,
+        center: span.center,
+        focus: focusAt(box.current, next, span.center),
+      };
+    };
+
     const onMove = (event: PointerEvent) => {
       if (!active.has(event.pointerId) || !origin.current) return;
 
@@ -283,7 +269,6 @@ export function usePinchZoom(): PinchZoom {
       }
 
       const base = origin.current;
-      const { cx, cy } = box.current;
 
       if (b) {
         event.preventDefault();
@@ -293,25 +278,23 @@ export function usePinchZoom(): PinchZoom {
         // Se deja pasar de los topes, pero con resistencia.
         const scale = Math.min(MAX_SCALE * OVERSHOOT, Math.max(MIN_SCALE / OVERSHOOT, raw));
 
-        commit(
-          bounded({
-            scale,
-            // El punto que había bajo los dedos sigue bajo los dedos.
-            x: span.center.x - cx - base.focus.x * scale,
-            y: span.center.y - cy - base.focus.y * scale,
-          })
+        rebase(
+          // El punto que había bajo los dedos sigue bajo los dedos.
+          withRubber(box.current, placeFocus(box.current, base.focus, span.center, scale)),
+          span
         );
         return;
       }
 
       if (base.view.scale > MIN_SCALE + 0.01) {
         event.preventDefault();
-        commit(
-          bounded({
+        rebase(
+          withRubber(box.current, {
             scale: base.view.scale,
             x: base.view.x + (a.x - base.center.x),
             y: base.view.y + (a.y - base.center.y),
-          })
+          }),
+          { distance: base.distance, center: a }
         );
       }
     };
@@ -339,7 +322,7 @@ export function usePinchZoom(): PinchZoom {
       if (active.size > 0) return anchor();
 
       origin.current = null;
-      settle(settled(view.current));
+      settle(settledOf(box.current, view.current));
     };
 
     // Safari hace su propio zoom aunque `touch-action` diga que no.
@@ -368,18 +351,18 @@ export function usePinchZoom(): PinchZoom {
       cancelAnimationFrame(painting.current);
       cancelAnimationFrame(animation.current);
     };
-  }, [bounded, commit, frame, measure, settle, settled, toggle]);
+  }, [commit, frame, measure, settle, toggle]);
 
   // Al girar el móvil cambian marco y foto: lo medido deja de valer.
   useEffect(() => {
     if (!frame) return;
     const observer = new ResizeObserver(() => {
       measure();
-      settle(settled(view.current), 0);
+      settle(settledOf(box.current, view.current), 0);
     });
     observer.observe(frame);
     return () => observer.disconnect();
-  }, [frame, measure, settle, settled]);
+  }, [frame, measure, settle]);
 
   return {
     attachFrame: setFrame,
@@ -389,10 +372,4 @@ export function usePinchZoom(): PinchZoom {
     toggle,
     reset,
   };
-}
-
-function same(a: Transform, b: Transform): boolean {
-  return (
-    Math.abs(a.scale - b.scale) < 0.001 && Math.abs(a.x - b.x) < 0.5 && Math.abs(a.y - b.y) < 0.5
-  );
 }
