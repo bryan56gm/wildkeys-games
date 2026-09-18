@@ -3,9 +3,13 @@ import type { LovilotCopy } from './types';
 /** Castellano. */
 export const es: LovilotCopy = {
   collab: 'WildKeys × LO VILOT',
-  homeTitle: 'Identifica el lúpulo Vista lo más rápido que puedas',
+  wkHomeBody:
+    'Allí puedes probar más claves y aprender a identificar otras especies de fauna y flora.',
+  wkHomeTitle: 'Visita WildKeys',
+  sponsorTitle: 'Especial LO VILOT',
+  homeTitle: 'Identifica el lúpulo *Vista* lo más rápido que puedas',
   homeSub:
-    'Tienes delante 6 variedades de lúpulo que se cultivan en LO VILOT. Recorre la clave dicotómica y llega hasta Vista sin equivocarte.',
+    'Tienes delante 6 variedades de lúpulo que se cultivan en LO VILOT. Recorre la clave dicotómica y llega hasta «*Vista*» sin equivocarte.',
   homeFoot: 'Funciona sin conexión. Un intento puntuable por móvil.',
   keyLabel: 'Clave que vas a usar',
   keyName: 'Clave dicotómica de las variedades de lúpulo de LO VILOT',
@@ -22,13 +26,13 @@ export const es: LovilotCopy = {
   exitConfirm: 'Salir igualmente',
   exitStay: 'Seguir jugando',
 
-  sponsorSubtitle: 'Especial LO VILOT · Cervecería artesana de Lleida',
+  sponsorSubtitle: 'Cervecería artesana · Lleida',
   sponsorDescription:
     'Cultivan sus propias variedades de lúpulo para elaborar cervezas con carácter local.',
 
   welcomeTitle: '¡Bienvenido/a al reto!',
   welcomeBody:
-    'Tienes delante 6 variedades de lúpulo. Usa la clave dicotómica para identificar la variedad Vista lo más rápido posible. ¡Solo tienes un intento cronometrado!',
+    'Tienes delante 6 variedades de lúpulo. Usa la clave dicotómica para identificar la variedad «*Vista*» lo más rápido posible. ¡Solo tienes un intento cronometrado!',
   welcomeNote:
     'Especial colaboración con LO VILOT, cervecería artesana de Lleida que cultiva su propio lúpulo.',
   welcomeBtn: '¡Entendido, vamos!',
@@ -114,10 +118,10 @@ export const es: LovilotCopy = {
   'hop.name': 'Vista',
   'hop.caption': 'Variedad de lúpulo de LO VILOT',
   'hop.headerSub': 'WildKeys × LO VILOT',
-  'hop.winTitle': '¡Felicidades, has identificado Vista!',
+  'hop.winTitle': '¡Felicidades, has identificado la variedad «*Vista*»!',
   'hop.winBody': 'Has recorrido la clave de lúpulo de LO VILOT correctamente.',
   'hop.fact':
-    'Vista es una variedad de lúpulo cultivada en LO VILOT. Se caracteriza por las brácteas abiertas en el momento de la cosecha y se cosecha hasta finales de septiembre.',
+    '«*Vista*» es una variedad de lúpulo cultivada en LO VILOT. Se caracteriza por las brácteas abiertas en el momento de la cosecha y se cosecha hasta finales de septiembre.',
   'hop.suspects': 'Variedades en juego',
   'hop.remainingFmt': 'Quedan {n} de 6',
   'hop.photoPlaceholder': 'Foto del lúpulo Vista',

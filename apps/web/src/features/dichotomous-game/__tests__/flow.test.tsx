@@ -14,6 +14,18 @@ const mainKey = lovilotGame.challenges[0]!.key;
  * de las costuras entre la ruta, la sesión y el jugador guardado.
  */
 describe('portada y partida', () => {
+  it('ningún asterisco llega a pantalla: lo marcado sale en cursiva', async () => {
+    givenPlayer('Equipo Lince', ['hop']);
+    renderGame();
+
+    // El diccionario marca con asteriscos lo que va en cursiva —el nombre de
+    // la variedad—. Si una pantalla imprime el texto sin `RichText`, los
+    // asteriscos se ven, y eso es justo lo que este test impide.
+    await screen.findAllByRole('group', { name: /reto \d de 2/i });
+    expect(document.body.textContent).not.toContain('*');
+    expect(document.querySelector('em')).not.toBeNull();
+  });
+
   it('un reto ya competido se puede repetir para mejorar el tiempo', async () => {
     givenPlayer('Equipo Lince', ['hop']);
     renderGame();

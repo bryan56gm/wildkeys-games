@@ -3,9 +3,13 @@ import type { LovilotCopy } from './types';
 /** Inglés. */
 export const en: LovilotCopy = {
   collab: 'WildKeys × LO VILOT',
-  homeTitle: 'Identify Vista hops as fast as you can',
+  wkHomeBody:
+    'There you can try more keys and learn to identify other species of wildlife and plants.',
+  wkHomeTitle: 'Visit WildKeys',
+  sponsorTitle: 'LO VILOT special',
+  homeTitle: 'Identify the *Vista* hop as fast as you can',
   homeSub:
-    'You have 6 hop varieties grown at LO VILOT in front of you. Work through the dichotomous key and reach Vista without a wrong turn.',
+    'You have 6 hop varieties grown at LO VILOT in front of you. Work through the dichotomous key and reach «*Vista*» without a wrong turn.',
   homeFoot: 'Works offline. One scored attempt per phone.',
   keyLabel: 'The key you will use',
   keyName: 'Dichotomous key to LO VILOT hop varieties',
@@ -28,7 +32,7 @@ export const en: LovilotCopy = {
 
   welcomeTitle: 'Welcome to the challenge!',
   welcomeBody:
-    'You have 6 hop varieties in front of you. Use the dichotomous key to identify the Vista variety as fast as you can. You only get one timed attempt!',
+    'You have 6 hop varieties in front of you. Use the dichotomous key to identify the «*Vista*» variety as fast as you can. You only get one timed attempt!',
   welcomeNote:
     'A special collaboration with LO VILOT, a craft brewery in Lleida that grows its own hops.',
   welcomeBtn: 'Got it, let’s go!',
@@ -114,10 +118,10 @@ export const en: LovilotCopy = {
   'hop.name': 'Vista',
   'hop.caption': 'LO VILOT hop variety',
   'hop.headerSub': 'WildKeys × LO VILOT',
-  'hop.winTitle': 'Congratulations, you identified Vista!',
+  'hop.winTitle': 'Congratulations, you identified the «*Vista*» variety!',
   'hop.winBody': 'You followed the LO VILOT hop key correctly.',
   'hop.fact':
-    'Vista is a hop variety grown at LO VILOT. It is characterised by open bracts at harvest time and is harvested until the end of September.',
+    '«*Vista*» is a hop variety grown at LO VILOT. It is characterised by open bracts at harvest time and is harvested until the end of September.',
   'hop.suspects': 'Varieties still in play',
   'hop.remainingFmt': '{n} of 6 left',
   'hop.photoPlaceholder': 'Vista hops photo',

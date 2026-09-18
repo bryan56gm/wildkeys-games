@@ -25,6 +25,7 @@ export interface CommonCopy {
 
   /** Patrocinador o colaborador (opcional en la definición, obligatorio aquí
    *  para que el copy exista si el juego lo activa). */
+  sponsorTitle: string;
   sponsorSubtitle: string;
   sponsorDescription: string;
 
@@ -107,6 +108,10 @@ export interface CommonCopy {
   nextTitle: string;
 
   /** Cierre de marca. */
+  /** Cierre de marca en la portada: invita, no explica. */
+  wkHomeTitle: string;
+  wkHomeBody: string;
+
   wkTitle: string;
   wkBody: string;
   wkCta: string;

@@ -36,6 +36,7 @@ export { PhotoViewer, type PhotoViewerProps } from './components/PhotoViewer.js'
 export { PlainButton, type PlainButtonProps } from './components/PlainButton.js';
 export { Pill, type PillProps, type PillTone } from './components/Pill.js';
 export { ProgressBar, type ProgressBarProps } from './components/ProgressBar.js';
+export { RichText, type RichTextProps } from './components/RichText.js';
 export {
   SegmentedControl,
   type SegmentedControlProps,

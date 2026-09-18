@@ -6,9 +6,13 @@ import type { LovilotCopy } from './types';
  */
 export const ca = {
   collab: 'WildKeys × LO VILOT',
-  homeTitle: 'Identifica el llúpol Vista tan ràpid com puguis',
+  wkHomeBody:
+    'Allà pots provar més claus i aprendre a identificar altres espècies de fauna i flora.',
+  wkHomeTitle: 'Visita WildKeys',
+  sponsorTitle: 'Especial LO VILOT',
+  homeTitle: 'Identifica el llúpol *Vista* tan ràpid com puguis',
   homeSub:
-    'Tens davant 6 varietats de llúpol que es cultiven a LO VILOT. Recorre la clau dicotòmica i arriba fins a Vista sense equivocar-te.',
+    'Tens davant 6 varietats de llúpol que es cultiven a LO VILOT. Recorre la clau dicotòmica i arriba fins a «*Vista*» sense equivocar-te.',
   homeFoot: 'Funciona sense connexió. Un intent puntuable per mòbil.',
   keyLabel: 'La clau que faràs servir',
   keyName: 'Clau dicotòmica de les varietats de llúpol de LO VILOT',
@@ -31,7 +35,7 @@ export const ca = {
 
   welcomeTitle: 'Benvingut/da al repte!',
   welcomeBody:
-    'Tens davant teu 6 varietats de llúpol. Usa la clau dicotòmica per identificar la varietat Vista el més ràpid possible. Només tens un intent cronometrat!',
+    'Tens davant teu 6 varietats de llúpol. Usa la clau dicotòmica per identificar la varietat «*Vista*» el més ràpid possible. Només tens un intent cronometrat!',
   welcomeNote:
     'Especial col·laboració amb LO VILOT, cerveseria artesana de Lleida que cultiva el seu propi llúpol.',
   welcomeBtn: 'Entesos, anem-hi!',
@@ -117,7 +121,7 @@ export const ca = {
   'hop.name': 'Vista',
   'hop.caption': 'Varietat de llúpol de LO VILOT',
   'hop.headerSub': 'WildKeys × LO VILOT',
-  'hop.winTitle': 'Felicitats, has identificat Vista!',
+  'hop.winTitle': 'Felicitats, has identificat la varietat «*Vista*»!',
   'hop.winBody': 'Has recorregut la clau de llúpol de LO VILOT correctament.',
   'hop.fact':
     'Vista és una varietat de llúpol cultivada a LO VILOT. Es caracteritza per les bràctees obertes al moment de la collita i es cull fins a finals de setembre.',

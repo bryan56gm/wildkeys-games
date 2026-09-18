@@ -1,4 +1,4 @@
-import { Button, Dialog } from '@wkg/ui';
+import { Button, Dialog, RichText } from '@wkg/ui';
 import { WkLogo } from '@/app/brand/WkLogo';
 import styles from './WelcomeDialog.module.css';
 
@@ -31,7 +31,9 @@ export function WelcomeDialog({ open, onDismiss, copy }: WelcomeDialogProps) {
       </span>
       <div className={styles.text}>
         <h2 className={styles.title}>{copy.title}</h2>
-        <p className={styles.body}>{copy.body}</p>
+        <p className={styles.body}>
+          <RichText text={copy.body} />
+        </p>
       </div>
       <div className={styles.note}>
         <span aria-hidden="true">🍺</span>

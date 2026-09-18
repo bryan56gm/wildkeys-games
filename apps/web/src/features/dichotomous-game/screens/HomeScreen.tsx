@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { Avatar, Button, Card, Carousel, Kicker, TrophyIcon } from '@wkg/ui';
+import { Avatar, Button, Card, Carousel, Kicker, RichText, TrophyIcon } from '@wkg/ui';
+import { BrandOutro } from '../components/BrandOutro';
 import type { SponsorDefinition } from '../types';
 import styles from './HomeScreen.module.css';
 
@@ -12,7 +13,12 @@ export interface HomeScreenCopy {
   keyName: string;
   keySpecies: string;
   board: string;
-  wildkeys: string;
+  /** Tarjeta de cierre: invita a la plataforma, sin explicar el juego. */
+  wildkeysTitle: string;
+  wildkeysBody: string;
+  wildkeysCta: string;
+  /** Rótulo grande de la colaboración: «Especial LO VILOT». */
+  sponsorTitle: string;
   sponsorSubtitle: string;
   sponsorDescription: string;
   challengesLabel: string;
@@ -51,8 +57,12 @@ export function HomeScreen({
         <Kicker tone="brand" className={styles.badge}>
           {copy.collab}
         </Kicker>
-        <h1 className={styles.title}>{copy.title}</h1>
-        <p className={styles.subtitle}>{copy.subtitle}</p>
+        <h1 className={styles.title}>
+          <RichText text={copy.title} />
+        </h1>
+        <p className={styles.subtitle}>
+          <RichText text={copy.subtitle} />
+        </p>
       </header>
 
       {sponsor ? (
@@ -62,7 +72,7 @@ export function HomeScreen({
               <img src={sponsor.logoSrc} alt={sponsor.name} />
             </span>
             <div className={styles.sponsorNames}>
-              <span className={styles.sponsorName}>{sponsor.name}</span>
+              <span className={styles.sponsorName}>{copy.sponsorTitle}</span>
               <span className={styles.sponsorSub}>{copy.sponsorSubtitle}</span>
             </div>
           </div>
@@ -96,41 +106,19 @@ export function HomeScreen({
         <Button variant="neutral" size="sm" onClick={onBoard} leading={<TrophyIcon size={16} />}>
           {copy.board}
         </Button>
-
-        {/* Un <a> y no un botón: sale de la aplicación, y quien quiera abrirlo
-            en otra pestaña debe poder. */}
-        <a
-          className={styles.wildkeys}
-          href={wildkeysHref}
-          target="_blank"
-          rel="noreferrer noopener"
-        >
-          {copy.wildkeys}
-          <ExternalIcon />
-        </a>
       </div>
+
+      {/* La misma tarjeta con la que se despide el juego al terminar, pero
+          hablando de lo que hay en WildKeys en vez de explicar lo que aún no
+          has hecho. */}
+      <BrandOutro
+        title={copy.wildkeysTitle}
+        body={copy.wildkeysBody}
+        cta={copy.wildkeysCta}
+        href={wildkeysHref}
+      />
 
       <p className={styles.foot}>{copy.foot}</p>
     </section>
-  );
-}
-
-function ExternalIcon() {
-  return (
-    <svg
-      width="15"
-      height="15"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-    >
-      <path d="M14 4h6v6" />
-      <path d="M20 4 10 14" />
-      <path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
-    </svg>
   );
 }
