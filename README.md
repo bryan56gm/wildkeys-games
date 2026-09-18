@@ -104,3 +104,11 @@ concreto, con la marca y el contenido de terceros dentro.
 El **contenido no es software** y queda fuera de esa licencia: las claves
 dicotómicas, las fotografías, los textos y las marcas (WildKeys y LO VILOT)
 son de sus autores, con todos los derechos reservados.
+
+## Contribuir
+
+Que no sea libre no quiere decir que sea cerrado: se aceptan contribuciones, y
+la licencia concede permiso expreso para copiar y modificar el código **con el
+fin de proponer un cambio aquí**. Cómo hacerlo, qué se mira en una revisión y
+qué aceptas al enviar un PR: [CONTRIBUTING.md](CONTRIBUTING.md). Quien aporta
+conserva su autoría y consta en [CONTRIBUTORS.md](CONTRIBUTORS.md).

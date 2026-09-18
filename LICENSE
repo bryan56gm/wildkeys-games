@@ -13,6 +13,23 @@ marca WildKeys y la de LO VILOT NO son software y quedan fuera de esta
 licencia. Son obra de sus autores, con todos los derechos reservados, y su uso
 requiere permiso expreso.
 
+PERMISO ADICIONAL PARA CONTRIBUIR
+---------------------------------
+
+La licencia de abajo no permite modificar el software. El licenciante concede
+aquí un permiso adicional, y solo para esto: puedes copiar y modificar el
+software con el fin de preparar una contribución a este mismo proyecto
+—corregir un fallo, proponer una mejora, añadir un juego— y enviarla al
+repositorio original en https://github.com/bryan56gm/wildkeys-games.
+
+Ese permiso cubre tu copia de trabajo y la rama desde la que envías la
+propuesta. No cubre publicar una versión modificada por tu cuenta, ni usarla
+para otra cosa que no sea contribuir aquí.
+
+Quien contribuye conserva la autoría de lo que escribe y consta en el historial
+del repositorio con su nombre. Los términos están en CONTRIBUTING.md, y hay que
+aceptarlos al enviar la propuesta.
+
 ------------------------------------------------------------------------------
 
 # PolyForm Strict License 1.0.0
