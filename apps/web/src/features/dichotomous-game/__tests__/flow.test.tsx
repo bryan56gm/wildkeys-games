@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { givenPlayer, renderGame, winOpenChallenge } from '@/test/render-game';
+import { givenPlayer, givenRunningAttempt, renderGame, winOpenChallenge } from '@/test/render-game';
 import { lovilotGame } from '@/games/lovilot';
 
 const mainKey = lovilotGame.challenges[0]!.key;
@@ -212,6 +212,38 @@ describe('mejorar tu tiempo', () => {
 
     expect(await screen.findByText(/tu mejor tiempo libre:/i)).toBeInTheDocument();
     expect(screen.getByText(/tu marca:/i)).toBeInTheDocument();
+  });
+});
+
+describe('sin conexión', () => {
+  it('la marca no se pierde: queda en cola y se ve en el marcador como propia', async () => {
+    // Los tests corren sin credenciales de Supabase, así que el marcador está
+    // en modo local: es exactamente lo que le pasa a un móvil sin cobertura.
+    givenRunningAttempt('Sin Cobertura', 'hop');
+    renderGame();
+
+    await userEvent.click(await screen.findByRole('button', { name: /continuar mi intento/i }));
+    await winOpenChallenge(mainKey);
+
+    // La marca está guardada en el dispositivo, no perdida.
+    const queued = window.localStorage.getItem('wkg.score-queue') ?? '';
+    expect(queued).toContain('Sin Cobertura');
+
+    // Y el jugador se ve en la clasificación, con su puesto.
+    await userEvent.click(await screen.findByRole('button', { name: /^clasificación$/i }));
+    expect(await screen.findByText('Sin Cobertura')).toBeInTheDocument();
+    expect(screen.getByText(/tu posición/i)).toBeInTheDocument();
+  });
+
+  it('ofrece subirla a mano cuando vuelve la conexión', async () => {
+    givenRunningAttempt('Sin Cobertura', 'hop');
+    renderGame();
+
+    await userEvent.click(await screen.findByRole('button', { name: /continuar mi intento/i }));
+    await winOpenChallenge(mainKey);
+    await userEvent.click(await screen.findByRole('button', { name: /^clasificación$/i }));
+
+    expect(await screen.findByRole('button', { name: /subir ahora/i })).toBeInTheDocument();
   });
 });
 

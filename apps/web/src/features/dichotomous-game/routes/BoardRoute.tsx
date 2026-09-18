@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router';
-import { useLeaderboard, useLeaderboardService } from '@wkg/leaderboard';
+import { useLeaderboard, useOfflineQueue } from '@wkg/leaderboard';
 import { formatClock } from '@/lib/format/time';
 import { rankedRows, visibleRows } from '../board-rows';
 import { BoardScreen } from '../screens/BoardScreen';
@@ -18,7 +18,7 @@ export function BoardRoute() {
   const { definition, t, mainChallenge } = useGameSession();
   const { challengeId } = useParams();
   const navigate = useNavigate();
-  const service = useLeaderboardService();
+  const queue = useOfflineQueue();
   const slug = definition.slug;
 
   const active = definition.challenges.find((c) => c.id === challengeId)?.id ?? mainChallenge.id;
@@ -35,7 +35,7 @@ export function BoardRoute() {
   const board = useMemo(() => visibleRows(ranking, MAX_ROWS), [ranking]);
   const mine = ranking.find((row) => row.mine);
 
-  const hasPending = service.pending().some((item) => item.gameSlug === slug);
+  const hasPending = queue.pending.some((item) => item.gameSlug === slug);
 
   return (
     <BoardScreen
@@ -48,6 +48,7 @@ export function BoardRoute() {
         youTag: t('youTag'),
         demoTag: t('demoTag'),
         tabsLabel: t('boardTitle'),
+        retry: t('retryUploadLabel'),
         youAre: t('youAreLabel'),
         findMe: t('findMeLabel'),
         notice: notice(),
@@ -67,6 +68,8 @@ export function BoardRoute() {
             }
           : null
       }
+      onRetry={hasPending ? queue.sync : undefined}
+      retrying={queue.syncing}
       mineIsFarBelow={board.mineIsFarBelow}
       failsLabel={(fails) => (fails === 1 ? t('failsOneShort') : t('failsShortFmt', { n: fails }))}
       onBack={() => void navigate(gamePaths.home(slug))}

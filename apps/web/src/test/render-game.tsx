@@ -71,6 +71,30 @@ function skipIntros() {
   window.localStorage.setItem(`wk.${lovilotGame.slug}.welcome`, '1');
 }
 
+/**
+ * Jugador con un intento puntuable en marcha desde hace un rato.
+ *
+ * El `startedAt` importa: el tiempo de una marca se mide contra él, y el juego
+ * rechaza por imposible cualquier partida de menos de tres segundos. Ganar en
+ * un test lleva milisegundos, así que sin esto la marca nunca llega a la cola.
+ */
+export function givenRunningAttempt(nickname: string, challengeId: string, agoMs = 60_000) {
+  window.localStorage.setItem(
+    `wk.${lovilotGame.slug}.player`,
+    JSON.stringify({
+      nickname,
+      runs: {
+        [challengeId]: {
+          startedAt: Date.now() - agoMs,
+          completed: false,
+          elapsedMs: null,
+          fails: 0,
+        },
+      },
+    })
+  );
+}
+
 /** Deja al jugador registrado, y opcionalmente con el reto ya completado. */
 export function givenPlayer(nickname: string, completed: readonly string[] = []) {
   const runs = Object.fromEntries(

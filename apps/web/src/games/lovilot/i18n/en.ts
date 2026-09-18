@@ -23,7 +23,7 @@ export const en: LovilotCopy = {
   exitConfirm: 'Leave anyway',
   exitStay: 'Keep playing',
 
-  sponsorSubtitle: 'Craft brewery · Lleida',
+  sponsorSubtitle: 'LO VILOT special · Craft brewery in Lleida',
   sponsorDescription: 'They grow their own hop varieties to brew beers with local character.',
 
   welcomeTitle: 'Welcome to the challenge!',
@@ -46,6 +46,8 @@ export const en: LovilotCopy = {
 
   startLabel: 'Start the challenge',
   boardLabel: 'Leaderboard',
+  wildkeysLabel: 'Go to WildKeys',
+  retryUploadLabel: 'Upload now',
   againLabel: 'Play again',
   resumeRun: 'Continue my attempt',
   savedTitle: 'Saved as',

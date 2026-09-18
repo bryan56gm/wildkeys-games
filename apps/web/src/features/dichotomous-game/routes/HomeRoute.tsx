@@ -59,6 +59,7 @@ export function HomeRoute({ registering = false }: { registering?: boolean }) {
           keyName: t('keyName'),
           keySpecies: t('keySpecies'),
           board: t('boardLabel'),
+          wildkeys: t('wildkeysLabel'),
           sponsorSubtitle: t('sponsorSubtitle'),
           sponsorDescription: t('sponsorDescription'),
           challengesLabel: t('challengesLabel'),
@@ -67,6 +68,7 @@ export function HomeRoute({ registering = false }: { registering?: boolean }) {
         sponsor={definition.sponsor}
         challenges={byUrgency(board).map(renderChallenge)}
         player={record ? { nickname: record.nickname, note: playerNote() } : null}
+        wildkeysHref={definition.externalCtaHref}
         onBoard={() => void navigate(gamePaths.board(slug, mainChallenge.id))}
       />
       <p className={styles.source}>{t('source')}</p>

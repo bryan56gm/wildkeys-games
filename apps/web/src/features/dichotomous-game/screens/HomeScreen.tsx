@@ -12,6 +12,7 @@ export interface HomeScreenCopy {
   keyName: string;
   keySpecies: string;
   board: string;
+  wildkeys: string;
   sponsorSubtitle: string;
   sponsorDescription: string;
   challengesLabel: string;
@@ -30,11 +31,20 @@ export interface HomeScreenProps {
   challenges: readonly ReactNode[];
   /** Jugador ya registrado en este dispositivo, con su nota de estado. */
   player: { nickname: string; note: string } | null;
+  /** Enlace a wildkeys.io, la plataforma de la que sale el juego. */
+  wildkeysHref: string;
   onBoard(): void;
 }
 
 /** Portada del juego: en qué punto estás y qué puedes jugar ahora. */
-export function HomeScreen({ copy, sponsor, challenges, player, onBoard }: HomeScreenProps) {
+export function HomeScreen({
+  copy,
+  sponsor,
+  challenges,
+  player,
+  wildkeysHref,
+  onBoard,
+}: HomeScreenProps) {
   return (
     <section className={`${styles.screen} wk-anim-rise`}>
       <header className={styles.intro}>
@@ -86,9 +96,41 @@ export function HomeScreen({ copy, sponsor, challenges, player, onBoard }: HomeS
         <Button variant="neutral" size="sm" onClick={onBoard} leading={<TrophyIcon size={16} />}>
           {copy.board}
         </Button>
+
+        {/* Un <a> y no un botón: sale de la aplicación, y quien quiera abrirlo
+            en otra pestaña debe poder. */}
+        <a
+          className={styles.wildkeys}
+          href={wildkeysHref}
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          {copy.wildkeys}
+          <ExternalIcon />
+        </a>
       </div>
 
       <p className={styles.foot}>{copy.foot}</p>
     </section>
+  );
+}
+
+function ExternalIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M14 4h6v6" />
+      <path d="M20 4 10 14" />
+      <path d="M19 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
+    </svg>
   );
 }

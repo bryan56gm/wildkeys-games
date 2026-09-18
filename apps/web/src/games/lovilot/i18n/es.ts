@@ -22,7 +22,7 @@ export const es: LovilotCopy = {
   exitConfirm: 'Salir igualmente',
   exitStay: 'Seguir jugando',
 
-  sponsorSubtitle: 'Cervecería artesana · Lleida',
+  sponsorSubtitle: 'Especial LO VILOT · Cervecería artesana de Lleida',
   sponsorDescription:
     'Cultivan sus propias variedades de lúpulo para elaborar cervezas con carácter local.',
 
@@ -46,6 +46,8 @@ export const es: LovilotCopy = {
 
   startLabel: 'Empezar el reto',
   boardLabel: 'Clasificación',
+  wildkeysLabel: 'Ir a WildKeys',
+  retryUploadLabel: 'Subir ahora',
   againLabel: 'Jugar otra vez',
   resumeRun: 'Continuar mi intento',
   savedTitle: 'Guardado como',

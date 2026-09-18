@@ -34,8 +34,12 @@ describe('definición del juego LO VILOT', () => {
 });
 
 describe('fotografías', () => {
-  /** Especies aún sin foto. Al recibirlas, se quitan de aquí y el test lo exige. */
-  const PENDIENTES = ['cashmere', 'comet'];
+  /**
+   * Ya no falta ninguna. La lista se queda —vacía— porque es el sitio donde
+   * apuntar una especie nueva mientras no llega su foto, y el test exige que
+   * se vuelva a vaciar cuando llegue.
+   */
+  const PENDIENTES: readonly string[] = [];
 
   it('cada especie de cada clave tiene su foto', () => {
     const sinFoto: string[] = [];

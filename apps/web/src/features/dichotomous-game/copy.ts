@@ -52,6 +52,8 @@ export interface CommonCopy {
   /** Repetir desde el final de reto, sin marca que mejorar todavía. */
   replayLabel: string;
   boardLabel: string;
+  /** Enlace a wildkeys.io desde la portada. */
+  wildkeysLabel: string;
   againLabel: string;
   resumeRun: string;
   savedTitle: string;
@@ -123,6 +125,7 @@ export interface CommonCopy {
   findMeLabel: string;
   boardOffline: string;
   boardPending: string;
+  retryUploadLabel: string;
 
   /** Carga inicial. */
   splashSub: string;

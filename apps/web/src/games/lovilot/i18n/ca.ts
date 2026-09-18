@@ -25,7 +25,7 @@ export const ca = {
   exitConfirm: 'Sortir igualment',
   exitStay: 'Continuar jugant',
 
-  sponsorSubtitle: 'Cerveseria artesana · Lleida',
+  sponsorSubtitle: 'Especial LO VILOT · Cerveseria artesana de Lleida',
   sponsorDescription:
     'Cultiven les seves pròpies varietats de llúpol per elaborar cerveses amb caràcter local.',
 
@@ -49,6 +49,8 @@ export const ca = {
 
   startLabel: 'Començar el repte',
   boardLabel: 'Classificació',
+  wildkeysLabel: 'Anar a WildKeys',
+  retryUploadLabel: 'Pujar ara',
   againLabel: 'Jugar un altre cop',
   resumeRun: 'Continuar el meu intent',
   savedTitle: 'Desat com a',
