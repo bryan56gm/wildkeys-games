@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Card, cx } from '@wkg/ui';
+import { Card, RichText, cx } from '@wkg/ui';
 import type { PhotoRef } from '../types';
 import { PhotoSlot } from './PhotoSlot';
 import styles from './TargetCard.module.css';
@@ -68,12 +68,14 @@ export function TargetCard({
           <span className={styles.kicker}>{kicker}</span>
           {layout === 'stacked' ? (
             <>
-              <span className={styles.name}>{name}</span>
+              <span className={styles.name}>
+                <RichText text={name} />
+              </span>
               <span className={styles.caption}>{caption}</span>
             </>
           ) : (
             <span className={styles.name}>
-              {name} <span className={styles.caption}>{caption}</span>
+              <RichText text={name} /> <span className={styles.caption}>{caption}</span>
             </span>
           )}
         </div>

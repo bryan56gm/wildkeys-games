@@ -30,7 +30,9 @@ describe('portada y partida', () => {
     givenPlayer('Equipo Lince', ['hop']);
     renderGame();
 
-    await userEvent.click(await screen.findByRole('button', { name: /mejorar tu tiempo: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+    );
 
     // La pantalla de juego, no la victoria del intento anterior.
     expect(await screen.findByText(/variedades en juego/i)).toBeInTheDocument();
@@ -41,12 +43,16 @@ describe('portada y partida', () => {
     givenPlayer('Equipo Lince', ['hop']);
     renderGame();
 
-    await userEvent.click(await screen.findByRole('button', { name: /mejorar tu tiempo: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+    );
     await winOpenChallenge(mainKey);
     expect(await screen.findByText(/felicidades/i)).toBeInTheDocument();
 
     await userEvent.click(screen.getByRole('button', { name: /volver al inicio del juego/i }));
-    await userEvent.click(await screen.findByRole('button', { name: /mejorar tu tiempo: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+    );
 
     // Empieza de cero: ni la victoria anterior ni la partida a medias.
     expect(await screen.findByText(/variedades en juego/i)).toBeInTheDocument();
@@ -58,12 +64,16 @@ describe('portada y partida', () => {
     givenPlayer('Equipo Lince', ['hop']);
     renderGame();
 
-    await userEvent.click(await screen.findByRole('button', { name: /mejorar tu tiempo: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+    );
     await userEvent.click(await screen.findByRole('button', { name: /salir/i }));
     await userEvent.click(await screen.findByRole('button', { name: /salir igualmente/i }));
 
     await waitFor(() =>
-      expect(screen.getByRole('button', { name: /mejorar tu tiempo: vista/i })).toBeInTheDocument()
+      expect(
+        screen.getByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+      ).toBeInTheDocument()
     );
     expect(screen.queryByRole('button', { name: /salir/i })).not.toBeInTheDocument();
     expect(screen.queryByRole('timer')).not.toBeInTheDocument();
@@ -73,7 +83,9 @@ describe('portada y partida', () => {
     renderGame();
 
     // Registro y cronómetro en marcha.
-    await userEvent.click(await screen.findByRole('button', { name: /empezar el reto: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /empezar el reto: variedad vista/i })
+    );
     await userEvent.type(await screen.findByRole('textbox'), 'Equipo Lince');
     await userEvent.click(screen.getByRole('button', { name: /registrarme y empezar/i }));
 
@@ -87,7 +99,9 @@ describe('portada y partida', () => {
     expect(screen.getByText(/reto extra/i)).toBeInTheDocument();
 
     // …y el reto principal se puede repetir para mejorar el tiempo.
-    await userEvent.click(screen.getByRole('button', { name: /mejorar tu tiempo: vista/i }));
+    await userEvent.click(
+      screen.getByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+    );
     expect(await screen.findByText(/variedades en juego/i)).toBeInTheDocument();
     expect(screen.getByText(/quedan 6 de 6/i)).toBeInTheDocument();
   });
@@ -96,7 +110,9 @@ describe('portada y partida', () => {
     givenPlayer('Equipo Lince', ['hop']);
     renderGame();
 
-    await userEvent.click(await screen.findByRole('button', { name: /mejorar tu tiempo: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+    );
     await winOpenChallenge(mainKey);
     await userEvent.click(await screen.findByRole('button', { name: /jugar otra vez/i }));
 
@@ -112,7 +128,7 @@ describe('portada y partida', () => {
     expect(slides[1]).toHaveTextContent(/se desbloquea al identificar vista/i);
     // El botón se ve, pero apagado: enseña qué hay detrás sin dejar entrar.
     expect(
-      within(slides[1]!).getByRole('button', { name: /empezar el reto: marta/i })
+      within(slides[1]!).getByRole('button', { name: /empezar el reto: la marta/i })
     ).toBeDisabled();
   });
 
@@ -128,7 +144,9 @@ describe('portada y partida', () => {
   it('con un intento a medias, la portada ofrece continuarlo', async () => {
     renderGame();
 
-    await userEvent.click(await screen.findByRole('button', { name: /empezar el reto: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /empezar el reto: variedad vista/i })
+    );
     await userEvent.type(await screen.findByRole('textbox'), 'Equipo Lince');
     await userEvent.click(screen.getByRole('button', { name: /registrarme y empezar/i }));
     await userEvent.click(await screen.findByRole('button', { name: /salir/i }));
@@ -145,7 +163,9 @@ describe('final de reto', () => {
     givenPlayer('Equipo Lince', ['hop']);
     const first = renderGame();
 
-    await userEvent.click(await screen.findByRole('button', { name: /mejorar tu tiempo: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+    );
     await winOpenChallenge(mainKey);
     await screen.findByText(/felicidades/i);
 
@@ -166,7 +186,9 @@ describe('final de reto', () => {
     givenPlayer('Equipo Lince', ['hop']);
     renderGame();
 
-    await userEvent.click(await screen.findByRole('button', { name: /mejorar tu tiempo: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+    );
     await winOpenChallenge(mainKey);
 
     expect(await screen.findByText(/y ahora qué/i)).toBeInTheDocument();
@@ -179,7 +201,9 @@ describe('final de reto', () => {
     givenPlayer('Equipo Lince', ['hop']);
     renderGame();
 
-    await userEvent.click(await screen.findByRole('button', { name: /mejorar tu tiempo: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+    );
     await winOpenChallenge(mainKey);
     await userEvent.click(screen.getByRole('button', { name: /aceptar el reto/i }));
 
@@ -191,7 +215,9 @@ describe('final de reto', () => {
     givenPlayer('Equipo Lince', ['hop']);
     renderGame();
 
-    await userEvent.click(await screen.findByRole('button', { name: /mejorar tu tiempo: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+    );
     await winOpenChallenge(mainKey);
     await userEvent.click(screen.getByRole('button', { name: /volver al inicio$/i }));
 
@@ -205,7 +231,9 @@ describe('mejorar tu tiempo', () => {
     givenPlayer('Equipo Lince', ['hop']);
     renderGame();
 
-    await userEvent.click(await screen.findByRole('button', { name: /mejorar tu tiempo: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+    );
     await winOpenChallenge(mainKey);
 
     expect(await screen.findByText(/nuevo récord personal/i)).toBeInTheDocument();
@@ -218,7 +246,9 @@ describe('mejorar tu tiempo', () => {
     givenPlayer('Equipo Lince', ['hop']);
     renderGame();
 
-    await userEvent.click(await screen.findByRole('button', { name: /mejorar tu tiempo: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+    );
     await winOpenChallenge(mainKey);
     await userEvent.click(screen.getByRole('button', { name: /volver al inicio$/i }));
 
@@ -264,7 +294,9 @@ describe('repasar el camino', () => {
     givenPlayer('Equipo Lince', ['hop']);
     renderGame();
 
-    await userEvent.click(await screen.findByRole('button', { name: /mejorar tu tiempo: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /mejorar tu tiempo: variedad vista/i })
+    );
     await winOpenChallenge(mainKey);
 
     const path = (await screen.findByText(/el camino correcto/i)).closest('details');
@@ -284,7 +316,9 @@ describe('registro', () => {
   it('no roba el foco al abrirse: el teclado del móvil no salta solo', async () => {
     renderGame();
 
-    await userEvent.click(await screen.findByRole('button', { name: /empezar el reto: vista/i }));
+    await userEvent.click(
+      await screen.findByRole('button', { name: /empezar el reto: variedad vista/i })
+    );
     const field = await screen.findByRole('textbox');
 
     await waitFor(() => expect(screen.getByRole('dialog')).toBeInTheDocument());

@@ -21,3 +21,12 @@ export function RichText({ text }: RichTextProps): ReactNode {
     index % 2 === 1 ? <em key={index}>{chunk}</em> : <Fragment key={index}>{chunk}</Fragment>
   );
 }
+
+/**
+ * El mismo texto sin los marcadores, para donde solo cabe texto plano: la
+ * etiqueta de un botón para el lector de pantalla, el `alt` de una foto. Sin
+ * esto, ahí se colarían los asteriscos.
+ */
+export function plainText(text: string): string {
+  return text.replace(/\*([^*]+)\*/gu, '$1');
+}

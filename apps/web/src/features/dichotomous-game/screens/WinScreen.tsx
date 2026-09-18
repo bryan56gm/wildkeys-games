@@ -131,7 +131,9 @@ export function WinScreen({
         </button>
         <div className={styles.summary}>
           <div className={styles.names}>
-            <span className={styles.name}>{target.name}</span>
+            <span className={styles.name}>
+              <RichText text={target.name} />
+            </span>
             <span className={styles.sci}>{target.scientificName}</span>
           </div>
           <p className={styles.fact}>

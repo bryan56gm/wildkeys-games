@@ -118,8 +118,8 @@ export const ca = {
   splashSub: 'Repte de la clau dicotòmica',
   splashLoading: 'Carregant…',
 
-  'hop.name': 'Vista',
-  'hop.caption': 'Varietat de llúpol de LO VILOT',
+  'hop.name': 'Varietat *Vista*',
+  'hop.caption': 'Llúpol cultivat a LO VILOT',
   'hop.headerSub': 'WildKeys × LO VILOT',
   'hop.winTitle': 'Felicitats, has identificat la varietat «*Vista*»!',
   'hop.winBody': 'Has recorregut la clau de llúpol de LO VILOT correctament.',
@@ -131,7 +131,7 @@ export const ca = {
   'hop.boardTab': 'Llúpol',
   'hop.boardKicker': 'Marcador · Llúpol',
 
-  'carn.name': 'Marta',
+  'carn.name': 'La marta',
   'carn.caption': 'Carnívor terrestre d’Espanya',
   'carn.headerSub': 'Repte carnívors',
   'carn.winTitle': 'Felicitats, has identificat la marta!',

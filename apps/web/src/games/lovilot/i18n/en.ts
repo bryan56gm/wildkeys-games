@@ -115,8 +115,8 @@ export const en: LovilotCopy = {
   splashSub: 'Dichotomous key challenge',
   splashLoading: 'Loading…',
 
-  'hop.name': 'Vista',
-  'hop.caption': 'LO VILOT hop variety',
+  'hop.name': '*Vista* variety',
+  'hop.caption': 'Hop grown at LO VILOT',
   'hop.headerSub': 'WildKeys × LO VILOT',
   'hop.winTitle': 'Congratulations, you identified the «*Vista*» variety!',
   'hop.winBody': 'You followed the LO VILOT hop key correctly.',
@@ -128,7 +128,7 @@ export const en: LovilotCopy = {
   'hop.boardTab': 'Hops',
   'hop.boardKicker': 'Board · Hops',
 
-  'carn.name': 'Pine marten',
+  'carn.name': 'The pine marten',
   'carn.caption': 'Wild terrestrial carnivore of Spain',
   'carn.headerSub': 'Carnivore challenge',
   'carn.winTitle': 'Congratulations, you identified the pine marten!',

@@ -1,5 +1,5 @@
 import { useId, type ReactNode } from 'react';
-import { Button, LockIcon, PlayIcon, StopwatchIcon } from '@wkg/ui';
+import { Button, LockIcon, PlayIcon, plainText, RichText, StopwatchIcon } from '@wkg/ui';
 import type { ChallengeStage } from '../hooks/use-challenge-board';
 import type { PhotoRef } from '../types';
 import { TargetCard } from './TargetCard';
@@ -38,7 +38,8 @@ export interface ChallengeCardProps {
  *
  * Un reto bloqueado enseña su botón igual, apagado: esconderlo deja la tarjeta
  * sin decir qué se puede hacer con ella. Apagado se ve que hay algo ahí y que
- * todavía no es tuyo, y la nota de al lado dice qué lo abre.
+ * todavía no es tuyo, y la nota de al lado dice qué lo abre. La foto, en
+ * cambio, se puede ampliar desde el primer momento.
  */
 export function ChallengeCard({
   copy,
@@ -60,13 +61,15 @@ export function ChallengeCard({
       name={copy.name}
       caption={copy.caption}
       layout="stacked"
-      onZoom={locked ? undefined : onViewPhoto}
+      // La foto se amplía siempre, también con el reto cerrado: lo que está
+      // bloqueado es jugarlo, y ver a qué te vas a enfrentar es media gracia.
+      onZoom={onViewPhoto}
       zoomLabel={copy.zoomLabel}
       footer={
         <div className={styles.footer}>
           <span className={styles.note} data-stage={stage} id={noteId}>
             {locked ? <LockIcon size={13} /> : null}
-            {copy.note}
+            <RichText text={copy.note} />
           </span>
           {copy.best ? <span className={styles.best}>{copy.best}</span> : null}
           <Button
@@ -81,7 +84,7 @@ export function ChallengeCard({
              * distingue su tarjeta. Quien navega escuchando no ve la tarjeta:
              * el nombre del reto va en la etiqueta.
              */
-            aria-label={`${copy.action}: ${copy.name}`}
+            aria-label={`${copy.action}: ${plainText(copy.name)}`}
             // El botón apagado no cuenta por qué lo está: lo cuenta la nota.
             aria-describedby={locked ? noteId : undefined}
           >

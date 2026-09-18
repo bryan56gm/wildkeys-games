@@ -115,8 +115,8 @@ export const es: LovilotCopy = {
   splashSub: 'Reto de la clave dicotómica',
   splashLoading: 'Cargando…',
 
-  'hop.name': 'Vista',
-  'hop.caption': 'Variedad de lúpulo de LO VILOT',
+  'hop.name': 'Variedad *Vista*',
+  'hop.caption': 'Lúpulo cultivado en LO VILOT',
   'hop.headerSub': 'WildKeys × LO VILOT',
   'hop.winTitle': '¡Felicidades, has identificado la variedad «*Vista*»!',
   'hop.winBody': 'Has recorrido la clave de lúpulo de LO VILOT correctamente.',
@@ -128,7 +128,7 @@ export const es: LovilotCopy = {
   'hop.boardTab': 'Lúpulo',
   'hop.boardKicker': 'Marcador · Lúpulo',
 
-  'carn.name': 'Marta',
+  'carn.name': 'La marta',
   'carn.caption': 'Carnívoro terrestre de España',
   'carn.headerSub': 'Reto carnívoros',
   'carn.winTitle': '¡Felicidades, has identificado la marta!',
