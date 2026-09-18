@@ -101,6 +101,11 @@ Es a propósito. Este repositorio se hará público para que el trabajo se pueda
 ver y estudiar, no para que se reutilice: es un juego hecho para un evento
 concreto, con la marca y el contenido de terceros dentro.
 
+**Para uso comercial hay licencia**, distinta de esta y de acuerdo entre las
+partes: escribe a [WildKeys](https://wildkeys.io). El titular conserva todos
+los derechos, así que puede darla — es la vía para que quien quiera hacer
+negocio con esto lo haga contando con quien lo escribió, y no a su costa.
+
 El **contenido no es software** y queda fuera de esa licencia: las claves
 dicotómicas, las fotografías, los textos y las marcas (WildKeys y LO VILOT)
 son de sus autores, con todos los derechos reservados.

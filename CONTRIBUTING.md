@@ -50,7 +50,9 @@ Al enviar un pull request declaras que:
    Hace falta porque sin él nadie podría integrar tu PR sin romper la licencia
    del resto del código.
 3. **Conservas la autoría.** No cedes tu copyright: das permiso. Puedes usar tu
-   propia aportación donde quieras.
+   propia aportación donde quieras. Lo que no te da es ningún derecho sobre el
+   resto del proyecto: contribuir no convierte a nadie en cotitular ni abre la
+   puerta a explotar comercialmente lo que no ha escrito.
 4. **Entiendes que queda en público**: tu nombre, tu correo de git y el mensaje
    del commit se quedan en el historial para siempre.
 
