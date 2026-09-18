@@ -85,6 +85,10 @@ export interface CommonCopy {
   backStep: string;
   zoomLabel: string;
   zoomHint: string;
+  /** Controles del visor de fotos. */
+  zoomInLabel: string;
+  zoomOutLabel: string;
+  closeLabel: string;
   failsFmt: string;
 
   /** Fallo. */

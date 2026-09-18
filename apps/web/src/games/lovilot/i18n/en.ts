@@ -10,7 +10,7 @@ export const en: LovilotCopy = {
   homeTitle: 'Identify the *Vista* hop as fast as you can',
   homeSub:
     'You have 6 hop varieties grown at LO VILOT in front of you. Work through the dichotomous key and reach «*Vista*» without a wrong turn.',
-  homeFoot: 'Works offline. One scored attempt per phone.',
+  homeFoot: 'One scored attempt per phone.',
   keyLabel: 'The key you will use',
   keyName: 'Dichotomous key to LO VILOT hop varieties',
   keySpecies: '6 varieties · hops grown at LO VILOT',
@@ -74,7 +74,10 @@ export const en: LovilotCopy = {
   trailTitle: 'Your route',
   backStep: 'Undo step',
   zoomLabel: 'Zoom in',
-  zoomHint: 'Tap the photo to zoom in. Tap outside to go back.',
+  closeLabel: 'Close',
+  zoomOutLabel: 'Zoom out',
+  zoomInLabel: 'Zoom in',
+  zoomHint: 'Pinch to zoom and drag to move. Double-tap to fit.',
   failsFmt: 'Wrong turns so far: {n}',
 
   failTitle: 'Oooh, wrong turn!',
@@ -98,7 +101,7 @@ export const en: LovilotCopy = {
     'At each step you choose between two or three descriptions and narrow down to a single species. That is exactly what WildKeys does, with real keys for wildlife and plants.',
   wkCta: 'Discover WildKeys',
   source:
-    'Dichotomous keys: LO VILOT Hops and Wild Terrestrial Carnivores of Spain (Esther Martínez Pujol, 2026, WildKeys).',
+    'Dichotomous keys: LO VILOT Hops and Wild Terrestrial Carnivores of Spain (Esther Martínez Pujol and Bryan García Munive, 2026, WildKeys).',
 
   boardTitle: 'Leaderboard',
   boardBody: 'Times from the whole event, fastest first.',

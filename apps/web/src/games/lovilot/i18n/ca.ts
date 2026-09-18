@@ -13,7 +13,7 @@ export const ca = {
   homeTitle: 'Identifica el llúpol *Vista* tan ràpid com puguis',
   homeSub:
     'Tens davant 6 varietats de llúpol que es cultiven a LO VILOT. Recorre la clau dicotòmica i arriba fins a «*Vista*» sense equivocar-te.',
-  homeFoot: 'Funciona sense connexió. Un intent puntuable per mòbil.',
+  homeFoot: 'Un intent puntuable per mòbil.',
   keyLabel: 'La clau que faràs servir',
   keyName: 'Clau dicotòmica de les varietats de llúpol de LO VILOT',
   keySpecies: '6 varietats · llúpol cultivat a LO VILOT',
@@ -77,7 +77,10 @@ export const ca = {
   trailTitle: 'El teu recorregut',
   backStep: 'Desfer pas',
   zoomLabel: 'Ampliar',
-  zoomHint: 'Toca la foto per ampliar-la. Toca fora per tornar.',
+  closeLabel: 'Tancar',
+  zoomOutLabel: 'Allunyar',
+  zoomInLabel: 'Apropar',
+  zoomHint: 'Pessiga per apropar i arrossega per moure’t. Toca dos cops per encabir-la.',
   failsFmt: 'Errors fins ara: {n}',
 
   failTitle: 'Oooh, has fallat!',
@@ -101,7 +104,7 @@ export const ca = {
     'A cada pas tries entre dues o tres descripcions i avances fins a una única espècie. Això és exactament el que fa WildKeys, amb claus reals de fauna i flora.',
   wkCta: 'Conèixer WildKeys',
   source:
-    'Claus dicotòmiques: Llúpol de LO VILOT i Carnívors terrestres d’Espanya (Esther Martínez Pujol, 2026, WildKeys).',
+    'Claus dicotòmiques: Llúpol de LO VILOT i Carnívors terrestres d’Espanya (Esther Martínez Pujol i Bryan García Munive, 2026, WildKeys).',
 
   boardTitle: 'Classificació',
   boardBody: 'Temps de tot l’esdeveniment, del més ràpid al més lent.',

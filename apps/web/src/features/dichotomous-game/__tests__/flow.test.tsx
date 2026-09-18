@@ -289,6 +289,38 @@ describe('sin conexión', () => {
   });
 });
 
+describe('visor de fotos', () => {
+  it('se abre con controles de acercar y alejar, no solo con los dedos', async () => {
+    givenPlayer('Equipo Lince', ['hop']);
+    renderGame();
+
+    const slides = await screen.findAllByRole('group', { name: /reto \d de 2/i });
+    await userEvent.click(within(slides[0]!).getByRole('button', { name: /ampliar/i }));
+
+    const viewer = await screen.findByRole('dialog');
+    expect(within(viewer).getByRole('button', { name: /acercar/i })).toBeEnabled();
+    // Encajada no hay nada que alejar.
+    expect(within(viewer).getByRole('button', { name: /alejar/i })).toBeDisabled();
+  });
+
+  it('acercar agranda la foto y alejar la devuelve a su sitio', async () => {
+    givenPlayer('Equipo Lince', ['hop']);
+    renderGame();
+
+    const slides = await screen.findAllByRole('group', { name: /reto \d de 2/i });
+    await userEvent.click(within(slides[0]!).getByRole('button', { name: /ampliar/i }));
+
+    const viewer = await screen.findByRole('dialog');
+    const photo = within(viewer).getByRole('img');
+
+    await userEvent.click(within(viewer).getByRole('button', { name: /acercar/i }));
+    expect(photo.style.transform).toMatch(/scale\((?!1\))/);
+
+    await userEvent.click(within(viewer).getByRole('button', { name: /alejar/i }));
+    expect(photo.style.transform).toContain('scale(1)');
+  });
+});
+
 describe('repasar el camino', () => {
   it('el camino llega desplegado en el resultado: es la chuleta, no letra pequeña', async () => {
     givenPlayer('Equipo Lince', ['hop']);

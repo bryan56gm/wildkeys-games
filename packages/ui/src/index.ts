@@ -46,4 +46,5 @@ export { Stat, type StatProps } from './components/Stat.js';
 export { VisuallyHidden } from './components/VisuallyHidden.js';
 export { cx } from './lib/cx.js';
 export { useCarousel, type CarouselControls } from './lib/use-carousel.js';
+export { usePinchZoom, type PinchZoom } from './lib/use-pinch-zoom.js';
 export { useVisualViewportHeight } from './lib/use-visual-viewport.js';

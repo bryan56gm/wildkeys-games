@@ -10,7 +10,7 @@ export const es: LovilotCopy = {
   homeTitle: 'Identifica el lúpulo *Vista* lo más rápido que puedas',
   homeSub:
     'Tienes delante 6 variedades de lúpulo que se cultivan en LO VILOT. Recorre la clave dicotómica y llega hasta «*Vista*» sin equivocarte.',
-  homeFoot: 'Funciona sin conexión. Un intento puntuable por móvil.',
+  homeFoot: 'Un intento puntuable por móvil.',
   keyLabel: 'Clave que vas a usar',
   keyName: 'Clave dicotómica de las variedades de lúpulo de LO VILOT',
   keySpecies: '6 variedades · lúpulo cultivado en LO VILOT',
@@ -74,7 +74,10 @@ export const es: LovilotCopy = {
   trailTitle: 'Tu recorrido',
   backStep: 'Deshacer paso',
   zoomLabel: 'Ampliar',
-  zoomHint: 'Toca la foto para ampliarla. Toca fuera para volver.',
+  closeLabel: 'Cerrar',
+  zoomOutLabel: 'Alejar',
+  zoomInLabel: 'Acercar',
+  zoomHint: 'Pellizca para acercar y arrastra para moverte. Toca dos veces para encajarla.',
   failsFmt: 'Fallos hasta ahora: {n}',
 
   failTitle: '¡Oooh, has fallado!',
@@ -98,7 +101,7 @@ export const es: LovilotCopy = {
     'En cada paso eliges entre dos o tres descripciones y avanzas hasta una única especie. Eso es exactamente lo que hace WildKeys, con claves reales de fauna y flora.',
   wkCta: 'Conocer WildKeys',
   source:
-    'Claves dicotómicas: Lúpulo de LO VILOT y Carnívoros terrestres de España (Esther Martínez Pujol, 2026, WildKeys).',
+    'Claves dicotómicas: Lúpulo de LO VILOT y Carnívoros terrestres de España (Esther Martínez Pujol y Bryan García Munive, 2026, WildKeys).',
 
   boardTitle: 'Clasificación',
   boardBody: 'Tiempos de todo el evento, del más rápido al más lento.',

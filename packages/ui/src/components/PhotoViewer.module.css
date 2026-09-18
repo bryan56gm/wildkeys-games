@@ -53,29 +53,23 @@
 }
 
 /*
- * El escenario desplaza la foto ampliada con el scroll del navegador.
+ * El marco recorta lo que sobra de la foto acercada.
  *
- * `touch-action: manipulation` deja los gestos en manos del sistema: arrastrar
- * va con su inercia y el pellizco funciona como en la galería del teléfono. La
- * alternativa —capturar los punteros y mover la imagen a mano— es la que
- * rompía el visor al llegar el segundo dedo.
+ * `touch-action: none` es lo que permite que el pellizco lo resuelva el visor
+ * en vez del navegador: sin esto, el gesto se lo queda el sistema, agranda la
+ * página entera y descoloca el diálogo. Ver `usePinchZoom`.
  */
 .stage {
   display: flex;
   flex: 1;
   align-items: center;
   justify-content: center;
-  overflow: auto;
+  overflow: hidden;
   min-height: 0;
   border-radius: 18px;
   background: #1c1917;
-  touch-action: manipulation;
+  touch-action: none;
   overscroll-behavior: contain;
-  scrollbar-width: none;
-}
-
-.stage::-webkit-scrollbar {
-  display: none;
 }
 
 /* Entra entera: a pantalla completa se quiere ver toda, no un recorte. */
@@ -84,9 +78,22 @@
   max-height: 100%;
   object-fit: contain;
   cursor: zoom-in;
-  transition: width 180ms var(--wk-ease-out);
+  /* El origen en el centro es lo que dan por hecho las cuentas del gesto. */
+  transform-origin: center center;
+  will-change: transform;
   user-select: none;
   -webkit-user-drag: none;
+}
+
+.stage[data-zoomed] .image {
+  cursor: grab;
+}
+
+.tools {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: var(--wk-space-3);
 }
 
 /* Ampliada deja de encajarse: crece y es el escenario el que desplaza. */

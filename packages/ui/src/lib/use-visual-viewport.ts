@@ -20,7 +20,17 @@ export function useVisualViewportHeight(): number | null {
     const viewport = window.visualViewport;
     if (!viewport) return;
 
-    const update = () => setHeight(Math.round(viewport.height));
+    const update = () => {
+      /*
+       * Con la página acercada (un pellizco fuera de un visor de fotos, o el
+       * zoom del sistema) el área visible encoge sin que haya teclado ninguno.
+       * Hacer caso ahí encogería el diálogo a mitad del gesto, que es como se
+       * descolocaba el visor. Mientras dure el acercamiento, se deja como
+       * estaba.
+       */
+      if (viewport.scale > 1) return;
+      setHeight(Math.round(viewport.height));
+    };
 
     update();
     viewport.addEventListener('resize', update);

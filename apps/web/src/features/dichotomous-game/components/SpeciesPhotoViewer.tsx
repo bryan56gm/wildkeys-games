@@ -35,7 +35,9 @@ export function SpeciesPhotoViewer() {
       src={src}
       name={resolveText(species.name, locale, FALLBACK_LOCALE)}
       caption={species.scientificName}
-      closeLabel={t('cancelLabel')}
+      closeLabel={t('closeLabel')}
+      zoomInLabel={t('zoomInLabel')}
+      zoomOutLabel={t('zoomOutLabel')}
       hint={t('zoomHint')}
     />
   );
