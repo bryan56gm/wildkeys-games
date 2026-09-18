@@ -2,6 +2,7 @@
   "name": "@wkg/i18n",
   "version": "0.1.0",
   "private": true,
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "description": "Diccionarios tipados por juego, locale compartido y bindings de React.",
   "exports": {

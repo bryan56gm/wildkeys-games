@@ -2,6 +2,7 @@
   "name": "@wkg/leaderboard",
   "version": "0.1.0",
   "private": true,
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "description": "Cliente tipado de Supabase, cola offline y hooks para la clasificación.",
   "exports": {

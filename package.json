@@ -2,6 +2,7 @@
   "name": "wildkeys-games",
   "version": "0.1.0",
   "private": true,
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "homepage": "https://games.wildkeys.io",
   "packageManager": "pnpm@10.26.0",

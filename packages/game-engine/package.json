@@ -2,6 +2,7 @@
   "name": "@wkg/game-engine",
   "version": "0.1.0",
   "private": true,
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "description": "Motor genérico de claves dicotómicas: datos, validación y máquina de estados. Sin React, sin DOM.",
   "exports": {
