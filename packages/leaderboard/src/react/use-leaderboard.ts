@@ -35,17 +35,23 @@ export function useLeaderboard(query: LeaderboardQuery): UseLeaderboardResult {
       limit === undefined ? { gameSlug, challenge } : { gameSlug, challenge, limit };
     let active = true;
 
-    const applyCache = () => {
+    /*
+     * `as` dice por qué se está pintando lo cacheado. Antes siempre marcaba
+     * `cached`, también en el instante entre pedir y recibir —y cambiar de
+     * reto vuelve a pasar por ahí—, así que el marcador anunciaba «sin
+     * conexión» durante un parpadeo aunque la hubiera.
+     */
+    const applyCache = (as: 'loading' | 'cached') => {
       const cached = service.readCached(request);
       if (!active) return;
       setEntries(cached?.entries ?? []);
       setFetchedAt(cached?.fetchedAt ?? null);
-      setSource(service.enabled ? 'cached' : 'disabled');
+      setSource(service.enabled ? as : 'disabled');
     };
 
     const load = () => {
       if (!service.enabled) {
-        applyCache();
+        applyCache('cached');
         return;
       }
       service
@@ -56,10 +62,10 @@ export function useLeaderboard(query: LeaderboardQuery): UseLeaderboardResult {
           setFetchedAt(Date.now());
           setSource('live');
         })
-        .catch(applyCache);
+        .catch(() => applyCache('cached'));
     };
 
-    applyCache(); // pinta algo de inmediato, luego se refresca
+    applyCache('loading'); // pinta algo de inmediato, luego se refresca
     load();
 
     const unsubscribe = service.subscribe(request, load);

@@ -17,6 +17,8 @@ export interface BoardScreenCopy {
   findMe: string;
   /** Aviso de estado: sin conexión o marca pendiente. */
   notice: string | null;
+  /** Texto del botón que fuerza la subida de lo que quedó en cola. */
+  retry: string;
 }
 
 export interface BoardScreenProps {
@@ -30,6 +32,12 @@ export interface BoardScreenProps {
    * lo que se ve—. `null` si aún no se ha competido en él.
    */
   mine: { position: string; time: string } | null;
+  /**
+   * Hay marcas propias sin subir. El envío se reintenta solo, pero el botón
+   * existe para quien acaba de recuperar la cobertura y no quiere esperar.
+   */
+  onRetry?: (() => void) | undefined;
+  retrying?: boolean;
   /** La marca propia no entra en el corte y se ha añadido al final. */
   mineIsFarBelow?: boolean;
   failsLabel(fails: number): string;
@@ -44,6 +52,8 @@ export function BoardScreen({
   onTabChange,
   rows,
   mine,
+  onRetry,
+  retrying = false,
   mineIsFarBelow = false,
   failsLabel,
   onBack,
@@ -90,9 +100,14 @@ export function BoardScreen({
       ) : null}
 
       {copy.notice ? (
-        <p className={styles.notice} role="status">
-          {copy.notice}
-        </p>
+        <div className={styles.notice} role="status">
+          <p className={styles.noticeText}>{copy.notice}</p>
+          {onRetry ? (
+            <Button variant="outline" size="sm" onClick={onRetry} disabled={retrying}>
+              {copy.retry}
+            </Button>
+          ) : null}
+        </div>
       ) : null}
 
       {rows.length === 0 ? (

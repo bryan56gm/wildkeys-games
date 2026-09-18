@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
-import { Avatar, Button, Card, Carousel, Kicker, TrophyIcon } from '@wkg/ui';
+import { Avatar, Button, Card, Carousel, Kicker, RichText, TrophyIcon } from '@wkg/ui';
+import { BrandOutro } from '../components/BrandOutro';
 import type { SponsorDefinition } from '../types';
 import styles from './HomeScreen.module.css';
 
@@ -12,6 +13,12 @@ export interface HomeScreenCopy {
   keyName: string;
   keySpecies: string;
   board: string;
+  /** Tarjeta de cierre: invita a la plataforma, sin explicar el juego. */
+  wildkeysTitle: string;
+  wildkeysBody: string;
+  wildkeysCta: string;
+  /** Rótulo grande de la colaboración: «Especial LO VILOT». */
+  sponsorTitle: string;
   sponsorSubtitle: string;
   sponsorDescription: string;
   challengesLabel: string;
@@ -30,19 +37,32 @@ export interface HomeScreenProps {
   challenges: readonly ReactNode[];
   /** Jugador ya registrado en este dispositivo, con su nota de estado. */
   player: { nickname: string; note: string } | null;
+  /** Enlace a wildkeys.io, la plataforma de la que sale el juego. */
+  wildkeysHref: string;
   onBoard(): void;
 }
 
 /** Portada del juego: en qué punto estás y qué puedes jugar ahora. */
-export function HomeScreen({ copy, sponsor, challenges, player, onBoard }: HomeScreenProps) {
+export function HomeScreen({
+  copy,
+  sponsor,
+  challenges,
+  player,
+  wildkeysHref,
+  onBoard,
+}: HomeScreenProps) {
   return (
     <section className={`${styles.screen} wk-anim-rise`}>
       <header className={styles.intro}>
         <Kicker tone="brand" className={styles.badge}>
           {copy.collab}
         </Kicker>
-        <h1 className={styles.title}>{copy.title}</h1>
-        <p className={styles.subtitle}>{copy.subtitle}</p>
+        <h1 className={styles.title}>
+          <RichText text={copy.title} />
+        </h1>
+        <p className={styles.subtitle}>
+          <RichText text={copy.subtitle} />
+        </p>
       </header>
 
       {sponsor ? (
@@ -52,7 +72,7 @@ export function HomeScreen({ copy, sponsor, challenges, player, onBoard }: HomeS
               <img src={sponsor.logoSrc} alt={sponsor.name} />
             </span>
             <div className={styles.sponsorNames}>
-              <span className={styles.sponsorName}>{sponsor.name}</span>
+              <span className={styles.sponsorName}>{copy.sponsorTitle}</span>
               <span className={styles.sponsorSub}>{copy.sponsorSubtitle}</span>
             </div>
           </div>
@@ -87,6 +107,16 @@ export function HomeScreen({ copy, sponsor, challenges, player, onBoard }: HomeS
           {copy.board}
         </Button>
       </div>
+
+      {/* La misma tarjeta con la que se despide el juego al terminar, pero
+          hablando de lo que hay en WildKeys en vez de explicar lo que aún no
+          has hecho. */}
+      <BrandOutro
+        title={copy.wildkeysTitle}
+        body={copy.wildkeysBody}
+        cta={copy.wildkeysCta}
+        href={wildkeysHref}
+      />
 
       <p className={styles.foot}>{copy.foot}</p>
     </section>

@@ -3,10 +3,14 @@ import type { LovilotCopy } from './types';
 /** Castellano. */
 export const es: LovilotCopy = {
   collab: 'WildKeys × LO VILOT',
-  homeTitle: 'Identifica el lúpulo Vista lo más rápido que puedas',
+  wkHomeBody:
+    'Allí puedes probar más claves y aprender a identificar otras especies de fauna y flora.',
+  wkHomeTitle: 'Visita WildKeys',
+  sponsorTitle: 'Especial LO VILOT',
+  homeTitle: 'Identifica el lúpulo *Vista* lo más rápido que puedas',
   homeSub:
-    'Tienes delante 6 variedades de lúpulo que se cultivan en LO VILOT. Recorre la clave dicotómica y llega hasta Vista sin equivocarte.',
-  homeFoot: 'Funciona sin conexión. Un intento puntuable por móvil.',
+    'Tienes delante 6 variedades de lúpulo que se cultivan en LO VILOT. Recorre la clave dicotómica y llega hasta «*Vista*» sin equivocarte.',
+  homeFoot: 'Un intento puntuable por móvil.',
   keyLabel: 'Clave que vas a usar',
   keyName: 'Clave dicotómica de las variedades de lúpulo de LO VILOT',
   keySpecies: '6 variedades · lúpulo cultivado en LO VILOT',
@@ -28,7 +32,7 @@ export const es: LovilotCopy = {
 
   welcomeTitle: '¡Bienvenido/a al reto!',
   welcomeBody:
-    'Tienes delante 6 variedades de lúpulo. Usa la clave dicotómica para identificar la variedad Vista lo más rápido posible. ¡Solo tienes un intento cronometrado!',
+    'Tienes delante 6 variedades de lúpulo. Usa la clave dicotómica para identificar la variedad «*Vista*» lo más rápido posible. ¡Solo tienes un intento cronometrado!',
   welcomeNote:
     'Especial colaboración con LO VILOT, cervecería artesana de Lleida que cultiva su propio lúpulo.',
   welcomeBtn: '¡Entendido, vamos!',
@@ -46,6 +50,8 @@ export const es: LovilotCopy = {
 
   startLabel: 'Empezar el reto',
   boardLabel: 'Clasificación',
+  wildkeysLabel: 'Ir a WildKeys',
+  retryUploadLabel: 'Subir ahora',
   againLabel: 'Jugar otra vez',
   resumeRun: 'Continuar mi intento',
   savedTitle: 'Guardado como',
@@ -68,7 +74,10 @@ export const es: LovilotCopy = {
   trailTitle: 'Tu recorrido',
   backStep: 'Deshacer paso',
   zoomLabel: 'Ampliar',
-  zoomHint: 'Toca la foto para ampliarla. Toca fuera para volver.',
+  closeLabel: 'Cerrar',
+  zoomOutLabel: 'Alejar',
+  zoomInLabel: 'Acercar',
+  zoomHint: 'Pellizca para acercar y arrastra para moverte. Toca dos veces para encajarla.',
   failsFmt: 'Fallos hasta ahora: {n}',
 
   failTitle: '¡Oooh, has fallado!',
@@ -92,7 +101,7 @@ export const es: LovilotCopy = {
     'En cada paso eliges entre dos o tres descripciones y avanzas hasta una única especie. Eso es exactamente lo que hace WildKeys, con claves reales de fauna y flora.',
   wkCta: 'Conocer WildKeys',
   source:
-    'Claves dicotómicas: Lúpulo de LO VILOT y Carnívoros terrestres de España (Esther Martínez Pujol, 2026, WildKeys).',
+    'Claves dicotómicas: Lúpulo de LO VILOT y Carnívoros terrestres de España (Esther Martínez Pujol y Bryan García Munive, 2026, WildKeys).',
 
   boardTitle: 'Clasificación',
   boardBody: 'Tiempos de todo el evento, del más rápido al más lento.',
@@ -109,20 +118,20 @@ export const es: LovilotCopy = {
   splashSub: 'Reto de la clave dicotómica',
   splashLoading: 'Cargando…',
 
-  'hop.name': 'Vista',
-  'hop.caption': 'Variedad de lúpulo de LO VILOT',
+  'hop.name': 'Variedad *Vista*',
+  'hop.caption': 'Lúpulo cultivado en LO VILOT',
   'hop.headerSub': 'WildKeys × LO VILOT',
-  'hop.winTitle': '¡Felicidades, has identificado Vista!',
+  'hop.winTitle': '¡Felicidades, has identificado la variedad «*Vista*»!',
   'hop.winBody': 'Has recorrido la clave de lúpulo de LO VILOT correctamente.',
   'hop.fact':
-    'Vista es una variedad de lúpulo cultivada en LO VILOT. Se caracteriza por las brácteas abiertas en el momento de la cosecha y se cosecha hasta finales de septiembre.',
+    '«*Vista*» es una variedad de lúpulo cultivada en LO VILOT. Se caracteriza por las brácteas abiertas en el momento de la cosecha y se cosecha hasta finales de septiembre.',
   'hop.suspects': 'Variedades en juego',
   'hop.remainingFmt': 'Quedan {n} de 6',
   'hop.photoPlaceholder': 'Foto del lúpulo Vista',
   'hop.boardTab': 'Lúpulo',
   'hop.boardKicker': 'Marcador · Lúpulo',
 
-  'carn.name': 'Marta',
+  'carn.name': 'La marta',
   'carn.caption': 'Carnívoro terrestre de España',
   'carn.headerSub': 'Reto carnívoros',
   'carn.winTitle': '¡Felicidades, has identificado la marta!',

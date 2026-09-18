@@ -6,10 +6,14 @@ import type { LovilotCopy } from './types';
  */
 export const ca = {
   collab: 'WildKeys × LO VILOT',
-  homeTitle: 'Identifica el llúpol Vista tan ràpid com puguis',
+  wkHomeBody:
+    'Allà pots provar més claus i aprendre a identificar altres espècies de fauna i flora.',
+  wkHomeTitle: 'Visita WildKeys',
+  sponsorTitle: 'Especial LO VILOT',
+  homeTitle: 'Identifica el llúpol *Vista* tan ràpid com puguis',
   homeSub:
-    'Tens davant 6 varietats de llúpol que es cultiven a LO VILOT. Recorre la clau dicotòmica i arriba fins a Vista sense equivocar-te.',
-  homeFoot: 'Funciona sense connexió. Un intent puntuable per mòbil.',
+    'Tens davant 6 varietats de llúpol que es cultiven a LO VILOT. Recorre la clau dicotòmica i arriba fins a «*Vista*» sense equivocar-te.',
+  homeFoot: 'Un intent puntuable per mòbil.',
   keyLabel: 'La clau que faràs servir',
   keyName: 'Clau dicotòmica de les varietats de llúpol de LO VILOT',
   keySpecies: '6 varietats · llúpol cultivat a LO VILOT',
@@ -25,13 +29,13 @@ export const ca = {
   exitConfirm: 'Sortir igualment',
   exitStay: 'Continuar jugant',
 
-  sponsorSubtitle: 'Cerveseria artesana · Lleida',
+  sponsorSubtitle: 'Especial LO VILOT · Cerveseria artesana de Lleida',
   sponsorDescription:
     'Cultiven les seves pròpies varietats de llúpol per elaborar cerveses amb caràcter local.',
 
   welcomeTitle: 'Benvingut/da al repte!',
   welcomeBody:
-    'Tens davant teu 6 varietats de llúpol. Usa la clau dicotòmica per identificar la varietat Vista el més ràpid possible. Només tens un intent cronometrat!',
+    'Tens davant teu 6 varietats de llúpol. Usa la clau dicotòmica per identificar la varietat «*Vista*» el més ràpid possible. Només tens un intent cronometrat!',
   welcomeNote:
     'Especial col·laboració amb LO VILOT, cerveseria artesana de Lleida que cultiva el seu propi llúpol.',
   welcomeBtn: 'Entesos, anem-hi!',
@@ -49,6 +53,8 @@ export const ca = {
 
   startLabel: 'Començar el repte',
   boardLabel: 'Classificació',
+  wildkeysLabel: 'Anar a WildKeys',
+  retryUploadLabel: 'Pujar ara',
   againLabel: 'Jugar un altre cop',
   resumeRun: 'Continuar el meu intent',
   savedTitle: 'Desat com a',
@@ -71,7 +77,10 @@ export const ca = {
   trailTitle: 'El teu recorregut',
   backStep: 'Desfer pas',
   zoomLabel: 'Ampliar',
-  zoomHint: 'Toca la foto per ampliar-la. Toca fora per tornar.',
+  closeLabel: 'Tancar',
+  zoomOutLabel: 'Allunyar',
+  zoomInLabel: 'Apropar',
+  zoomHint: 'Pessiga per apropar i arrossega per moure’t. Toca dos cops per encabir-la.',
   failsFmt: 'Errors fins ara: {n}',
 
   failTitle: 'Oooh, has fallat!',
@@ -95,7 +104,7 @@ export const ca = {
     'A cada pas tries entre dues o tres descripcions i avances fins a una única espècie. Això és exactament el que fa WildKeys, amb claus reals de fauna i flora.',
   wkCta: 'Conèixer WildKeys',
   source:
-    'Claus dicotòmiques: Llúpol de LO VILOT i Carnívors terrestres d’Espanya (Esther Martínez Pujol, 2026, WildKeys).',
+    'Claus dicotòmiques: Llúpol de LO VILOT i Carnívors terrestres d’Espanya (Esther Martínez Pujol i Bryan García Munive, 2026, WildKeys).',
 
   boardTitle: 'Classificació',
   boardBody: 'Temps de tot l’esdeveniment, del més ràpid al més lent.',
@@ -112,10 +121,10 @@ export const ca = {
   splashSub: 'Repte de la clau dicotòmica',
   splashLoading: 'Carregant…',
 
-  'hop.name': 'Vista',
-  'hop.caption': 'Varietat de llúpol de LO VILOT',
+  'hop.name': 'Varietat *Vista*',
+  'hop.caption': 'Llúpol cultivat a LO VILOT',
   'hop.headerSub': 'WildKeys × LO VILOT',
-  'hop.winTitle': 'Felicitats, has identificat Vista!',
+  'hop.winTitle': 'Felicitats, has identificat la varietat «*Vista*»!',
   'hop.winBody': 'Has recorregut la clau de llúpol de LO VILOT correctament.',
   'hop.fact':
     'Vista és una varietat de llúpol cultivada a LO VILOT. Es caracteritza per les bràctees obertes al moment de la collita i es cull fins a finals de setembre.',
@@ -125,7 +134,7 @@ export const ca = {
   'hop.boardTab': 'Llúpol',
   'hop.boardKicker': 'Marcador · Llúpol',
 
-  'carn.name': 'Marta',
+  'carn.name': 'La marta',
   'carn.caption': 'Carnívor terrestre d’Espanya',
   'carn.headerSub': 'Repte carnívors',
   'carn.winTitle': 'Felicitats, has identificat la marta!',

@@ -36,6 +36,7 @@ export { PhotoViewer, type PhotoViewerProps } from './components/PhotoViewer.js'
 export { PlainButton, type PlainButtonProps } from './components/PlainButton.js';
 export { Pill, type PillProps, type PillTone } from './components/Pill.js';
 export { ProgressBar, type ProgressBarProps } from './components/ProgressBar.js';
+export { plainText, RichText, type RichTextProps } from './components/RichText.js';
 export {
   SegmentedControl,
   type SegmentedControlProps,
@@ -45,4 +46,5 @@ export { Stat, type StatProps } from './components/Stat.js';
 export { VisuallyHidden } from './components/VisuallyHidden.js';
 export { cx } from './lib/cx.js';
 export { useCarousel, type CarouselControls } from './lib/use-carousel.js';
+export { usePinchZoom, type PinchZoom } from './lib/use-pinch-zoom.js';
 export { useVisualViewportHeight } from './lib/use-visual-viewport.js';

@@ -1,5 +1,7 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router';
+import { resolveText } from '@wkg/game-engine';
+import { FALLBACK_LOCALE, useLocale } from '@/app/i18n/locale';
 import { formatClock } from '@/lib/format/time';
 import { ChallengeCard } from '../components/ChallengeCard';
 import { RegistrationDialog } from '../components/RegistrationDialog';
@@ -19,6 +21,7 @@ import styles from '../GameApp.module.css';
 export function HomeRoute({ registering = false }: { registering?: boolean }) {
   const { definition, t, player, bests, mainChallenge } = useGameSession();
   const navigate = useNavigate();
+  const { locale } = useLocale();
   const board = useChallengeBoard();
   const isNicknameTaken = useNicknameTaken(definition);
   const photoOf = useSpeciesPhoto();
@@ -59,6 +62,10 @@ export function HomeRoute({ registering = false }: { registering?: boolean }) {
           keyName: t('keyName'),
           keySpecies: t('keySpecies'),
           board: t('boardLabel'),
+          wildkeysTitle: t('wkHomeTitle'),
+          wildkeysBody: t('wkHomeBody'),
+          wildkeysCta: t('wildkeysLabel'),
+          sponsorTitle: t('sponsorTitle'),
           sponsorSubtitle: t('sponsorSubtitle'),
           sponsorDescription: t('sponsorDescription'),
           challengesLabel: t('challengesLabel'),
@@ -67,6 +74,7 @@ export function HomeRoute({ registering = false }: { registering?: boolean }) {
         sponsor={definition.sponsor}
         challenges={byUrgency(board).map(renderChallenge)}
         player={record ? { nickname: record.nickname, note: playerNote() } : null}
+        wildkeysHref={definition.externalCtaHref}
         onBoard={() => void navigate(gamePaths.board(slug, mainChallenge.id))}
       />
       <p className={styles.source}>{t('source')}</p>
@@ -200,8 +208,18 @@ export function HomeRoute({ registering = false }: { registering?: boolean }) {
     return best === null ? null : t('bestFmt', { t: formatClock(best) });
   }
 
+  /**
+   * Nombre corto de lo que hay que identificar, tomado de la propia clave y no
+   * del diccionario: ahí el reto se llama «Variedad Vista», que encaja en una
+   * tarjeta pero no dentro de una frase —«se desbloquea al identificar
+   * Variedad Vista»—. En cursiva, como el resto de nombres.
+   */
   function nameOf(challengeId: string | undefined): string {
-    return challengeId ? t(`${challengeId}.name`) : '';
+    const challenge = definition.challenges.find((item) => item.id === challengeId);
+    if (!challenge) return '';
+
+    const target = challenge.key.species[challenge.key.targetSpeciesId];
+    return target ? `*${resolveText(target.name, locale, FALLBACK_LOCALE)}*` : '';
   }
 
   /** Nota de estado bajo el nombre del jugador. */

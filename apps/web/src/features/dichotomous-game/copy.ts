@@ -25,6 +25,7 @@ export interface CommonCopy {
 
   /** Patrocinador o colaborador (opcional en la definición, obligatorio aquí
    *  para que el copy exista si el juego lo activa). */
+  sponsorTitle: string;
   sponsorSubtitle: string;
   sponsorDescription: string;
 
@@ -52,6 +53,8 @@ export interface CommonCopy {
   /** Repetir desde el final de reto, sin marca que mejorar todavía. */
   replayLabel: string;
   boardLabel: string;
+  /** Enlace a wildkeys.io desde la portada. */
+  wildkeysLabel: string;
   againLabel: string;
   resumeRun: string;
   savedTitle: string;
@@ -82,6 +85,10 @@ export interface CommonCopy {
   backStep: string;
   zoomLabel: string;
   zoomHint: string;
+  /** Controles del visor de fotos. */
+  zoomInLabel: string;
+  zoomOutLabel: string;
+  closeLabel: string;
   failsFmt: string;
 
   /** Fallo. */
@@ -105,6 +112,10 @@ export interface CommonCopy {
   nextTitle: string;
 
   /** Cierre de marca. */
+  /** Cierre de marca en la portada: invita, no explica. */
+  wkHomeTitle: string;
+  wkHomeBody: string;
+
   wkTitle: string;
   wkBody: string;
   wkCta: string;
@@ -123,6 +134,7 @@ export interface CommonCopy {
   findMeLabel: string;
   boardOffline: string;
   boardPending: string;
+  retryUploadLabel: string;
 
   /** Carga inicial. */
   splashSub: string;

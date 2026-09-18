@@ -17,6 +17,20 @@ export default defineConfig({
   test: {
     include: ['src/**/*.test.{ts,tsx}'],
     environment: 'happy-dom',
+    /*
+     * Sin credenciales, pase lo que pase.
+     *
+     * Vitest carga `.env.local` como el dev, así que los tests veían las claves
+     * del Supabase de verdad y el juego intentaba publicar marcas reales al
+     * ganar una partida. Vaciarlas aquí deja el marcador en modo local —que es
+     * además el escenario que hay que probar: un móvil sin cobertura— y quita
+     * de en medio cualquier posibilidad de escribir en producción desde un
+     * test.
+     */
+    env: {
+      VITE_SUPABASE_URL: '',
+      VITE_SUPABASE_ANON_KEY: '',
+    },
     setupFiles: ['./src/test/setup.ts'],
     // Cada test arranca con su propio almacenamiento: el jugador se guarda en
     // `localStorage` y un test no puede heredar el de otro.

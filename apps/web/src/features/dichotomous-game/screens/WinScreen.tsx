@@ -8,6 +8,7 @@ import {
   HomeIcon,
   Kicker,
   ReplayIcon,
+  RichText,
   Stat,
   StopwatchIcon,
   TrophyIcon,
@@ -116,8 +117,12 @@ export function WinScreen({
             <polyline points="22 4 12 14.01 9 11.01" />
           </svg>
         </span>
-        <h1 className={styles.title}>{copy.title}</h1>
-        <p className={styles.body}>{copy.body}</p>
+        <h1 className={styles.title}>
+          <RichText text={copy.title} />
+        </h1>
+        <p className={styles.body}>
+          <RichText text={copy.body} />
+        </p>
       </header>
 
       <Card tone="brand" flush>
@@ -126,10 +131,14 @@ export function WinScreen({
         </button>
         <div className={styles.summary}>
           <div className={styles.names}>
-            <span className={styles.name}>{target.name}</span>
+            <span className={styles.name}>
+              <RichText text={target.name} />
+            </span>
             <span className={styles.sci}>{target.scientificName}</span>
           </div>
-          <p className={styles.fact}>{copy.fact}</p>
+          <p className={styles.fact}>
+            <RichText text={copy.fact} />
+          </p>
           <div className={styles.stats}>
             <Stat label={copy.timeLabel} value={stats.time} />
             <Stat label={copy.stepsLabel} value={stats.steps} />

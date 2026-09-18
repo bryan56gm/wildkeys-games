@@ -85,6 +85,10 @@
   text-decoration: underline;
 }
 
+.noticeText {
+  margin: 0;
+}
+
 .notice {
   margin: 0;
   border: 1px solid var(--wk-color-accent-border);

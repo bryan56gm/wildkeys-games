@@ -3,10 +3,14 @@ import type { LovilotCopy } from './types';
 /** Inglés. */
 export const en: LovilotCopy = {
   collab: 'WildKeys × LO VILOT',
-  homeTitle: 'Identify Vista hops as fast as you can',
+  wkHomeBody:
+    'There you can try more keys and learn to identify other species of wildlife and plants.',
+  wkHomeTitle: 'Visit WildKeys',
+  sponsorTitle: 'LO VILOT special',
+  homeTitle: 'Identify the *Vista* hop as fast as you can',
   homeSub:
-    'You have 6 hop varieties grown at LO VILOT in front of you. Work through the dichotomous key and reach Vista without a wrong turn.',
-  homeFoot: 'Works offline. One scored attempt per phone.',
+    'You have 6 hop varieties grown at LO VILOT in front of you. Work through the dichotomous key and reach «*Vista*» without a wrong turn.',
+  homeFoot: 'One scored attempt per phone.',
   keyLabel: 'The key you will use',
   keyName: 'Dichotomous key to LO VILOT hop varieties',
   keySpecies: '6 varieties · hops grown at LO VILOT',
@@ -23,12 +27,12 @@ export const en: LovilotCopy = {
   exitConfirm: 'Leave anyway',
   exitStay: 'Keep playing',
 
-  sponsorSubtitle: 'Craft brewery · Lleida',
+  sponsorSubtitle: 'LO VILOT special · Craft brewery in Lleida',
   sponsorDescription: 'They grow their own hop varieties to brew beers with local character.',
 
   welcomeTitle: 'Welcome to the challenge!',
   welcomeBody:
-    'You have 6 hop varieties in front of you. Use the dichotomous key to identify the Vista variety as fast as you can. You only get one timed attempt!',
+    'You have 6 hop varieties in front of you. Use the dichotomous key to identify the «*Vista*» variety as fast as you can. You only get one timed attempt!',
   welcomeNote:
     'A special collaboration with LO VILOT, a craft brewery in Lleida that grows its own hops.',
   welcomeBtn: 'Got it, let’s go!',
@@ -46,6 +50,8 @@ export const en: LovilotCopy = {
 
   startLabel: 'Start the challenge',
   boardLabel: 'Leaderboard',
+  wildkeysLabel: 'Go to WildKeys',
+  retryUploadLabel: 'Upload now',
   againLabel: 'Play again',
   resumeRun: 'Continue my attempt',
   savedTitle: 'Saved as',
@@ -68,7 +74,10 @@ export const en: LovilotCopy = {
   trailTitle: 'Your route',
   backStep: 'Undo step',
   zoomLabel: 'Zoom in',
-  zoomHint: 'Tap the photo to zoom in. Tap outside to go back.',
+  closeLabel: 'Close',
+  zoomOutLabel: 'Zoom out',
+  zoomInLabel: 'Zoom in',
+  zoomHint: 'Pinch to zoom and drag to move. Double-tap to fit.',
   failsFmt: 'Wrong turns so far: {n}',
 
   failTitle: 'Oooh, wrong turn!',
@@ -92,7 +101,7 @@ export const en: LovilotCopy = {
     'At each step you choose between two or three descriptions and narrow down to a single species. That is exactly what WildKeys does, with real keys for wildlife and plants.',
   wkCta: 'Discover WildKeys',
   source:
-    'Dichotomous keys: LO VILOT Hops and Wild Terrestrial Carnivores of Spain (Esther Martínez Pujol, 2026, WildKeys).',
+    'Dichotomous keys: LO VILOT Hops and Wild Terrestrial Carnivores of Spain (Esther Martínez Pujol and Bryan García Munive, 2026, WildKeys).',
 
   boardTitle: 'Leaderboard',
   boardBody: 'Times from the whole event, fastest first.',
@@ -109,20 +118,20 @@ export const en: LovilotCopy = {
   splashSub: 'Dichotomous key challenge',
   splashLoading: 'Loading…',
 
-  'hop.name': 'Vista',
-  'hop.caption': 'LO VILOT hop variety',
+  'hop.name': '*Vista* variety',
+  'hop.caption': 'Hop grown at LO VILOT',
   'hop.headerSub': 'WildKeys × LO VILOT',
-  'hop.winTitle': 'Congratulations, you identified Vista!',
+  'hop.winTitle': 'Congratulations, you identified the «*Vista*» variety!',
   'hop.winBody': 'You followed the LO VILOT hop key correctly.',
   'hop.fact':
-    'Vista is a hop variety grown at LO VILOT. It is characterised by open bracts at harvest time and is harvested until the end of September.',
+    '«*Vista*» is a hop variety grown at LO VILOT. It is characterised by open bracts at harvest time and is harvested until the end of September.',
   'hop.suspects': 'Varieties still in play',
   'hop.remainingFmt': '{n} of 6 left',
   'hop.photoPlaceholder': 'Vista hops photo',
   'hop.boardTab': 'Hops',
   'hop.boardKicker': 'Board · Hops',
 
-  'carn.name': 'Pine marten',
+  'carn.name': 'The pine marten',
   'carn.caption': 'Wild terrestrial carnivore of Spain',
   'carn.headerSub': 'Carnivore challenge',
   'carn.winTitle': 'Congratulations, you identified the pine marten!',

@@ -1,4 +1,4 @@
-import { Button, Kicker, PlayIcon } from '@wkg/ui';
+import { Button, Kicker, PlayIcon, RichText } from '@wkg/ui';
 import type { BonusCopy } from '../hooks/use-game-copy';
 import type { PhotoRef } from '../types';
 import { PhotoSlot } from './PhotoSlot';
@@ -22,7 +22,9 @@ export function BonusOffer({ copy, photo, scientificName, onAccept }: BonusOffer
       <div className={styles.preview}>
         <PhotoSlot photo={photo} label={copy.photoPlaceholder} maxHeight={120} />
         <div className={styles.previewNames}>
-          <span className={styles.previewName}>{copy.name}</span>
+          <span className={styles.previewName}>
+            <RichText text={copy.name} />
+          </span>
           <span className={styles.previewSci}>{scientificName}</span>
         </div>
       </div>
