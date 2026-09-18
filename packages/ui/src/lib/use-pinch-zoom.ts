@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-/** Cómo está la imagen: cuánto crecida y cuánto movida. */
+/** Cómo está la foto: cuánto crecida y cuánto movida respecto al centro. */
 interface Transform {
-  scale: number;
-  x: number;
-  y: number;
+  readonly scale: number;
+  readonly x: number;
+  readonly y: number;
 }
 
 export interface PinchZoom {
@@ -26,278 +26,373 @@ export interface PinchZoom {
   reset(): void;
 }
 
-/**
- * Anima el siguiente cambio y se quita sola.
- *
- * Vive fuera del hook porque toca el DOM a mano: dejar una transición puesta
- * mientras los dedos arrastran hace que la imagen persiga al dedo con retraso,
- * que es como se ve el «parpadeo».
- */
-function easeOnce(element: HTMLElement, duration: number): void {
-  element.style.transition = `transform ${duration}ms ease-out`;
-  window.setTimeout(() => {
-    element.style.transition = '';
-  }, duration);
-}
-
-/** Quita cualquier transición pendiente: el gesto manda sobre la animación. */
-function stopEase(element: HTMLElement | null): void {
-  if (element) element.style.transition = '';
-}
-
 const MIN_SCALE = 1;
 const MAX_SCALE = 6;
 const TOGGLE_SCALE = 2.5;
-/** Dos toques seguidos dentro de esta ventana son un doble toque. */
-const DOUBLE_TAP_MS = 320;
-/** Lo que dura el acercamiento con botón o doble toque. */
-const EASE_MS = 200;
+/** Cuánto se deja estirar más allá del tope antes de volver solo. */
+const OVERSHOOT = 1.35;
+/** Un toque que dure más o se mueva más ya no es un toque, es un arrastre. */
+const TAP_MS = 250;
+const TAP_SLOP = 12;
+/** Ventana para el segundo toque del doble toque. */
+const DOUBLE_TAP_MS = 300;
+const EASE_MS = 240;
+
+const IDENTITY: Transform = { scale: 1, x: 0, y: 0 };
 
 /**
  * Pellizcar para acercar y arrastrar para mover, como en la galería del móvil.
  *
- * Dos decisiones sostienen que vaya suave, y las dos van contra el instinto de
- * «guardarlo en el estado»:
+ * Cuatro decisiones sostienen que se sienta natural. Las tres primeras son las
+ * que separan un pellizco que «salta» de uno que no:
  *
- * 1. **El gesto no pasa por React.** La transformación se escribe directamente
- *    en el elemento dentro de un `requestAnimationFrame`. Con un `setState`
- *    por cada `pointermove` —que llegan más rápido que los fotogramas— React
- *    no da abasto: la imagen pega tirones y parpadea. Al estado solo sube si
- *    la foto está acercada o no, que es lo único que se pinta.
- * 2. **Las medidas se toman una vez, al empezar.** Preguntar por el tamaño del
- *    marco en cada movimiento obliga al navegador a recalcular la maqueta
- *    entera, y ese es el otro origen de los tirones.
+ * 1. **Cada fotograma se calcula desde el inicio del gesto, no desde el
+ *    fotograma anterior.** Al empezar se guarda qué punto de la foto hay bajo
+ *    los dedos, y en cada movimiento se coloca la foto para que ese punto siga
+ *    exactamente ahí. Encadenando incrementos, el error se acumula y la imagen
+ *    se va sola.
+ * 2. **El tope no es un muro.** Pasado el límite la foto sigue, pero cada vez
+ *    más a regañadientes, y al soltar vuelve a su sitio con una animación. Un
+ *    recorte en seco se siente como un fallo.
+ * 3. **El doble toque se decide al levantar el dedo**, y solo si de verdad fue
+ *    un toque: corto, quieto y con un solo dedo. Decidiéndolo al apoyar, el
+ *    primer dedo de un pellizco contaba como segundo toque del anterior y la
+ *    foto pegaba un salto a media ampliación.
+ * 4. **El gesto no pasa por React.** La transformación se escribe en el
+ *    elemento dentro de un `requestAnimationFrame`. Un `setState` por cada
+ *    movimiento —llegan más rápido que los fotogramas— hace que la imagen
+ *    persiga al dedo con retraso.
  *
- * El gesto se atrapa aquí (con `touch-action: none` en el marco) en lugar de
- * dejárselo al navegador: el pellizco nativo agranda la página entera, no la
- * foto, y dentro de un diálogo a pantalla completa eso lo descoloca todo.
- *
- * Nada de `setPointerCapture`: al llegar el segundo dedo lanzaba
- * `NotFoundError` y se llevaba por delante la pantalla. Los punteros se llevan
- * en un mapa y el movimiento se escucha en la ventana, así que el gesto
- * sobrevive a que un dedo se salga del marco.
+ * El gesto se atrapa aquí en vez de dejárselo al navegador: el pellizco nativo
+ * agranda la página entera, no la foto, y dentro de un diálogo a pantalla
+ * completa eso lo descoloca todo. En Android basta `touch-action: none`;
+ * Safari necesita además que se le paren sus propios eventos de gesto.
  */
 export function usePinchZoom(): PinchZoom {
   const [frame, setFrame] = useState<HTMLDivElement | null>(null);
   const [content, setContent] = useState<HTMLImageElement | null>(null);
   const [zoomed, setZoomed] = useState(false);
 
-  const transform = useRef<Transform>({ scale: 1, x: 0, y: 0 });
+  const view = useRef<Transform>(IDENTITY);
   /** Marco y tamaño real de la foto, medidos al empezar cada gesto. */
-  const bounds = useRef({ width: 0, height: 0, left: 0, top: 0, photoW: 0, photoH: 0 });
+  const box = useRef({ width: 0, height: 0, cx: 0, cy: 0, photoW: 0, photoH: 0 });
   const pointers = useRef(new Map<number, { x: number; y: number }>());
-  const pinch = useRef<{ distance: number; center: { x: number; y: number } } | null>(null);
-  const frameRequest = useRef(0);
-  const lastTap = useRef(0);
+  /** El gesto en curso, congelado tal y como empezó. */
+  const origin = useRef<{
+    view: Transform;
+    distance: number;
+    center: { x: number; y: number };
+    /** Punto de la foto que había bajo los dedos, en unidades sin escalar. */
+    focus: { x: number; y: number };
+  } | null>(null);
+  const tap = useRef({ at: 0, x: 0, y: 0, moved: false, multi: false, last: 0 });
+  const painting = useRef(0);
+  const animation = useRef(0);
 
-  /** Escribe la transformación en el DOM, una vez por fotograma. */
   const paint = useCallback(() => {
-    if (!content || frameRequest.current) return;
-    frameRequest.current = requestAnimationFrame(() => {
-      frameRequest.current = 0;
-      const { scale, x, y } = transform.current;
+    if (!content || painting.current) return;
+    painting.current = requestAnimationFrame(() => {
+      painting.current = 0;
+      const { scale, x, y } = view.current;
       // `translate3d` para que el navegador le dé su propia capa.
       content.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale})`;
     });
   }, [content]);
 
-  /** Mide el marco y la foto. Solo al empezar un gesto o al cambiar el tamaño. */
   const measure = useCallback(() => {
     if (!frame || !content) return;
-    const box = frame.getBoundingClientRect();
+    const rect = frame.getBoundingClientRect();
     const photo = content.getBoundingClientRect();
-    bounds.current = {
-      width: box.width,
-      height: box.height,
-      left: box.left,
-      top: box.top,
+    box.current = {
+      width: rect.width,
+      height: rect.height,
+      cx: rect.left + rect.width / 2,
+      cy: rect.top + rect.height / 2,
       // El rect de la foto ya viene escalado: se deshace para tener la base.
-      photoW: photo.width / transform.current.scale,
-      photoH: photo.height / transform.current.scale,
+      photoW: photo.width / view.current.scale,
+      photoH: photo.height / view.current.scale,
     };
   }, [content, frame]);
 
-  /** Mantiene la foto dentro del marco: ni bordes vacíos ni huidas. */
-  const clamp = useCallback((next: Transform): Transform => {
-    const { width, height, photoW, photoH } = bounds.current;
-    const maxX = Math.max(0, (photoW * next.scale - width) / 2);
-    const maxY = Math.max(0, (photoH * next.scale - height) / 2);
+  const commit = useCallback(
+    (next: Transform) => {
+      view.current = next;
+      paint();
+      setZoomed(next.scale > MIN_SCALE + 0.01);
+    },
+    [paint]
+  );
+
+  /** Lleva la foto a un sitio válido con una animación que se puede cortar. */
+  const settle = useCallback(
+    (target: Transform, duration = EASE_MS) => {
+      cancelAnimationFrame(animation.current);
+
+      const from = view.current;
+      if (same(from, target)) return commit(target);
+
+      const started = performance.now();
+      const step = (now: number) => {
+        const t = Math.min(1, (now - started) / duration);
+        const k = 1 - (1 - t) ** 3; // desacelera al final, como el sistema
+
+        commit({
+          scale: from.scale + (target.scale - from.scale) * k,
+          x: from.x + (target.x - from.x) * k,
+          y: from.y + (target.y - from.y) * k,
+        });
+
+        if (t < 1) animation.current = requestAnimationFrame(step);
+      };
+
+      animation.current = requestAnimationFrame(step);
+    },
+    [commit]
+  );
+
+  /** El sitio válido más cercano al que está ahora. */
+  const settled = useCallback((from: Transform): Transform => {
+    const scale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, from.scale));
+    if (scale === MIN_SCALE) return IDENTITY;
+
+    const { width, height, photoW, photoH } = box.current;
+    const maxX = Math.max(0, (photoW * scale - width) / 2);
+    const maxY = Math.max(0, (photoH * scale - height) / 2);
+    // Al cambiar la escala, el desplazamiento se ajusta en la misma proporción.
+    const ratio = scale / from.scale;
 
     return {
-      scale: next.scale,
-      x: Math.min(maxX, Math.max(-maxX, next.x)),
-      y: Math.min(maxY, Math.max(-maxY, next.y)),
+      scale,
+      x: Math.min(maxX, Math.max(-maxX, from.x * ratio)),
+      y: Math.min(maxY, Math.max(-maxY, from.y * ratio)),
     };
   }, []);
 
-  const apply = useCallback(
-    (next: Transform) => {
-      transform.current = clamp(next);
-      paint();
-      setZoomed(transform.current.scale > MIN_SCALE);
+  /** Deja pasar del tope, pero cada vez cuesta más. */
+  const rubber = useCallback((value: number, limit: number): number => {
+    const excess = Math.abs(value) - limit;
+    if (excess <= 0) return value;
+
+    const give = box.current.width || 1;
+    const eased = (excess * 0.55 * give) / (give + 0.55 * excess);
+    return Math.sign(value) * (limit + eased);
+  }, []);
+
+  const bounded = useCallback(
+    (next: Transform): Transform => {
+      const { width, height, photoW, photoH } = box.current;
+      const maxX = Math.max(0, (photoW * next.scale - width) / 2);
+      const maxY = Math.max(0, (photoH * next.scale - height) / 2);
+
+      return { scale: next.scale, x: rubber(next.x, maxX), y: rubber(next.y, maxY) };
     },
-    [clamp, paint]
+    [rubber]
   );
 
-  /** Acerca dejando quieto el punto que se toca: así el gesto no salta. */
   const zoomAt = useCallback(
-    (scale: number, origin?: { clientX: number; clientY: number }, animate = false) => {
+    (scale: number, point?: { clientX: number; clientY: number }) => {
       if (!content) return;
       measure();
 
-      const current = transform.current;
+      const from = view.current;
       const next = Math.min(MAX_SCALE, Math.max(MIN_SCALE, scale));
-      if (next === current.scale) return;
+      if (next === from.scale) return;
 
-      const { left, top, width, height } = bounds.current;
-      const px = origin ? origin.clientX - (left + width / 2) : 0;
-      const py = origin ? origin.clientY - (top + height / 2) : 0;
-      const ratio = next / current.scale;
+      const px = point ? point.clientX - box.current.cx : 0;
+      const py = point ? point.clientY - box.current.cy : 0;
+      const focusX = (px - from.x) / from.scale;
+      const focusY = (py - from.y) / from.scale;
 
-      if (animate) easeOnce(content, EASE_MS);
-
-      apply(
-        next === MIN_SCALE
-          ? { scale: 1, x: 0, y: 0 }
-          : { scale: next, x: px + (current.x - px) * ratio, y: py + (current.y - py) * ratio }
-      );
+      settle(settled({ scale: next, x: px - focusX * next, y: py - focusY * next }));
     },
-    [apply, content, measure]
+    [content, measure, settle, settled]
   );
 
-  const reset = useCallback(() => {
-    if (!content) return;
-    easeOnce(content, EASE_MS);
-    apply({ scale: 1, x: 0, y: 0 });
-  }, [apply, content]);
+  const reset = useCallback(() => settle(IDENTITY), [settle]);
 
   const toggle = useCallback(
     (point?: { clientX: number; clientY: number }) => {
-      if (transform.current.scale > MIN_SCALE) return reset();
-      zoomAt(TOGGLE_SCALE, point, true);
+      if (view.current.scale > MIN_SCALE + 0.01) return reset();
+      zoomAt(TOGGLE_SCALE, point);
     },
     [reset, zoomAt]
   );
 
-  /* Un dedo arrastra (solo con la foto acercada); dos pellizcan. */
   useEffect(() => {
     if (!frame) return;
 
     const active = pointers.current;
-    const of = (a: { x: number; y: number }, b: { x: number; y: number }) => ({
-      distance: Math.hypot(a.x - b.x, a.y - b.y),
+
+    const spanOf = (a: { x: number; y: number }, b: { x: number; y: number }) => ({
+      distance: Math.max(1, Math.hypot(a.x - b.x, a.y - b.y)),
       center: { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 },
     });
 
-    const onDown = (event: PointerEvent) => {
-      pointers.current.set(event.pointerId, { x: event.clientX, y: event.clientY });
-      // Nada de transición mientras hay dedos encima: la transición y el gesto
-      // tirando del mismo valor es lo que se ve como parpadeo.
-      stopEase(content);
+    /** Congela el gesto: desde aquí se calcula cada fotograma. */
+    const anchor = () => {
+      const [a, b] = [...active.values()];
+      if (!a) return;
       measure();
 
-      const [a, b] = [...pointers.current.values()];
+      const span = b ? spanOf(a, b) : { distance: 1, center: a };
+      const from = view.current;
 
-      if (pointers.current.size === 1) {
-        const now = Date.now();
-        if (now - lastTap.current < DOUBLE_TAP_MS) {
-          toggle(event);
-          lastTap.current = 0;
-        } else {
-          lastTap.current = now;
-        }
-        return;
+      origin.current = {
+        view: from,
+        distance: span.distance,
+        center: span.center,
+        focus: {
+          x: (span.center.x - box.current.cx - from.x) / from.scale,
+          y: (span.center.y - box.current.cy - from.y) / from.scale,
+        },
+      };
+    };
+
+    const onDown = (event: PointerEvent) => {
+      cancelAnimationFrame(animation.current);
+      active.set(event.pointerId, { x: event.clientX, y: event.clientY });
+
+      if (active.size === 1) {
+        tap.current = {
+          ...tap.current,
+          at: Date.now(),
+          x: event.clientX,
+          y: event.clientY,
+          moved: false,
+          multi: false,
+        };
+      } else {
+        // Con dos dedos ya no hay toque que valga.
+        tap.current.multi = true;
+        tap.current.last = 0;
       }
 
-      if (a && b) pinch.current = of(a, b);
+      anchor();
     };
 
     const onMove = (event: PointerEvent) => {
-      const previous = pointers.current.get(event.pointerId);
-      if (!previous) return;
+      if (!active.has(event.pointerId) || !origin.current) return;
 
-      const point = { x: event.clientX, y: event.clientY };
-      pointers.current.set(event.pointerId, point);
+      active.set(event.pointerId, { x: event.clientX, y: event.clientY });
 
-      const [a, b] = [...pointers.current.values()];
-      const current = transform.current;
+      const [a, b] = [...active.values()];
+      if (!a) return;
 
-      if (a && b && pinch.current) {
+      if (Math.hypot(event.clientX - tap.current.x, event.clientY - tap.current.y) > TAP_SLOP) {
+        tap.current.moved = true;
+      }
+
+      const base = origin.current;
+      const { cx, cy } = box.current;
+
+      if (b) {
         event.preventDefault();
 
-        const { distance, center } = of(a, b);
-        const base = pinch.current;
-        const scale = Math.min(
-          MAX_SCALE,
-          Math.max(MIN_SCALE, current.scale * (distance / base.distance))
+        const span = spanOf(a, b);
+        const raw = base.view.scale * (span.distance / base.distance);
+        // Se deja pasar de los topes, pero con resistencia.
+        const scale = Math.min(MAX_SCALE * OVERSHOOT, Math.max(MIN_SCALE / OVERSHOOT, raw));
+
+        commit(
+          bounded({
+            scale,
+            // El punto que había bajo los dedos sigue bajo los dedos.
+            x: span.center.x - cx - base.focus.x * scale,
+            y: span.center.y - cy - base.focus.y * scale,
+          })
         );
-        const ratio = scale / current.scale;
-        const { left, top, width, height } = bounds.current;
-        const px = center.x - (left + width / 2);
-        const py = center.y - (top + height / 2);
-
-        apply({
-          scale,
-          // Pellizcar acerca y, a la vez, mover la mano arrastra la foto.
-          x: px + (current.x - px) * ratio + (center.x - base.center.x),
-          y: py + (current.y - py) * ratio + (center.y - base.center.y),
-        });
-
-        pinch.current = { distance, center };
         return;
       }
 
-      if (current.scale > MIN_SCALE && a) {
+      if (base.view.scale > MIN_SCALE + 0.01) {
         event.preventDefault();
-        apply({
-          scale: current.scale,
-          x: current.x + (point.x - previous.x),
-          y: current.y + (point.y - previous.y),
-        });
+        commit(
+          bounded({
+            scale: base.view.scale,
+            x: base.view.x + (a.x - base.center.x),
+            y: base.view.y + (a.y - base.center.y),
+          })
+        );
       }
     };
 
     const onUp = (event: PointerEvent) => {
-      pointers.current.delete(event.pointerId);
-      if (pointers.current.size < 2) pinch.current = null;
-      // Al levantar un dedo del pellizco, el que queda arrastra desde donde
-      // está: sin esto la foto pegaría un salto.
-      if (pointers.current.size === 1) measure();
+      active.delete(event.pointerId);
+
+      const wasTap =
+        active.size === 0 &&
+        !tap.current.multi &&
+        !tap.current.moved &&
+        Date.now() - tap.current.at < TAP_MS;
+
+      if (wasTap) {
+        const now = Date.now();
+        if (now - tap.current.last < DOUBLE_TAP_MS) {
+          tap.current.last = 0;
+          toggle(event);
+          return;
+        }
+        tap.current.last = now;
+      }
+
+      // Quedan dedos: el gesto sigue, pero desde donde está ahora.
+      if (active.size > 0) return anchor();
+
+      origin.current = null;
+      settle(settled(view.current));
     };
 
+    // Safari hace su propio zoom aunque `touch-action` diga que no.
+    const stop = (event: Event) => event.preventDefault();
+
     frame.addEventListener('pointerdown', onDown);
+    frame.addEventListener('gesturestart', stop);
+    frame.addEventListener('gesturechange', stop);
+    frame.addEventListener('gestureend', stop);
+    frame.addEventListener('dblclick', stop);
     window.addEventListener('pointermove', onMove, { passive: false });
     window.addEventListener('pointerup', onUp);
     window.addEventListener('pointercancel', onUp);
 
     return () => {
       frame.removeEventListener('pointerdown', onDown);
+      frame.removeEventListener('gesturestart', stop);
+      frame.removeEventListener('gesturechange', stop);
+      frame.removeEventListener('gestureend', stop);
+      frame.removeEventListener('dblclick', stop);
       window.removeEventListener('pointermove', onMove);
       window.removeEventListener('pointerup', onUp);
       window.removeEventListener('pointercancel', onUp);
       active.clear();
-      pinch.current = null;
-      cancelAnimationFrame(frameRequest.current);
+      origin.current = null;
+      cancelAnimationFrame(painting.current);
+      cancelAnimationFrame(animation.current);
     };
-  }, [apply, content, frame, measure, toggle]);
+  }, [bounded, commit, frame, measure, settle, settled, toggle]);
 
   // Al girar el móvil cambian marco y foto: lo medido deja de valer.
   useEffect(() => {
     if (!frame) return;
-    const observer = new ResizeObserver(measure);
+    const observer = new ResizeObserver(() => {
+      measure();
+      settle(settled(view.current), 0);
+    });
     observer.observe(frame);
     return () => observer.disconnect();
-  }, [frame, measure]);
+  }, [frame, measure, settle, settled]);
 
   return {
     attachFrame: setFrame,
     attachContent: setContent,
     zoomed,
-    zoomBy: useCallback(
-      (factor: number) => zoomAt(transform.current.scale * factor, undefined, true),
-      [zoomAt]
-    ),
+    zoomBy: useCallback((factor: number) => zoomAt(view.current.scale * factor), [zoomAt]),
     toggle,
     reset,
   };
+}
+
+function same(a: Transform, b: Transform): boolean {
+  return (
+    Math.abs(a.scale - b.scale) < 0.001 && Math.abs(a.x - b.x) < 0.5 && Math.abs(a.y - b.y) < 0.5
+  );
 }

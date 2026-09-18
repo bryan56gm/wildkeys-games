@@ -314,10 +314,11 @@ describe('visor de fotos', () => {
     const photo = within(viewer).getByRole('img');
 
     await userEvent.click(within(viewer).getByRole('button', { name: /acercar/i }));
-    expect(photo.style.transform).toMatch(/scale\((?!1\))/);
+    // El acercamiento se anima, así que se espera a que llegue.
+    await waitFor(() => expect(photo.style.transform).toMatch(/scale\((?!1[),])/));
 
     await userEvent.click(within(viewer).getByRole('button', { name: /alejar/i }));
-    expect(photo.style.transform).toContain('scale(1)');
+    await waitFor(() => expect(photo.style.transform).toContain('scale(1)'));
   });
 });
 
