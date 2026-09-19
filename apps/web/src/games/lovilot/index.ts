@@ -35,19 +35,9 @@ export const lovilotGame: GameDefinition<LovilotChallenge> = {
     { id: 'carn', key: carnivoreKey, speciesColumns: 4, bonus: true },
   ],
 
-  // Filas de ejemplo para que el marcador no salga vacío al abrir el evento.
-  // Se distinguen con la etiqueta "demo" y no cuentan como marcas reales.
-  demoScores: [
-    { challenge: 'hop', name: 'Equip Linx', elapsedMs: 38_000, fails: 0 },
-    { challenge: 'hop', name: 'Nuria & Pau', elapsedMs: 51_000, fails: 1 },
-    { challenge: 'hop', name: 'Marc', elapsedMs: 64_000, fails: 1 },
-    { challenge: 'hop', name: 'Família Ortiz', elapsedMs: 82_000, fails: 2 },
-    { challenge: 'carn', name: 'Equip Linx', elapsedMs: 71_000, fails: 0 },
-    { challenge: 'carn', name: 'Nuria & Pau', elapsedMs: 96_000, fails: 1 },
-    { challenge: 'carn', name: 'Los Rastreadores', elapsedMs: 118_000, fails: 1 },
-    { challenge: 'carn', name: 'Marc', elapsedMs: 134_000, fails: 2 },
-    { challenge: 'carn', name: 'Escola Bosc', elapsedMs: 167_000, fails: 3 },
-  ],
+  // El evento juega con marcas reales: el marcador arranca vacio y se llena
+  // con lo que publiquen los participantes. Sin filas de ejemplo.
+  demoScores: [],
 };
 
 export default lovilotGame;
