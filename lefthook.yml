@@ -8,3 +8,31 @@ commit-msg:
   commands:
     commitlint:
       run: pnpm exec commitlint --edit {1}
+
+# ── pre-push ──────────────────────────────────────────────────────────────────
+#
+# Lo que comprobaría el CI, comprobado aquí.
+#
+# Este repo no tiene workflows, así que hasta hoy lo único que se ejecutaba
+# antes de un push era `lint-staged` sobre lo que estuviera en el índice: un
+# cambio podía llegar a `main` —y de ahí a producción, que despliega sola— sin
+# que nadie hubiera pasado los tipos ni los tests.
+#
+# `build` va incluido y no es celo. El 2026-09-21, en el otro repo, los tests
+# pasaron y el build falló dos veces el mismo día: hay fallos que solo se ven al
+# construir.
+#
+# Cuesta ~72 s en total (medido el 2026-09-21), y ese número importa: el mismo
+# hook en `personal-os` tardaba TRECE minutos por meter el lint completo, y un
+# guardia que estorba así se acaba saltando con `--no-verify`. Lo que se salta
+# siempre protege menos que lo que se ejecuta. Si algún día esto pasa de un par
+# de minutos, hay que recortarlo — no aguantarlo.
+#
+# Para saltarlo en una emergencia: `LEFTHOOK=0 git push`.
+pre-push:
+  parallel: false
+  commands:
+    check:
+      run: pnpm check
+    build:
+      run: pnpm build
