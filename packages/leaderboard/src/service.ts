@@ -16,14 +16,6 @@ import type {
 const DEFAULT_PAGE_SIZE = 20;
 
 /**
- * Corte del evento LO VILOT (sábado 2026-09-19, desde medianoche UTC). Solo muestra marcas
- * posteriores a este instante: las pruebas previas siguen en la base, pero no
- * compiten con las del evento. Para volver a verlo todo, basta con quitar el
- * filtro de `fetchTop` — no se ha borrado ningún dato.
- */
-const EVENT_START_ISO = '2026-09-19T00:00:00Z';
-
-/**
  * Fachada única del leaderboard. La UI no habla nunca con Supabase: pide aquí,
  * y este servicio decide si va a red, si encola o si sirve el último snapshot.
  */
@@ -100,7 +92,6 @@ export function createLeaderboardService(options: LeaderboardServiceOptions): Le
         .select('*')
         .eq('game_slug', query.gameSlug)
         .eq('challenge', query.challenge)
-        .gte('created_at', EVENT_START_ISO)
         .order('elapsed_ms', { ascending: true })
         .order('fails', { ascending: true })
         .limit(query.limit ?? pageSize);
