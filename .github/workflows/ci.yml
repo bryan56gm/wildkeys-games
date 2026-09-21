@@ -1,0 +1,58 @@
+name: CI
+
+# Solo en pull_request: el check del PR es lo que decide si algo entra, y
+# repetirlo en cada push a main gasta minutos sin añadir información.
+# `paths-ignore` evita gastarlos en cambios de documentación.
+on:
+  pull_request:
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+      - '**/.env.example'
+
+# Un PR que recibe tres pushes seguidos no necesita tres runs: el último manda.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    name: Tipos, lint y tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      - name: Tipos, lint y tests
+        run: pnpm check
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Instalar dependencias
+        run: pnpm install --frozen-lockfile
+
+      # En job propio y no encadenado a `check`: hay fallos que SOLO se ven al
+      # construir —una importación que el bundler no resuelve, un activo que no
+      # existe— y encadenarlo los escondería detrás de cualquier test en rojo.
+      - name: Build
+        run: pnpm build
