@@ -16,12 +16,12 @@ import type {
 const DEFAULT_PAGE_SIZE = 20;
 
 /**
- * Corte del evento LO VILOT (2026-09-19). La clasificación solo muestra marcas
+ * Corte del evento LO VILOT (sábado 2026-09-19, desde medianoche UTC). Solo muestra marcas
  * posteriores a este instante: las pruebas previas siguen en la base, pero no
  * compiten con las del evento. Para volver a verlo todo, basta con quitar el
  * filtro de `fetchTop` — no se ha borrado ningún dato.
  */
-const EVENT_START_ISO = '2026-09-19T10:35:00Z';
+const EVENT_START_ISO = '2026-09-19T00:00:00Z';
 
 /**
  * Fachada única del leaderboard. La UI no habla nunca con Supabase: pide aquí,
