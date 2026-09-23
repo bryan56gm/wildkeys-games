@@ -9,30 +9,25 @@ commit-msg:
     commitlint:
       run: pnpm exec commitlint --edit {1}
 
-# ── pre-push ──────────────────────────────────────────────────────────────────
+# ── Por qué aquí no hay `pre-push` ────────────────────────────────────────────
 #
-# Lo que comprobaría el CI, comprobado aquí.
+# **Commit y push son el carril rápido. La verificación es el carril lento, y
+# corre en el CI.**
 #
-# Este repo no tiene workflows, así que hasta hoy lo único que se ejecutaba
-# antes de un push era `lint-staged` sobre lo que estuviera en el índice: un
-# cambio podía llegar a `main` —y de ahí a producción, que despliega sola— sin
-# que nadie hubiera pasado los tipos ni los tests.
+# Lo hubo, con `pnpm check` y `pnpm build`, y tenía su motivo escrito: este repo
+# no tenía workflows, así que un cambio podía llegar a `main` —y de ahí a
+# producción, que despliega sola— sin que nadie hubiera pasado tipos ni tests.
+# Eso se arregló el 2026-09-23: el repo ya tiene CI y corre en los ejecutores
+# propios del VPS, gratis y en paralelo. El hook era el andamio de esa ausencia.
 #
-# `build` va incluido y no es celo. El 2026-09-21, en el otro repo, los tests
-# pasaron y el build falló dos veces el mismo día: hay fallos que solo se ven al
-# construir.
+# Mantenerlo tiene un coste que se paga en cada push, y un coste por push se
+# convierte en pushes que se posponen: los cambios se apilan y el día que por
+# fin se empuja, el fallo lleva horas enterrado. Un guardia que estorba se
+# acaba saltando con `--no-verify`, y lo que se salta no protege nada.
 #
-# Cuesta ~72 s en total (medido el 2026-09-21), y ese número importa: el mismo
-# hook en `personal-os` tardaba TRECE minutos por meter el lint completo, y un
-# guardia que estorba así se acaba saltando con `--no-verify`. Lo que se salta
-# siempre protege menos que lo que se ejecuta. Si algún día esto pasa de un par
-# de minutos, hay que recortarlo — no aguantarlo.
+# Lo que queda aquí cuesta segundos y se cobra una vez. Lo demás:
 #
-# Para saltarlo en una emergencia: `LEFTHOOK=0 git push`.
-pre-push:
-  parallel: false
-  commands:
-    check:
-      run: pnpm check
-    build:
-      run: pnpm build
+#   tipos, lint completo, tests, build   → CI, en cada push
+#   todo junto y a mano                  → `pnpm check && pnpm build`
+#
+# Cuándo se empuja y cuándo se abre el PR lo decide Bryan, no un hook.
