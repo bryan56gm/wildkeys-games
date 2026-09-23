@@ -15,7 +15,8 @@
     "lint": "eslint",
     "format": "prettier --write .",
     "check": "pnpm typecheck && pnpm lint && pnpm test",
-    "prepare": "lefthook install || true"
+    "prepare": "lefthook install || true",
+    "verifica": "pnpm check && pnpm build"
   },
   "devDependencies": {
     "@bryan56gm/harvis-standards": "github:bryan56gm/harvis-standards",
