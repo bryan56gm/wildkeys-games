@@ -1,5 +1,16 @@
 name: CI
 
+# Corre en un EJECUTOR PROPIO, en el VPS de Bryan. Los minutos del plan gratuito
+# de GitHub se agotan y, cuando se agotan, los checks no fallan: no arrancan. El
+# PR se queda en rojo sin haber ejecutado nada, y un rojo que no significa nada
+# enseña a ignorar el rojo. Entre el 14 y el 23 de septiembre de 2026 pasó una
+# semana entera así. Un ejecutor propio no cuesta minutos y el VPS ya está
+# encendido, así que da igual cuántos proyectos haya.
+#
+# Vale porque este repositorio es PRIVADO: en uno público, cualquiera podría
+# ejecutar código en la máquina abriendo un PR. Se gestiona con
+# `personal-os/scripts/vps/runner.sh`.
+#
 # Solo en pull_request: el check del PR es lo que decide si algo entra, y
 # repetirlo en cada push a main gasta minutos sin añadir información.
 # `paths-ignore` evita gastarlos en cambios de documentación.
@@ -18,17 +29,12 @@ concurrency:
 jobs:
   check:
     name: Tipos, lint y tests
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
+      # Sin `setup-node` ni `action-setup`: el VPS ya tiene node y pnpm
+      # instalados, y bajarlos en cada run gasta tiempo y disco a cambio de nada.
       - name: Instalar dependencias
         run: pnpm install --frozen-lockfile
 
@@ -37,17 +43,12 @@ jobs:
 
   build:
     name: Build
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux]
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-
+      # Sin `setup-node` ni `action-setup`: el VPS ya tiene node y pnpm
+      # instalados, y bajarlos en cada run gasta tiempo y disco a cambio de nada.
       - name: Instalar dependencias
         run: pnpm install --frozen-lockfile
 
