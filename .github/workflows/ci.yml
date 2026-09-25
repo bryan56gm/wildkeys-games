@@ -16,6 +16,7 @@ name: CI
 # `paths-ignore` evita gastarlos en cambios de documentación.
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
     paths-ignore:
       - '**.md'
       - 'docs/**'
@@ -23,13 +24,15 @@ on:
 
 # Un PR que recibe tres pushes seguidos no necesita tres runs: el último manda.
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
   check:
+    # Un borrador no gasta minutos: corre al pasar a listo (harvis-standards v2.5.0).
+    if: ${{ !github.event.pull_request.draft }}
     name: Tipos, lint y tests
-    runs-on: [self-hosted, linux]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -42,8 +45,10 @@ jobs:
         run: pnpm check
 
   build:
+    # Un borrador no gasta minutos: corre al pasar a listo (harvis-standards v2.5.0).
+    if: ${{ !github.event.pull_request.draft }}
     name: Build
-    runs-on: [self-hosted, linux]
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
