@@ -1,21 +1,23 @@
 name: CI
 
-# Corre en un EJECUTOR PROPIO, en el VPS de Bryan. Los minutos del plan gratuito
-# de GitHub se agotan y, cuando se agotan, los checks no fallan: no arrancan. El
-# PR se queda en rojo sin haber ejecutado nada, y un rojo que no significa nada
-# enseña a ignorar el rojo. Entre el 14 y el 23 de septiembre de 2026 pasó una
-# semana entera así. Un ejecutor propio no cuesta minutos y el VPS ya está
-# encendido, así que da igual cuántos proyectos haya.
+# Corre en los ejecutores de GitHub. Hubo una etapa con un ejecutor propio en
+# el VPS, y el motivo era bueno: cuando se agotan los minutos del plan gratuito
+# los checks no fallan, NO ARRANCAN, y un rojo que no significa nada enseña a
+# ignorar el rojo. Entre el 14 y el 23 de septiembre de 2026 pasó una semana así.
 #
-# Vale porque este repositorio es PRIVADO: en uno público, cualquiera podría
-# ejecutar código en la máquina abriendo un PR. Se gestiona con
-# `personal-os/scripts/vps/runner.sh`.
+# Se vuelve atrás porque el precio era la máquina donde Bryan trabaja, y porque
+# el 25/09 esos ejecutores dejaron de recoger trabajo sin avisar: cinco jobs de
+# otro repo estuvieron VEINTICUATRO HORAS en cola antes de darse por fallidos.
+# Un ejecutor que calla es peor que una cuota que se acaba.
 #
-# Solo en pull_request: el check del PR es lo que decide si algo entra, y
-# repetirlo en cada push a main gasta minutos sin añadir información.
-# `paths-ignore` evita gastarlos en cambios de documentación.
+# Lo que hace viable la vuelta es el presupuesto:
+# - Solo en pull_request, y SOLO con el PR listo: los borradores no gastan nada,
+#   y ahí es donde se iba el grueso.
+# - `paths-ignore` evita gastar en cambios de documentación.
+# - `concurrency` cancela ejecuciones viejas del mismo PR.
 on:
   pull_request:
+    types: [opened, ready_for_review, synchronize, reopened]
     paths-ignore:
       - '**.md'
       - 'docs/**'
@@ -29,12 +31,18 @@ concurrency:
 jobs:
   check:
     name: Tipos, lint y tests
-    runs-on: [self-hosted, linux]
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      # Sin `setup-node` ni `action-setup`: el VPS ya tiene node y pnpm
-      # instalados, y bajarlos en cada run gasta tiempo y disco a cambio de nada.
+      # Las imágenes de GitHub traen node, pero NO pnpm. Se habían quitado
+      # porque el VPS los traía puestos; sin ellas aquí, el primer paso muere
+      # con «pnpm: command not found».
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: pnpm }
+
       - name: Instalar dependencias
         run: pnpm install --frozen-lockfile
 
@@ -43,12 +51,15 @@ jobs:
 
   build:
     name: Build
-    runs-on: [self-hosted, linux]
+    if: github.event.pull_request.draft == false
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      # Sin `setup-node` ni `action-setup`: el VPS ya tiene node y pnpm
-      # instalados, y bajarlos en cada run gasta tiempo y disco a cambio de nada.
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: '22', cache: pnpm }
+
       - name: Instalar dependencias
         run: pnpm install --frozen-lockfile
 
