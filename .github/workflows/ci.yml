@@ -46,6 +46,34 @@ jobs:
       - name: Instalar dependencias
         run: pnpm install --frozen-lockfile
 
+      # El caché que faltaba, y es el caro.
+      #
+      # `setup-node` con `cache: pnpm` guarda el ALMACÉN DE DEPENDENCIAS, que es
+      # lo barato: instalar tarda segundos. Lo que cuesta es compilar, y eso se
+      # rehacía entero en cada run. Vite deja lo suyo bajo `node_modules/.vite`.
+      #
+      # Medido en `wildkeys-next` el 2026-10-08: el CI completo pasa de 7 min
+      # 51 s a 4 min 38 s, un 40 % menos.
+      #
+      # Importa más de lo que parece: a siete minutos aparece la tentación de
+      # RACIONAR el CI —abrirlo en borrador para que no corra, pasar la suite a
+      # mano antes de empujar— y eso cambia minutos de máquina por atención
+      # humana, que es el recurso caro. La solución no es racionar: es abaratar
+      # hasta que racionar no tenga sentido.
+      #
+      # Los dos jobs comparten clave a propósito: `check` y `build` leen el
+      # mismo código, y lo que uno compile le sirve al otro.
+      - name: Caché de compilación y de lint
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules/.vite
+            packages/*/node_modules/.vite
+            .eslintcache
+          key: compila-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
+          restore-keys: |
+            compila-${{ hashFiles('pnpm-lock.yaml') }}-
+
       - name: Tipos, lint y tests
         run: pnpm check
 
@@ -62,6 +90,34 @@ jobs:
 
       - name: Instalar dependencias
         run: pnpm install --frozen-lockfile
+
+      # El caché que faltaba, y es el caro.
+      #
+      # `setup-node` con `cache: pnpm` guarda el ALMACÉN DE DEPENDENCIAS, que es
+      # lo barato: instalar tarda segundos. Lo que cuesta es compilar, y eso se
+      # rehacía entero en cada run. Vite deja lo suyo bajo `node_modules/.vite`.
+      #
+      # Medido en `wildkeys-next` el 2026-10-08: el CI completo pasa de 7 min
+      # 51 s a 4 min 38 s, un 40 % menos.
+      #
+      # Importa más de lo que parece: a siete minutos aparece la tentación de
+      # RACIONAR el CI —abrirlo en borrador para que no corra, pasar la suite a
+      # mano antes de empujar— y eso cambia minutos de máquina por atención
+      # humana, que es el recurso caro. La solución no es racionar: es abaratar
+      # hasta que racionar no tenga sentido.
+      #
+      # Los dos jobs comparten clave a propósito: `check` y `build` leen el
+      # mismo código, y lo que uno compile le sirve al otro.
+      - name: Caché de compilación y de lint
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules/.vite
+            packages/*/node_modules/.vite
+            .eslintcache
+          key: compila-${{ hashFiles('pnpm-lock.yaml') }}-${{ github.sha }}
+          restore-keys: |
+            compila-${{ hashFiles('pnpm-lock.yaml') }}-
 
       # En job propio y no encadenado a `check`: hay fallos que SOLO se ven al
       # construir —una importación que el bundler no resuelve, un activo que no
