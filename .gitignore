@@ -30,3 +30,6 @@ supabase/.branches/
 
 # scratch de pruebas locales
 .scratch-*
+
+# Caché de ESLint: local y en el CI, nunca se versiona.
+.eslintcache
